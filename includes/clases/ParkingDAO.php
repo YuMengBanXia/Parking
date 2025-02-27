@@ -1,6 +1,4 @@
 <?php
-require_once '../config/database.php';
-require_once '../model/TOParking.php';
  
 class ParkingDAO {
     private $db;
