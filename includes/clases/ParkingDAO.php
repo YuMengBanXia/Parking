@@ -1,5 +1,6 @@
 <?php
- 
+ require_once 'TOParking.php';
+ require_once 'PDatabase.php';
 class ParkingDAO {
     private $db;
 
