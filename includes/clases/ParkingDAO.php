@@ -49,7 +49,7 @@ class ParkingDAO {
         while ($row = $result->fetch_assoc()) {//cuando extrae una fila y no este vacia 
             $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
         }
-        return $parkings;
+        return $parkings;//devuelve el array
     }
 }
 ?>
