@@ -2,37 +2,37 @@
 require_once 'PDatabase.php';
 require_once 'TOParking.php';
 
-class ParkingDAO {
+class ParkingDAO extends DAO{
     private $db;
 
     public function __construct() {
-        $this->db = (new Database())->getConnection();
+        parent::__construct();
     }
 
     public function insert(TOParking $p) {
         $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->ejecutarConsulta($query);
         $stmt->bind_param("ssddi", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
         return $stmt->execute();
     }
 
     public function update(TOParking $p) {
         $query = "UPDATE parkings SET dir = ?, ciudad = ?, CP = ?, precio = ?, n_plazas = ? WHERE id = ?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->ejecutarConsulta($query);
         $stmt->bind_param("ssddii", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas(), $p->getId());
         return $stmt->execute();
     }
 
     public function delete($id) {
         $query = "DELETE FROM parkings WHERE id = ?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->ejecutarConsulta($query);
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 
     public function getById($id) {
         $query = "SELECT * FROM parkings WHERE id = ?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->ejecutarConsulta($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
