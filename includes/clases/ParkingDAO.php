@@ -4,6 +4,14 @@ require_once 'TOParking.php';
 
 class ParkingDAO extends DAO {
 
+    public static function getSingleton() { //Patrón Singleton para única instancia de la clase
+        if ( !self::$instancia instanceof self) { 
+            self::$instancia = new self; 
+        } 
+
+        return self::$instancia; 
+    }
+
     public function insert(TOParking $p) {
         $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
