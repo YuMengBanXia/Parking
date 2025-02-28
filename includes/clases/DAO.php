@@ -11,7 +11,7 @@ class DAO{
             }
         }
     }
-
+    
     public function ejecutarConsulta($sql){//Devolver los resultados de la consulta(pasado como argumento) en un array asociativo
         if($sql != ""){
             $consulta = $this->mysqli->query($sql) or die ($mysqli->error. " en la línea ".(__LINE__-1));

@@ -1,42 +1,47 @@
 <?php
-require_once 'PDatabase.php';
+require_once 'DAO.php';
 require_once 'TOParking.php';
 
-class ParkingDAO extends DAO{
-    private $db;
-
-    public function __construct() {
-        parent::__construct();
-    }
+class ParkingDAO extends DAO {
 
     public function insert(TOParking $p) {
         $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->ejecutarConsulta($query);
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+
         $stmt->bind_param("ssddi", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
         return $stmt->execute();
     }
-    
+
     public function update(TOParking $p) {
         $query = "UPDATE parkings SET dir = ?, ciudad = ?, CP = ?, precio = ?, n_plazas = ? WHERE id = ?";
-        $stmt = $this->ejecutarConsulta($query);
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+
         $stmt->bind_param("ssddii", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas(), $p->getId());
         return $stmt->execute();
     }
 
     public function delete($id) {
         $query = "DELETE FROM parkings WHERE id = ?";
-        $stmt = $this->ejecutarConsulta($query);
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM parkings WHERE id = ?";
-        $stmt = $this->ejecutarConsulta($query);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($row = $result->fetch_assoc()) {
+        $query = "SELECT * FROM parkings WHERE id = $id";
+        $result = $this->ejecutarConsulta($query);
+        if (!empty($result)) {
+            $row = $result[0];
             return new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
         }
         return null;
@@ -44,12 +49,12 @@ class ParkingDAO extends DAO{
 
     public function getAll() {
         $query = "SELECT * FROM parkings";
-        $result = $this->db->query($query);
-        $parkings = [];//array para almacenar parkings
-        while ($row = $result->fetch_assoc()) {//cuando extrae una fila y no este vacia 
+        $result = $this->ejecutarConsulta($query);
+        $parkings = [];
+        foreach ($result as $row) {
             $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
         }
-        return $parkings;//devuelve el array
+        return $parkings;
     }
 }
 ?>
