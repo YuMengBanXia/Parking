@@ -15,7 +15,7 @@ class ParkingDAO extends DAO{
         $stmt->bind_param("ssddi", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
         return $stmt->execute();
     }
-
+    
     public function update(TOParking $p) {
         $query = "UPDATE parkings SET dir = ?, ciudad = ?, CP = ?, precio = ?, n_plazas = ? WHERE id = ?";
         $stmt = $this->ejecutarConsulta($query);
