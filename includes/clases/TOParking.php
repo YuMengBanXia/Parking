@@ -8,7 +8,7 @@ class TOParking {
     private $n_plazas;
 
     public function __construct($id, $dir, $ciudad, $CP, $precio, $n_plazas) {
-        $this->id = $id;
+        $this->id = $id; 
         $this->dir = $dir;
         $this->ciudad = $ciudad;
         $this->CP = $CP;
@@ -23,6 +23,7 @@ class TOParking {
     public function getPrecio() { return $this->precio; }
     public function getNPlazas() { return $this->n_plazas; }
 
+    public function setId($ID){$this->id=id;}
     public function setDir($dir) { $this->dir = $dir; }
     public function setCiudad($ciudad) { $this->ciudad = $ciudad; }
     public function setCP($CP) { $this->CP = $CP; }

@@ -13,13 +13,16 @@ class ParkingDAO extends DAO {
     }
 
     public function insert(TOParking $p) {
-        $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
+        //asignar un ID libre al parking 
+        $qr="SELECT id FROM parkings";
+        $id=count(qr)+1;
+        $query = "INSERT INTO parkings (id, dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
 
-        $stmt->bind_param("ssddi", $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
+        $stmt->bind_param("issddi", $id, $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
         return $stmt->execute();
     }
     
@@ -58,11 +61,38 @@ class ParkingDAO extends DAO {
     public function getAll() {
         $query = "SELECT * FROM parkings";
         $result = $this->ejecutarConsulta($query);
-        $parkings = [];
-        foreach ($result as $row) {
-            $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+        if($result){ //si no hay problemas en la ejecución de la consulta
+            if(count($result)>0){ //si hay datos en la BBDD
+                $parkings = [];
+                foreach ($result as $row) {
+                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+                return $parkings;
+            }
+
         }
-        return $parkings;
+        
+        return null;
+        
     }
+
+
+
+    public function showAvailables() {
+        $query = "SELECT * FROM parkings WHERE n_plazas>0";
+        $result = $this->ejecutarConsulta($query);
+        if($result){ //si no hay problemas en la ejecución de la consulta
+            if(count($result)>0){ //si hay datos en la BBDD
+                $parkings = [];
+                foreach ($result as $row) {
+                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+                return $parkings;
+            }
+
+        }
+        
+        return null;
+        
+    }
+
 }
 ?>
