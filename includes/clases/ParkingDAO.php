@@ -11,7 +11,7 @@ class ParkingDAO extends DAO {
 
         return self::$instancia; 
     }
-
+    
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
         $qr="SELECT id FROM parkings";
@@ -25,7 +25,7 @@ class ParkingDAO extends DAO {
         $stmt->bind_param("issddi", $id, $p->getDir(), $p->getCiudad(), $p->getCP(), $p->getPrecio(), $p->getNPlazas());
         return $stmt->execute();
     }
-    
+
     public function update(TOParking $p) {
         $query = "UPDATE parkings SET dir = ?, ciudad = ?, CP = ?, precio = ?, n_plazas = ? WHERE id = ?";
         $stmt = $this->mysqli->prepare($query);
