@@ -11,7 +11,6 @@ class ParkingDAO extends DAO {
 
         return self::$instancia; 
     }
-    
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
         $qr="SELECT id FROM parkings";
@@ -67,12 +66,12 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
+                }
             }
 
         }
         
         return null;
-        
     }
 
 
@@ -86,13 +85,10 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
+                 }
             }
-
+            eturn null;
         }
-        
-        return null;
-        
     }
-
 }
 ?>
