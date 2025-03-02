@@ -16,7 +16,6 @@ class BBDD{
         setConnection($IP,$USER,$PASS,$BD);
         createBBDD();
         createTables();
-        
     }
 
     private setConnnection($IP, $USER, $PASS){

@@ -73,9 +73,6 @@ class ParkingDAO extends DAO {
         
         return null;
     }
-
-
-
     public function showAvailables() {
         $query = "SELECT * FROM parkings WHERE n_plazas>0";
         $result = $this->ejecutarConsulta($query);
@@ -87,7 +84,7 @@ class ParkingDAO extends DAO {
                 return $parkings;
                  }
             }
-            eturn null;
+            return null;
         }
     }
 }
