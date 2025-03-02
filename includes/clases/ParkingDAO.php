@@ -4,6 +4,8 @@ require_once 'TOParking.php';
 
 class ParkingDAO extends DAO {
 
+
+
     public static function getSingleton() { //Patrón Singleton para única instancia de la clase
         if ( !self::$instancia instanceof self) { 
             self::$instancia = new self; 
@@ -11,10 +13,13 @@ class ParkingDAO extends DAO {
 
         return self::$instancia; 
     }
+
+    
+    
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
         $qr="SELECT id FROM parkings";
-        $id=count(qr)+1;
+        $id=count($qr)+1;
         $query = "INSERT INTO parkings (id, dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
@@ -66,13 +71,16 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
-                }
             }
 
         }
         
         return null;
+        
     }
+
+
+
     public function showAvailables() {
         $query = "SELECT * FROM parkings WHERE n_plazas>0";
         $result = $this->ejecutarConsulta($query);
@@ -82,10 +90,13 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
-                 }
             }
-            return null;
+
         }
+        
+        return null;
+        
     }
+
 }
 ?>
