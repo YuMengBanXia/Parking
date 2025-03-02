@@ -7,34 +7,38 @@
 </head>
 <body>
     <div>
+        <h2>  Escoja uno de los parkings que tenemos con plazas disponibles para usted</h2>
         <?php
-        require_once __DIR__.'/TOparking.php';
+        require_once __DIR__.'/../../clases/TOparking.php';
 
         // $parkings = SAParking::mostrarParkingsLibres();
-        $parkings = [new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100)];
+        $parkings = [];
 
+        //Prueba para ver el mostrado 
+        array_push($parkings, new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100));
+        array_push($parkings, new TOParking(1111, "Calle Burgos", "Madrid", 55555, 1, 100));
+        
         if (empty($parkings)) {
             echo "<p>No hay plazas libres</p>";
         } else {
         ?>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Direccion</th>
-                        <th>Ciudad</th>
-                        <th>Tarifa (€)</th>
-                        <th>Plazas</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($parkings as $parking): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($parking->getId()); ?></td>
+            <table >
+            <tr>
+                <td>Direccion</th>
+                <td>Ciudad</th>
+                <td>Tarifa (€)</th>
+                <td>Plazas</th>
+                <td>Acción</th>
+                    
+            </tr>           
+               
+            <tr>
+                <?php foreach ($parkings as $parking): ?>
+                        
+                            <td><?= $parking->getId(); ?></td>
                             <td><?= htmlspecialchars($parking->getDir()); ?></td>
                             <td><?= htmlspecialchars($parking->getCiudad()); ?></td>
-                            <td><?= htmlspecialchars($parking->getPrecio()); ?> €</td>
+                            <td><?= $parking->getPrecio(); ?> €</td>
                             <td><?= htmlspecialchars($parking->getNPlazas()); ?></td>
                             <td>
                                 <form action="ticket.php" method="POST">
@@ -43,8 +47,8 @@
                                 </form>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
+                <?php endforeach; ?>
+                
             </table>
         <?php
         }
