@@ -1,14 +1,20 @@
 
 <?php
+require_once __DIR__.'/../mysql/BBDD.php';
 class DAO{
     public $mysqli;
 
     public function __construct(){//constructor de la clase
+        
         if(!$this->mysqli){
+            
             $this->mysqli=new mysqli('127.0.0.1', 'admin','admin','BBDD');//establecer una nueva conexión a BBDD
             if($this->mysqli->connect_errno){ //comprobar que se ha establecido correctamente la conexión
                 echo "Fallo al conectar MySQL:(". $this->mysqli->connect_errno .")".$this->mysqli->connect_error;
             }
+            
+            //mysqli=new BBDD('127.0.0.1', 'admin','admin','BBDD');
+            
         }
     }
     

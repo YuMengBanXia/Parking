@@ -1,5 +1,4 @@
 //Este es el antiguo con algunos cambios en la tabla Parkings. 
-
 <!DOCTYPE>
 <html>
 <head>
@@ -19,6 +18,7 @@ if($db){
 }else{
     printf("Error%d:%s.<br/>",mysqli_connect_errno(),mysqli_connect_error());
 };
+
 //Create table
 $sql="CREATE DATABASE practica";
 if(mysqli_query($db,$sql)){
