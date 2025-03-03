@@ -4,18 +4,13 @@ require_once 'TOParking.php';
 
 class ParkingDAO extends DAO {
 
-
-
     public static function getSingleton() { //Patrón Singleton para única instancia de la clase
         if ( !self::$instancia instanceof self) { 
             self::$instancia = new self; 
         } 
-
         return self::$instancia; 
     }
 
-    
-    
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
         $qr="SELECT id FROM parkings";
@@ -71,12 +66,10 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
+                }
             }
-
         }
-        
         return null;
-        
     }
 
 
@@ -90,12 +83,10 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
+                }
             }
-
         }
-        
         return null;
-        
     }
 
 }
