@@ -34,7 +34,7 @@ ini_set('display_errors', 1);
             <tr>
                 <td>ID</th>
                 <td>DIRECCION</th>
-                <td>CIUDAD (€)</th>
+                <td>CIUDAD</th>
                 <td>TARIFA</th>
                 <td>PLAZAS DISPONIBLES</th>
                     

@@ -16,6 +16,7 @@ class BBDD{
         self::setConnection($IP,$USER,$PASS);
         self::createBdbD();
         self::createTables();
+        self::insertarParkings();
     }
 
     private function setConnection($IP, $USER, $PASS){
@@ -129,8 +130,23 @@ class BBDD{
             echo "Error table reserva: ".mysqli_error($this->db);
         }
 
+        
+    }
+
+    private function insertarParkings(){
+           //Tabla plaza
+           $sql = "INSERT INTO `parkings` (`id`, `dir`, `ciudad`, `CP`, `precio`, `n_plazas`) VALUES
+                (1, 'Calle Juan', 'Madrid', 12345, 9.9999, 100),
+                (2, 'Calle Valvanera', 'Madrid', 12345, 9.9999, 100);";
+        if(mysqli_query($this->db,$sql)){
+            echo "Table plaza created succesfully <br>";
+        } else{
+            echo "Error table plaza: ".mysqli_error($this->db);
+        }
+
         @mysqli_close($this->db);
     }
+    
 
 
 
