@@ -12,7 +12,6 @@ class ParkingDAO extends DAO {
         if ( !self::$instancia instanceof self) { 
             self::$instancia = new self; 
         } 
-
         return self::$instancia; 
     }
 
@@ -80,9 +79,7 @@ class ParkingDAO extends DAO {
                 }
             }    
         }
-        
         return null;
-        
     }
 
 
@@ -98,11 +95,8 @@ class ParkingDAO extends DAO {
                     return $parkings;
                 }
             }
-
         }
-        
         return null;
-        
     }
 
     
