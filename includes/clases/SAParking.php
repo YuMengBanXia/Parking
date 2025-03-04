@@ -24,10 +24,8 @@ class SAParking{
         $parking = new TOParking(null, $dir, $ciudad, $CP, $precio, $n_plazas);
         self::$daoParking->insert($parking);
     }
-
-    public static function eliminarParking($dir, $ciudad, $CP, $precio, $n_plazas) {
-        $parking = new TOParking(null, $dir, $ciudad, $CP, $precio, $n_plazas);
-        self::$daoParking->delete($parking);
+    public static function eliminarParking($id) {
+        self::$daoParking->delete($id);
     }
    
 

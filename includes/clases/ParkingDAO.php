@@ -74,7 +74,6 @@ class ParkingDAO extends DAO {
         }
         //Convertir ID a entero para evitar errores
         $id = (int) $id;
-    
         $stmt->bind_param("i", $id);
         $resultado = $stmt->execute();
     
@@ -84,8 +83,6 @@ class ParkingDAO extends DAO {
             return false; //Si no se eliminó nada, retorna false
         }
     }
-    
-
     public function getById($id) {
         $query = "SELECT * FROM parkings WHERE id = $id";
         $result = $this->ejecutarConsulta($query);

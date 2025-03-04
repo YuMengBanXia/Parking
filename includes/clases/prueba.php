@@ -6,15 +6,8 @@ require_once __DIR__ .'/SAParking.php';
 
 
 SAParking::inicializar();
-
-$parking = SAParking::obtenerParkingPorId(1);
-if($parking){
-    SAPArking::eliminarParking(1, 'Calle Valvanera', 'Madrid', 12345, 1.0, 50);
-    echo "Parking eliminado exitosamente";
-}
-else{
-    echo "Parking con id 1 no existe";
-}
+//SAParking::registrarParking('Santesmases','Madrid',24700,1.0,100);
+SAParking::eliminarParking(1);
 SAParking::mostrarParkingsLibres();
 
 ?>
