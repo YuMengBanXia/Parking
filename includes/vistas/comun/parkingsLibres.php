@@ -11,12 +11,13 @@
         <?php
         require_once __DIR__.'/../../clases/TOparking.php';
 
-        // $parkings = SAParking::mostrarParkingsLibres();
+       
         $parkings = [];
+        $parkings = SAParking::mostrarParkingsLibres();
 
         //Prueba para ver el mostrado 
-        array_push($parkings, new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100));
-        array_push($parkings, new TOParking(1111, "Calle Burgos", "Madrid", 55555, 1, 100));
+        //array_push($parkings, new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100));
+        //array_push($parkings, new TOParking(1111, "Calle Burgos", "Madrid", 55555, 1, 100));
         
         if (empty($parkings)) {
             echo "<p>No hay plazas libres</p>";

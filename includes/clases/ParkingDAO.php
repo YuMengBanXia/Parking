@@ -1,10 +1,12 @@
 <?php
-require_once 'DAO.php';
-require_once 'TOParking.php';
+
+require_once __DIR__.'/TOParking.php';
+require_once __DIR__.'/DAO.php';
 
 class ParkingDAO extends DAO {
 
-
+    public static $instancia;
+    public $mysqli; 
 
     public static function getSingleton() { //Patrón Singleton para única instancia de la clase
         if ( !self::$instancia instanceof self) { 
@@ -14,11 +16,15 @@ class ParkingDAO extends DAO {
         return self::$instancia; 
     }
 
-    
+    public function lastId(){
+        $query="SELECT COUNT(*) FROM parkings";
+        $result = $this->ejecutarConsulta($query);
+        return $result;
+    }
     
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
-        $qr="SELECT id FROM parkings";
+        $qr=self::lastId();
         $id=count($qr)+1;
         $query = "INSERT INTO parkings (id, dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
@@ -71,8 +77,8 @@ class ParkingDAO extends DAO {
                 foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
                 return $parkings;
-            }
-
+                }
+            }    
         }
         
         return null;
@@ -88,8 +94,9 @@ class ParkingDAO extends DAO {
             if(count($result)>0){ //si hay datos en la BBDD
                 $parkings = [];
                 foreach ($result as $row) {
-                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-                return $parkings;
+                    $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+                    return $parkings;
+                }
             }
 
         }
@@ -98,5 +105,8 @@ class ParkingDAO extends DAO {
         
     }
 
+    
+
 }
+
 ?>

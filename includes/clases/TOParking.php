@@ -23,7 +23,7 @@ class TOParking {
     public function getPrecio() { return $this->precio; }
     public function getNPlazas() { return $this->n_plazas; }
 
-    public function setId($ID){$this->id=id;}
+    public function setId($ID){$this->id=$ID;}
     public function setDir($dir) { $this->dir = $dir; }
     public function setCiudad($ciudad) { $this->ciudad = $ciudad; }
     public function setCP($CP) { $this->CP = $CP; }
