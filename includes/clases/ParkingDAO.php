@@ -61,33 +61,36 @@ class ParkingDAO extends DAO {
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM parkings WHERE id = $id";
-        $result = $this->ejecutarConsulta($query);
-        if (!empty($result)) {
-            $row = $result[0];
-            return new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+        $query = "SELECT * FROM parkings WHERE id = ?";
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        return 0;//Ids validos empiezan a contarse desde el 1 incluido
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+    
+        if ($result) {
+            return new TOParking($result['id'], $result['dir'], $result['ciudad'], $result['CP'], $result['precio'], $result['n_plazas']);
+        }
+        return null; // Devuelve null si no encuentra el parking
     }
 
     public function getAll() {
         $query = "SELECT * FROM parkings";
         $result = $this->ejecutarConsulta($query);
-        if($result){ //si no hay problemas en la ejecución de la consulta
-            if(count($result)>0){ //si hay datos en la BBDD
-                $parkings = [];
-                foreach ($result as $row) {
+        if($result && count($result) > 0) {
+            $parkings = [];
+            foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-                return $parkings;
-                }
-            }    
-        }
+            }
+            return $parkings; // Devuelve el array completo fuera del foreach
+        }    
         return [];
     }
 

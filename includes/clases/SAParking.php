@@ -8,6 +8,10 @@ class SAParking{
         self::$daoParking=ParkingDAO::getSingleton();
     }
 
+    public static function obtenerParkingPorId($id) {
+        return self::$daoParking->getById($id);
+    }
+    
     public static function mostrarParkingsLibres(){ //mostrar parkings con plazas disponibles 
         return self::$daoParking->showAvailables();
     }
@@ -17,7 +21,10 @@ class SAParking{
         self::$daoParking->insert($parking);
     }
 
-   
+    public static function modificarParking($id, $dir, $ciudad, $CP, $precio, $n_plazas) {
+        $parking = new TOParking($id, $dir, $ciudad, $CP, $precio, $n_plazas);
+        self::$daoParking->update($parking);
+    }
 
 
 
