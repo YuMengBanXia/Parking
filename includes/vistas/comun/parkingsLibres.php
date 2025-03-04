@@ -32,11 +32,11 @@ ini_set('display_errors', 1);
         ?>
             <table >
             <tr>
-                <td>Direccion</th>
-                <td>Ciudad</th>
-                <td>Tarifa (€)</th>
-                <td>Plazas</th>
-                <td>Acción</th>
+                <td>ID</th>
+                <td>DIRECCION</th>
+                <td>CIUDAD (€)</th>
+                <td>TARIFA</th>
+                <td>PLAZAS DISPONIBLES</th>
                     
             </tr>           
                

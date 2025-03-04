@@ -1,9 +1,15 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
+
 <head>
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../comun/CSS/default.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><?= $tituloPagina ?></title>
 </head>
 
