@@ -72,7 +72,6 @@ class ParkingDAO extends DAO {
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-    
         //Convertir ID a entero para evitar errores
         $id = (int) $id;
     
