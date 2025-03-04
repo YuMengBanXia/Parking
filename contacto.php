@@ -41,7 +41,7 @@ EOS;
 
 $tituloPagina='Contacto';
 
-require_once __DIR__ ."/vistas/plantilla/plantilla.php";
+require_once __DIR__ ."/includes/vistas/plantilla/plantilla.php";
 
 
 ?>

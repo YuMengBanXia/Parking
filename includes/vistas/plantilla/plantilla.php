@@ -9,12 +9,14 @@
 
 <body>
 
-<div id="contenedor">
+<div class="navbar">
 <?php
    require __DIR__ . "/../comun/navbar.php";
 
 ?>
+</div>
 
+<div class="container">
 <main>
 	  	<article>
 			<?= $contenidoPrincipal ?>
