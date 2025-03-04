@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php session_start(); 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,19 +13,29 @@
     <div>
         <h2>  Escoja uno de los parkings que tenemos con plazas disponibles para usted</h2>
         <?php
-        require_once __DIR__.'/../../clases/TOparking.php';
-
+        
+        require_once __DIR__.'/../../clases/TOParking.php';
+    
+        require_once __DIR__.'/../../clases/SAParking.php';
+        
+    
        
-        $parkings = [];
-        $parkings = SAParking::mostrarParkingsLibres();
-
+        
         //Prueba para ver el mostrado 
+        //$parkings =[];
         //array_push($parkings, new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100));
         //array_push($parkings, new TOParking(1111, "Calle Burgos", "Madrid", 55555, 1, 100));
+        SAParking::inicializar();
+        $parkings = SAParking::mostrarParkingsLibres();
+
+     
         
+    
+
         if (empty($parkings)) {
             echo "<p>No hay plazas libres</p>";
         } else {
+            echo "<p> Hay plazas libres</p>";
         ?>
             <table >
             <tr>

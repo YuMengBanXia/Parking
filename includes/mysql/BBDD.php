@@ -33,14 +33,12 @@ class BBDD{
     private function createBdbD() {
         // Crear base de datos solo si no existe
         $sql = "CREATE DATABASE IF NOT EXISTS " . $this->BD;
-        
-        /*
         if (mysqli_query($this->db, $sql)) {
             echo "Database created or already exists.<br>";
         } else {
             echo "Error creating database: " . mysqli_error($this->db) . "<br>";
         }
-            */
+            
     }
     
 
