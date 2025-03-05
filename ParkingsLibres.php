@@ -18,7 +18,7 @@ EOS;
 $tituloPagina='Seleccion Parking';
 
 
-require_once __DIR__ .'/includes/vistas/plantilla/plantilla.php';
+require_once __DIR__ .'/includes/vistas/plantilla/plantillaTicket.php';
 
 require_once __DIR__ .'/includes/vistas/comun/scriptParkingsLibres.php';
 
