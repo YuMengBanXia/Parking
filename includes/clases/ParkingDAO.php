@@ -118,11 +118,6 @@ class ParkingDAO extends DAO {
     
         return []; // Devuelve un array vacío si no hay parkings disponibles
     }
-    
-
-
-    
-
 }
 
 ?>
