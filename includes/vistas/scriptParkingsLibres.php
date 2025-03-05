@@ -9,7 +9,7 @@
         if (empty($parkings)) {
             echo "<p>No hay plazas libres</p>";
         } else {
-            echo "<p> Hay parkings con plazas libres</p>";
+            echo "<p> Los siguientes parkings tienen plazas libres</p>";
         ?>
             <table >
             <tr>
