@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="includes/vistas/comun/CSS/default.css">
+    <link rel="stylesheet" type="text/css" href="CSS/default.css">
     <title><?= $tituloPagina ?></title>
 </head>
 
