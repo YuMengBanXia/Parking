@@ -5,7 +5,7 @@ class TOTicket {
     private $matricula;
     private $fecha;
 
-    public function __construct($codigo, $id, $matricula = null, $fecha = null) {
+    public function __construct($codigo, $id, $matricula, $fecha = null) {
         $this->codigo = $codigo; 
         $this->id = $id;
         $this->matricula = $matricula;

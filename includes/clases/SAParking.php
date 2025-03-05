@@ -32,9 +32,13 @@ class SAParking{
         self::$daoParking->delete($id);
     }
    
-    public static function nuevoTicket($id) {
+    public static function buscarMatricula($matricula){
+        return self::$daoTicket->searchMatricula($matricula);
+    }
+    public static function nuevoTicket($id,$matricula) {
         $parking = self::obtenerParkingPorId($id);
-        if(empty($parking)){
+        $ticket = self::buscarMatricula($matricula);
+        if(empty($parking) || !empty($ticket)){
             return 0;
         }
         if($parking->getNPlazas() > 0){
@@ -47,11 +51,11 @@ class SAParking{
 
             $codigo = self::$daoTicket->lastCodigo($id);
             $codigo = $codigo + 1;
-            $ticket = new TOTicket($codigo,$id);
+            $ticket = new TOTicket($codigo,$id,$matricula);
             if(empty(self::$daoTicket->insert($ticket))){
                 return 0;
             }
-            return $codigo;
+            return $ticket;
         }
         else return 0;
     }

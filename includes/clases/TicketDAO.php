@@ -32,7 +32,7 @@ class TicketDAO extends DAO{
         $cod = $ticket->get_codigo();
         $id = $ticket->get_id();
         $matricula = $ticket->get_matricula();
-        $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
+        $fecha = $ticket->get_fecha()->format('d-m-Y H:i:s');
 
         $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
         return $stmt->execute();
@@ -58,6 +58,16 @@ class TicketDAO extends DAO{
         } else {
             return 0; //Si no se eliminó nada, retorna 0
         }
+    }
+
+    public function searchMatricula($matricula){
+        $query="SELECT * FROM ticket WHERE matricula=$matricula";
+        $result = $this->ejecutarConsulta($query);
+        if(empty($result[0])){
+            return 0;
+        }
+        $ticket = new TOTicket($result[0]['codigo'],$result[0]['id'],$result[0]['matricula'],$result[0]['fecha_ini']);
+        return $ticket;
     }
 }
 ?>

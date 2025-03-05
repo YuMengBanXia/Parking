@@ -10,7 +10,7 @@ require_once __DIR__.'/includes/clases/SAParking.php';
 
 
 $contenidoPrincipal = <<<EOS
-   <h3>  Escoja uno de los parkings que tenemos con plazas disponibles para usted</h2>
+   <h3>  Escoja uno de los parkings que tenemos con plazas disponibles para usted</h3>
 EOS;
 
 

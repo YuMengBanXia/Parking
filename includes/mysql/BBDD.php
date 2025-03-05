@@ -82,7 +82,7 @@ class BBDD{
         $sql = "CREATE TABLE IF NOT EXISTS ticket (
             codigo INT UNSIGNED,
             id INT REFERENCES parking,
-            matricula VARCHAR(7),
+            matricula VARCHAR(7) UNIQUE NOT NULL,
             fecha_ini DATETIME NOT NULL,
             PRIMARY KEY (codigo,id))";
          if(!(mysqli_query($this->db,$sql))){

@@ -9,9 +9,14 @@
         if (empty($parkings)) {
             echo "<p>No hay plazas libres</p>";
         } else {
+            echo "<p>Introduzca la matricula del coche que va a realizar la entrada</p>";
+        ?>
+            <form action="ticket.php" method="POST">
+                    <label>Matrícula</label><input type="text" name="matricula"><br><br>
+        <?php
             echo "<p> Los siguientes parkings tienen plazas libres</p>";
         ?>
-            <table >
+            <table>
             <tr>
                 <td>ID</th>
                 <td>DIRECCION</th>
@@ -30,7 +35,6 @@
                             <td><?= $parking->getPrecio(); ?> €</td>
                             <td><?= htmlspecialchars($parking->getNPlazas()); ?></td>
                             <td>
-                                <form action="ticket.php" method="POST">
                                     <input type="hidden" name="parking_id" value="<?= htmlspecialchars($parking->getId()); ?>">
                                     <button type="submit">Seleccionar</button>
                                 </form>
