@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="CSS/default.css">
@@ -15,21 +14,19 @@ ini_set('display_errors', 1);
 
 <body>
 
-<div class="navbar">
-<?php
-   require __DIR__ . "/../comun/navbar.php";
+    <div class="navbar">
+        <?php
+        require __DIR__ . "/../comun/navbar.php";
+        ?>
+    </div>
 
-?>
-</div>
-
-<div class="container">
-<main>
-	  	<article>
-			<?= $contenidoPrincipal ?>
-		</article>
-</main>
-
-</div>
+    <div class="container">
+        <main>
+            <article>
+                <?= $contenidoPrincipal ?>
+            </article>
+        </main>
+    </div>
 
 <?php
    require __DIR__ . "/../comun/pie.php";
@@ -38,4 +35,5 @@ ini_set('display_errors', 1);
 
 
 </body>
+
 </html>
