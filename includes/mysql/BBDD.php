@@ -127,7 +127,7 @@ class BBDD{
     }
 
     private function insertarParkings(){
-           //Tabla plaza
+           //Insertar unas filas de datos iniciales de parkings
            $sql = "INSERT IGNORE INTO `parkings` (`id`, `dir`, `ciudad`, `CP`, `precio`, `n_plazas`) VALUES
                 (1, 'Calle Juan', 'Madrid', 12345, 9.9999, 100),
                 (2, 'Calle Valvanera', 'Madrid', 12345, 9.9999, 100);";
