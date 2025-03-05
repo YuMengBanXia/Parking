@@ -1,8 +1,4 @@
 <?php
-session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
 $contenidoPrincipal = <<<EOS
      <h1>Bienvenido a ePark, aplicación integrada de gestión de plazas de aparcamiento</h1>
@@ -14,10 +10,5 @@ $contenidoPrincipal = <<<EOS
 
 EOS;
 
-$tituloPagina='Portada';
-
-require_once __DIR__ ."/includes/vistas/plantilla/plantilla.php";
-
-
+require_once __DIR__ . "/includes/vistas/plantilla/plantilla.php";
 ?>
-

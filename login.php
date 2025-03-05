@@ -3,7 +3,7 @@ session_start();
 
 include("includes/clases/login/loginForm.php");
 
-$tituloPagina = 'Acceso al sistema';
+$tituloPagina = 'Portada';
 
 $form = new loginForm(); 
 
