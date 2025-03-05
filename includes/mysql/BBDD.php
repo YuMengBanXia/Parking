@@ -8,16 +8,29 @@ class BBDD{
     public $BD;
     public $db;
 
-    public function __construct($IP, $USER, $PASS, $BdbD){
-        $this->ip=$IP;
-        $this->user=$USER;
-        $this->pass=$PASS;
-        $this->BD=$BdbD;
-        self::setConnection($IP,$USER,$PASS);
-        self::createBdbD();
-        self::createTables();
-        self::insertarParkings();
+    public function __construct($IP, $USER, $PASS, $BdbD) {
+         
+         $this->ip = $IP;
+         $this->user = $USER;
+         $this->pass = $PASS;
+         $this->BD = $BdbD;
+
+        try {
+            // Intentar establecer la conexión a la base de datos
+            self::setConnection($IP, $USER, $PASS);
+            // Crear la base de datos
+            self::createBdbD();
+            // Crear las tablas 
+            self::createTables();
+            // Insertar registros iniciales
+            self::insertarParkings();
+        } catch (mysqli_sql_exception $e) {
+            // Registrar el error en un archivo log
+            echo "No se puedo realizar la petición debido a: ";
+            echo "". $e->getMessage() ."";
     }
+}
+    
 
     private function setConnection($IP, $USER, $PASS){
         $this->db= @mysqli_connect($IP,$USER,$PASS,);

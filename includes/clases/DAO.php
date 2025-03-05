@@ -22,17 +22,23 @@ class DAO{
     
     public function ejecutarConsulta($sql){//Devolver los resultados de la consulta(pasado como argumento) en un array asociativo
         if($sql != ""){
-            $consulta = $this->mysqli->query($sql) or die ($this->mysqli->error. " en la línea ".(__LINE__-1));
-            $tablaDatos = array();
-            while ($fila = mysqli_fetch_assoc($consulta)){ 
-                array_push($tablaDatos, $fila);
+            try{
+                $consulta = $this->mysqli->query($sql) or die ($this->mysqli->error. " en la línea ".(__LINE__-1));
+                $tablaDatos = array();
+                while ($fila = mysqli_fetch_assoc($consulta)){ 
+                    array_push($tablaDatos, $fila);
+                }
+                return $tablaDatos;
             }
-        return $tablaDatos;
+            catch(mysqli_sql_exception $e){
+                echo "".$e->getMessage()."";
+            }
 
         } else{
             return 0;
         }
     }
+    
 }
 
 ?>
