@@ -16,17 +16,18 @@ class ParkingDAO extends DAO {
     }
 
     public function lastId(){
-        $query="SELECT id FROM parkings";
+        $query="SELECT max(id) as num FROM parkings";
         $result = $this->ejecutarConsulta($query);
         if(empty($result)){
             return 1;
         }
-        return count($result)+1;
+        return $result['num'];
     }
     
     public function insert(TOParking $p) {
         //asignar un ID libre al parking 
         $id=self::lastId();
+        $id = $id+1;
 
         $dir = $p->getDir();
         $ciudad = $p->getCiudad();
