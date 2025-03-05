@@ -9,7 +9,7 @@ class SAParking{
 
     public static function inicializar(){
         self::$daoParking=ParkingDAO::getSingleton();
-        self::$daoTicket=daoTicket::getSingleton();
+        self::$daoTicket=TicketDAO::getSingleton();
     }
     public static function obtenerParkingPorId($id) {
         return self::$daoParking->getById($id);
@@ -38,11 +38,20 @@ class SAParking{
             return 0;
         }
         if($parking->getNPlazas() > 0){
-            $parking->setNPlazas($parking->getNPlazas()--);
+            $n=$parking->getNPlazas();
+            $n--;
+            $parking->setNPlazas($n);
+            if(empty(self::$daoParking->update($parking))){
+                return 0;
+            }
+
             $codigo = self::$daoTicket->lastCodigo($id);
             $codigo = $codigo + 1;
             $ticket = new TOTicket($codigo,$id);
-            return self::$daoTicket->insert($ticket);
+            if(empty(self::$daoTicket->insert($ticket))){
+                return 0;
+            }
+            return $codigo;
         }
         else return 0;
     }

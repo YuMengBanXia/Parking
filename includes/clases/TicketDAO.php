@@ -16,25 +16,32 @@ class TicketDAO extends DAO{
     public function lastCodigo($id){
         $query="SELECT MAX(codigo) AS curr FROM `ticket` WHERE id=$id";
         $result = $this->ejecutarConsulta($query);
-        if(empty($result)){
+        if(empty($result[0]['curr'])){
             return 1;
         }
-        return $result['curr'];
+        return $result[0]['curr'];
     }
 
     public function insert(TOticket $ticket){
-        $query="INSERT INTO ticket (codigo,id,matricula,fecha_ini) VALUES ('$ticket->get_codigo()','$ticket->get_id','$ticket->get_matricula()','$ticket->get_fecha()')";
+        $query="INSERT INTO ticket (codigo,id,matricula,fecha_ini) VALUES (?,?,?,?)";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
+
+        $cod = $ticket->get_codigo();
+        $id = $ticket->get_id();
+        $matricula = $ticket->get_matricula();
+        $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
+
+        $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
         return $stmt->execute();
     }
 
     public function count($id){
         $query="SELECT COUNT(*) AS n FROM ticket WHERE id=$id";
         $result = $this->ejecutarConsulta($query);
-        return $result['n'];
+        return $result[0]['n'];
     }
 
     public function delete($codigo,$id){
