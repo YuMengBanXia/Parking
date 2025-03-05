@@ -1,19 +1,21 @@
 <?php
 
-class BBDD{
+class BBDD
+{
 
     public $ip;
     public $user;
-    public $pass; 
+    public $pass;
     public $BD;
     public $db;
 
-    public function __construct($IP, $USER, $PASS, $BdbD) {
-         
-         $this->ip = $IP;
-         $this->user = $USER;
-         $this->pass = $PASS;
-         $this->BD = $BdbD;
+    public function __construct($IP, $USER, $PASS, $BdbD)
+    {
+
+        $this->ip = $IP;
+        $this->user = $USER;
+        $this->pass = $PASS;
+        $this->BD = $BdbD;
 
         try {
             // Intentar establecer la conexión a la base de datos
@@ -27,32 +29,32 @@ class BBDD{
         } catch (mysqli_sql_exception $e) {
             // Registrar el error en un archivo log
             echo "No se puedo realizar la petición debido a: ";
-            echo "". $e->getMessage() ."";
-    }
-}
-    
-
-    private function setConnection($IP, $USER, $PASS){
-        $this->db= @mysqli_connect($IP,$USER,$PASS,);
-        if(!$this->db){
-            printf("Error%d:%s.<br/>",mysqli_connect_errno(),mysqli_connect_error());
+            echo "" . $e->getMessage() . "";
         }
     }
-    private function createBdbD() {
+
+    private function setConnection($IP, $USER, $PASS)
+    {
+        $this->db = @mysqli_connect($IP, $USER, $PASS,);
+        if (!$this->db) {
+            printf("Error%d:%s.<br/>", mysqli_connect_errno(), mysqli_connect_error());
+        }
+    }
+
+    private function createBdbD()
+    {
         // Crear base de datos solo si no existe
         $sql = "CREATE DATABASE IF NOT EXISTS " . $this->BD;
         if (!(mysqli_query($this->db, $sql))) {
             echo "Error creating database: " . mysqli_error($this->db) . "<br>";
-        } 
-            
+        }
     }
-    
 
     //Creación de las tablas
-    private function createTables(){
+    private function createTables()
+    {
         mysqli_select_db($this->db, $this->BD);
-        
-        
+
         //Tabla parking
         $sql = "CREATE TABLE IF NOT EXISTS parkings (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -62,10 +64,10 @@ class BBDD{
             CP DECIMAL(5,0) NOT NULL,
             precio DECIMAL(5,4) NOT NULL,
             n_plazas INT NOT NULL)";
-         if(!(mysqli_query($this->db,$sql))){
-            echo "Error table parkings: ".mysqli_error($this->db);
+
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table parkings: " . mysqli_error($this->db);
         }
-        
 
         //Tabla usuarios
         $sql = "CREATE TABLE IF NOT EXISTS usuario (
@@ -74,8 +76,8 @@ class BBDD{
             dni VARCHAR(9) PRIMARY KEY,
             email VARCHAR(99),
             tipo ENUM('admin','cliente') DEFAULT 'cliente')";
-        if(!(mysqli_query($this->db,$sql))){
-            echo "Error table usuario: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table usuario: " . mysqli_error($this->db);
         }
 
         //Tabla ticket
@@ -85,8 +87,8 @@ class BBDD{
             matricula VARCHAR(7) UNIQUE NOT NULL,
             fecha_ini DATETIME NOT NULL,
             PRIMARY KEY (codigo,id))";
-         if(!(mysqli_query($this->db,$sql))){
-            echo "Error table ticket: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table ticket: " . mysqli_error($this->db);
         }
 
         //Tabla abonado
@@ -97,8 +99,8 @@ class BBDD{
             banco VARCHAR(99) NOT NULL,
             num INT NOT NULL references plaza,
             PRIMARY KEY(dni,id))";
-        if(!(mysqli_query($this->db,$sql))){
-            echo "Error table abonado: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table abonado: " . mysqli_error($this->db);
         }
 
         //Tabla plaza
@@ -107,8 +109,8 @@ class BBDD{
             id INT REFERENCES parking,
             ocupado BIT DEFAULT 0,
             PRIMARY KEY(num,id))";
-         if(!(mysqli_query($this->db,$sql))){
-            echo "Error table plaza: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table plaza: " . mysqli_error($this->db);
         }
 
         //Tabla reserva
@@ -119,31 +121,21 @@ class BBDD{
             fecha DATE,
             num INT NOT NULL references plaza,
             PRIMARY KEY(dni,id,fecha))";
-       if(!(mysqli_query($this->db,$sql))){
-        echo "Error table reserva: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error table reserva: " . mysqli_error($this->db);
+        }
     }
 
-        
-    }
-
-    private function insertarParkings(){
-           //Insertar unas filas de datos iniciales de parkings
-           $sql = "INSERT IGNORE INTO `parkings` (`id`, `dir`, `ciudad`, `CP`, `precio`, `n_plazas`) VALUES
+    private function insertarParkings()
+    {
+        //Insertar unas filas de datos iniciales de parkings
+        $sql = "INSERT IGNORE INTO `parkings` (`id`, `dir`, `ciudad`, `CP`, `precio`, `n_plazas`) VALUES
                 (1, 'Calle Juan', 'Madrid', 12345, 9.9999, 100),
                 (2, 'Calle Valvanera', 'Madrid', 12345, 9.9999, 100);";
-        if(!(mysqli_query($this->db,$sql))){
-            echo "Error al insertar algunos parkings: ".mysqli_error($this->db);
+        if (!(mysqli_query($this->db, $sql))) {
+            echo "Error al insertar algunos parkings: " . mysqli_error($this->db);
         }
 
         @mysqli_close($this->db);
     }
-    
-
-
-
-
-
-
 }
-
-

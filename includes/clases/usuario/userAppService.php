@@ -1,7 +1,6 @@
 <?php
 
-require("userFactory.php");
-//require("userDTO.php");
+require_once __DIR__ . "/userFactory.php";
 
 class userAppService
 {

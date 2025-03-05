@@ -1,12 +1,14 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-function mostrarSaludo($nombre)
+function mostrarSaludo()
 {
-        if (isset($_SESSION['login'])) { //Usuario registrado
-                echo "Bienvenido " . $nombre . " <a href='../../../logout.php'>(salir)</a>";
+        if (isset($_SESSION['nombre'])) { //Usuario registrado
+                echo "Bienvenido " . $_SESSION['nombre'] . " .<a href='logout.php'>Salir</a>";
         } else { //Usuario no registrado
-                echo "Usuario desconocido. <a href='../../../login.php'>Login</a>";
+                echo "Usuario desconocido. <a href='login.php'>Login.</a> <a href='register.php'>Registro</a>";
         }
 }
 ?>
@@ -23,7 +25,7 @@ function mostrarSaludo($nombre)
         </div>
 
         <div class="saludo">
-                <?php mostrarSaludo($_SESSION['nombre']); ?>
+                <?php mostrarSaludo(); ?>
         </div>
 </header>
 

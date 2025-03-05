@@ -1,8 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,10 +9,8 @@ ini_set('display_errors', 1);
 
 <body>
 
-    <div class="navbar">
-        <?php
-        require __DIR__ . "/../comun/navbar.php";
-        ?>
+    <div id="navbar">
+        <?php require __DIR__ . "/../comun/navbar.php"; ?>
     </div>
 
     <div class="container">
@@ -28,11 +21,7 @@ ini_set('display_errors', 1);
         </main>
     </div>
 
-<?php
-   require __DIR__ . "/../comun/pie.php";
-
-?>
-
+    <?php require __DIR__ . "/../comun/pie.php"; ?>
 
 </body>
 
