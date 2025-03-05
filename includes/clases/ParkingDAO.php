@@ -25,23 +25,19 @@ class ParkingDAO extends DAO {
     }
     
     public function insert(TOParking $p) {
-        //asignar un ID libre al parking 
-        $id=self::lastId();
-        $id = $id+1;
-
         $dir = $p->getDir();
         $ciudad = $p->getCiudad();
         $cp = $p->getCP();
         $precio = $p->getPrecio();
         $n_plazas = $p->getNPlazas();
         
-        $query = "INSERT INTO parkings (id, dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
 
-        $stmt->bind_param("issddi", $id, $dir, $ciudad, $cp, $precio, $n_plazas);
+        $stmt->bind_param("ssddi", $dir, $ciudad, $cp, $precio, $n_plazas);
         return $stmt->execute();
     }
 
