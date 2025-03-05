@@ -13,12 +13,10 @@ class loginForm extends formBase
     protected function CreateFields($datos)
     {
         $nombreUsuario = '';
-        
         if ($datos) 
         {
             $nombreUsuario = isset($datos['nombreUsuario']) ? $datos['nombreUsuario'] : $nombreUsuario;
         }
-
         $html = <<<EOF
         <fieldset>
             <legend>Usuario y contraseña</legend>
@@ -29,12 +27,10 @@ class loginForm extends formBase
 EOF;
         return $html;
     }
-    
 
     protected function Process($datos)
     {
         $result = array();
-        
         //filter_var vs htmlspecialchars(trim(strip_tags($_REQUEST["username"])));
 
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
