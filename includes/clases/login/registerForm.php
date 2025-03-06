@@ -7,6 +7,10 @@ class registerForm extends formBase
 {
     public function __construct() 
     {
+        /* Contrucción del formulario donde 
+        formID = registerForm 
+        action = registerForm.php (porque no se especifica)
+        */
         parent::__construct('registerForm');
     }
     
@@ -27,7 +31,7 @@ class registerForm extends formBase
             <p><label>Re-Password:</label> <input type="password" name="rePassword" /></p>
             <button type="submit" name="login">Entrar</button>
         </fieldset>
-EOF;
+        EOF;
         return $html;
     }
     

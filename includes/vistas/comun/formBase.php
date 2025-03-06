@@ -2,9 +2,11 @@
 
 abstract class formBase
 {
-    private $formId;
+    // Tipo de formulario
+    private $formId; 
 
-    private $action;
+    // Acción a realizar
+    private $action; 
 
     public function __construct($formId, $opciones = array())
     {
@@ -16,16 +18,24 @@ abstract class formBase
 
         $this->action   = $opciones['action'];
 
+        // Si no se ha especificado la acción, se toma la página actual (actionForm.php)
         if (!$this->action) {
+            // htmlentities() es para evitar XSS, transforma los caracteres especiales en entidades HTML
             $this->action = htmlentities($_SERVER['PHP_SELF']);
         }
     }
 
+    /**
+     * Gestiona el formulario en función de si se ha enviado o no
+     * @return HTML del formulario
+     */
     public function Manage()
     {
+        // Si no se ha enviado el formulario, se crea
         if (! $this->IsSent($_POST)) {
             return $this->Create();
-        } else {
+        } 
+        else { // Si se ha enviado, se procesa
             $result = $this->Process($_POST);
 
             if (is_array($result)) {
