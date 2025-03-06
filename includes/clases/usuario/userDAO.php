@@ -50,7 +50,7 @@ class userDAO extends DAO implements IUser
 
         $dniUser = $userDTO->dni();
         $userName = $userDTO->userName();
-        $password = password_hash($userDTO->password(), PASSWORD_DEFAULT);
+        $password = $userDTO->password();
 
         $query = "INSERT INTO usuario (usuario, contrasena, dni) VALUES (?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
