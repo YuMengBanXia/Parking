@@ -26,7 +26,7 @@ class userDAO extends DAO implements IUser
 
     public function login($userDTO)
     {
-        $foundedUserDTO = $this->buscaUsuario($userDTO->dni());
+        $foundedUserDTO = $this->buscaUsuario($userDTO->username());
 
         if ($foundedUserDTO && $foundedUserDTO->password() === $userDTO->password()) {
             return $foundedUserDTO;
@@ -35,9 +35,9 @@ class userDAO extends DAO implements IUser
         return false;
     }
 
-    private function buscaUsuario($dni)
+    private function buscaUsuario($username)
     {
-        $query = sprintf("SELECT usuario, contrasena, dni FROM usuario WHERE dni = $dni");
+        $query = "SELECT dni, usuario, contrasena FROM usuario WHERE usuario = '$username'";
 
         $rs = $this->ejecutarConsulta($query);
 
