@@ -10,6 +10,14 @@ class userDAO extends DAO implements IUser
 {
 
     public $mysqli;
+    public static $instancia;
+
+    public static function getSingleton() { //Patrón Singleton para única instancia de la clase
+        if ( !self::$instancia instanceof self) { 
+            self::$instancia = new self; 
+        } 
+        return self::$instancia; 
+    }
 
     public function __construct()
     {

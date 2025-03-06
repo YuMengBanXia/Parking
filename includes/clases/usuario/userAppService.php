@@ -5,6 +5,11 @@ require_once __DIR__ . "/userFactory.php";
 class userAppService
 {
     private static $instance;
+    private static $daoUsuario;
+
+    public static function inicializar(){
+        self::$daoUsuario=userDAO::getSingleton();
+    }
 
     public static function GetSingleton()
     {
@@ -20,7 +25,7 @@ class userAppService
     {
     } 
 
-    public function login($userDTO)
+    public static function login($userDTO)
     {
         $IUserDAO = userFactory::CreateUser();
 
@@ -29,11 +34,13 @@ class userAppService
         return $foundedUserDTO;
     }
 
-    public function create($userDTO)
+    public static function create($userDTO)
     {
         $IUserDAO = userFactory::CreateUser();
 
         $createdUserDTO = $IUserDAO->create($userDTO);
+
+        $usuario = new userDTO($userDTO->dni(), $userDTO->username(), $userDTO->password());
 
         return $createdUserDTO;
     }
