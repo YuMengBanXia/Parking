@@ -22,6 +22,7 @@ function mostrarSaludo()
                 <a href="detalles.php">Detalles</a>
                 <a href="contacto.php">Contacto</a>
                 <a href="miembros.php">Miembros</a>
+                <a href="ParkingsLibres.php">Coger Ticket</a>
         </div>
 
         <div class="saludo">
