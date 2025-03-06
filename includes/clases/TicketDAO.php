@@ -32,7 +32,7 @@ class TicketDAO extends DAO{
         $cod = $ticket->get_codigo();
         $id = $ticket->get_id();
         $matricula = $ticket->get_matricula();
-        $fecha = $ticket->get_fecha()->format('d-m-Y H:i:s');
+        $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
 
         $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
         return $stmt->execute();
