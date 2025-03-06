@@ -1,19 +1,24 @@
 <?php
 
 include __DIR__ . "/../../mysql/BBDD.php";
+require_once __DIR__.'/../DAO.php';
+
 require("IUser.php");
 require("userDTO.php");
 
-class userDAO implements IUser
+class userDAO extends DAO implements IUser
 {
+
+    public $mysqli; 
+
     public function __construct()
     {
-
+        parent::__construct();
     }
 
     public function login($userDTO)
     {
-        $foundedUserDTO = $this->buscaUsuario($userDTO->username());
+        $foundedUserDTO = $this->buscaUsuario($userDTO->dni());
         
         if ($foundedUserDTO && $foundedUserDTO->password() === $userDTO->password()) 
         {
@@ -23,22 +28,18 @@ class userDAO implements IUser
         return false;
     }
 
-    private function buscaUsuario($username)
+    private function buscaUsuario($dni)
     {
-        $conn = getConexionBD();
+        $query = sprintf("SELECT usuario, contrasena, dni FROM usuario WHERE dni = $dni");
         
-        $query = sprintf("SELECT Id, UserName, Password FROM Usuarios WHERE username='%s'", $conn->real_escape_string($username));
-        
-        $rs = $conn->query($query);
-        
-        if ($rs && $rs->num_rows == 1) 
-        {
-            $fila = $rs->fetch_assoc();
-            
-            $user = new userDTO($fila['Id'], $fila['UserName'], $fila['Password']);
-            
-            $rs->free();
+        $rs = $this->ejecutarConsulta($query);
 
+        if(!empty($rs))
+        {
+            $fila = $rs[0];
+            
+            $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena']);
+            
             return $user;
         }
 
@@ -49,19 +50,19 @@ class userDAO implements IUser
     {
         $createdUserDTO = false;
 
-        $conn = getConexionBD();
+        $dniUser = $userDTO->dni();
+        $userName = $userDTO->userName();
+        $password = $userDTO->password();
 
-        $query = sprintf("INSERT INTO Usuarios(UserName, Password) VALUES ('%s', '%s')"
-            , $conn->real_escape_string($userDTO->userName())
-            , $conn->real_escape_string($userDTO->password())
-        );
-
-        if ( $conn->query($query) ) 
-        {
-            $idUser = $conn->insert_id;
-            
-            $createdUserDTO = new userDTO($idUser, $userName, $password);
-        } 
+        $query = "INSERT INTO usuario (usuario, contrasena, dni) VALUES (?, ?, ?)";
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+        else {
+            $createdUserDTO = new userDTO($dniUser, $userName, $password);
+            $stmt->bind_param("sss", $userName, $password, $dniUser);
+        }
 
         return $createdUserDTO;
     }
