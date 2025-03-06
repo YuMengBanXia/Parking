@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 include __DIR__ . "/../../vistas/comun/formBase.php";
 include __DIR__ . "/../usuario/userAppService.php";
@@ -57,7 +59,7 @@ class loginForm extends formBase
         // Si no hay errores intentar loguear
         if (count($result) === 0) {
             
-            $userDTO = new userDTO(0, $nombreUsuario, $password);
+            $userDTO = new userDTO(1234567890, $nombreUsuario, $password);
 
             $userAppService = userAppService::GetSingleton();
 

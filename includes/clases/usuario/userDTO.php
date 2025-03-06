@@ -2,22 +2,22 @@
 
 class userDTO
 {
-    private $id;
+    private $dni;
 
     private $username;
 
     private $password;
 
-    public function __construct($id, $username, $password)
+    public function __construct($dni, $username, $password)
     {
-        $this->id = $id;
+        $this->dni = $dni;
         $this->username = $username;
         $this->password = $password;
     }
 
-    public function id()
+    public function dni()
     {
-        return $this->id;
+        return $this->dni;
     }
 
     public function username()
