@@ -12,11 +12,12 @@ class userDAO extends DAO implements IUser
     public $mysqli;
     public static $instancia;
 
-    public static function getSingleton() { //Patrón Singleton para única instancia de la clase
-        if ( !self::$instancia instanceof self) { 
-            self::$instancia = new self; 
-        } 
-        return self::$instancia; 
+    public static function getSingleton()
+    { //Patrón Singleton para única instancia de la clase
+        if (!self::$instancia instanceof self) {
+            self::$instancia = new self;
+        }
+        return self::$instancia;
     }
 
     public function __construct()
@@ -28,7 +29,8 @@ class userDAO extends DAO implements IUser
     {
         $foundedUserDTO = $this->buscaUsuario($userDTO->username());
 
-        if ($foundedUserDTO && $foundedUserDTO->password() === $userDTO->password()) {
+        if ($foundedUserDTO && password_verify($userDTO->password(), $foundedUserDTO->password()))
+    {
             return $foundedUserDTO;
         }
 
@@ -37,15 +39,16 @@ class userDAO extends DAO implements IUser
 
     private function buscaUsuario($username)
     {
-        $query = "SELECT dni, usuario, contrasena FROM usuario WHERE usuario = '$username'";
+        $query = "SELECT dni, usuario, contrasena FROM usuario WHERE usuario = ?";
 
-        $rs = $this->ejecutarConsulta($query);
+        $stmt = $this->mysqli->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
 
-        if (!empty($rs)) {
-            $fila = $rs[0];
+        $result = $stmt->get_result();
 
+        if ($fila = $result->fetch_assoc()) {
             $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena']);
-
             return $user;
         }
 
@@ -59,6 +62,8 @@ class userDAO extends DAO implements IUser
         $dniUser = $userDTO->dni();
         $userName = $userDTO->userName();
         $password = $userDTO->password();
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
 
         $query = "INSERT INTO usuario (usuario, contrasena, dni) VALUES (?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
@@ -67,7 +72,7 @@ class userDAO extends DAO implements IUser
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
 
-        $stmt->bind_param("sss", $userName, $password, $dniUser);
+        $stmt->bind_param("sss", $userName, $hashedPassword, $dniUser);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
