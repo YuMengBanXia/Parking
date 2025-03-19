@@ -1,8 +1,4 @@
 <?php   
-        //Prueba para ver el mostrado 
-        //$parkings =[];
-        //array_push($parkings, new TOParking(1234, "Calle Juan", "Madrid", 55555, 1, 100));
-        //array_push($parkings, new TOParking(1111, "Calle Burgos", "Madrid", 55555, 1, 100));
         SAParking::inicializar();
         $parkings = SAParking::mostrarParkingsLibres();
 
