@@ -12,8 +12,6 @@ class mostrarParkingsForm extends formBase {
     protected function CreateFields($datos)
     {
 
-        //a quitar!!
-        SAParking::inicializar();
         // Obtener el array de parkingsLibres 
         $parkings = SAParking::mostrarParkingsLibres();
 
