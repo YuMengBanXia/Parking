@@ -113,9 +113,10 @@ class ParkingDAO extends DAO {
             foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
             }
+            
             return $parkings; // Devuelve todos los objetos TOParking
         }
-    
+        
         return []; // Devuelve un array vacío si no hay parkings disponibles
     }
 }
