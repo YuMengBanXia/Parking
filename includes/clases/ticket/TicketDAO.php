@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/TOTicket.php';
-require_once __DIR__.'/DAO.php';
+require_once __DIR__.'../DAO.php';
 
 class TicketDAO extends DAO{
     public static $instancia;

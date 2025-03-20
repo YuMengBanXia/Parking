@@ -1,63 +1,37 @@
 <?php
 require_once __DIR__.'/ParkingDAO.php';
 require_once __DIR__.'/TOParking.php';
-require_once __DIR__.'/TicketDAO.php';
-require_once __DIR__.'/TOTicket.php';
 class SAParking{
-    private static $daoParking; 
-    private static $daoTicket;
-
-    public static function inicializar(){
-        self::$daoParking=ParkingDAO::getSingleton();
-        self::$daoTicket=TicketDAO::getSingleton();
-    }
+    
     public static function obtenerParkingPorId($id) {
+        $daoParking = ParkingDAO::getSingleton();
         return self::$daoParking->getById($id);
     }
 
     public static function mostrarParkingsLibres(){ //mostrar parkings con plazas disponibles 
-        return self::$daoParking->showAvailables();
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->showAvailables();
     }
 
     public static function modificarParking($id, $dir, $ciudad, $CP, $precio, $n_plazas) {
+        $daoParking = ParkingDAO::getSingleton();
         $parking = new TOParking($id, $dir, $ciudad, $CP, $precio, $n_plazas);
-        return self::$daoParking->update($parking);
+        return $daoParking->update($parking);
+    }
+
+    public static function modificarParkingObj($parking) {
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->update($parking);
     }
 
     public static function registrarParking($dir, $ciudad, $CP, $precio, $n_plazas) {
+        $daoParking = ParkingDAO::getSingleton();
         $parking = new TOParking(null, $dir, $ciudad, $CP, $precio, $n_plazas);
-        self::$daoParking->insert($parking);
+        $daoParking->insert($parking);
     }
     public static function eliminarParking($id) {
-        self::$daoParking->delete($id);
-    }
-   
-    public static function buscarMatricula($matricula){
-        return self::$daoTicket->searchMatricula($matricula);
-    }
-    public static function nuevoTicket($id,$matricula) {
-        $parking = self::obtenerParkingPorId($id);
-        $ticket = self::buscarMatricula($matricula);
-        if(empty($parking) || !empty($ticket)){
-            return 0;
-        }
-        if($parking->getNPlazas() > 0){
-            $n=$parking->getNPlazas();
-            $n--;
-            $parking->setNPlazas($n);
-            if(empty(self::$daoParking->update($parking))){
-                return 0;
-            }
-
-            $codigo = self::$daoTicket->lastCodigo($id);
-            $codigo = $codigo + 1;
-            $ticket = new TOTicket($codigo,$id,$matricula);
-            if(empty(self::$daoTicket->insert($ticket))){
-                return 0;
-            }
-            return $ticket;
-        }
-        else return 0;
+        $daoParking = ParkingDAO::getSingleton();
+        $daoParking->delete($id);
     }
 
 }
