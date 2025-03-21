@@ -1,6 +1,6 @@
 
 <?php
-require_once __DIR__.'/../../mysql/BBDD.php';
+require_once __DIR__.'/../mysql/BBDD.php';
 class DAO{
     public $bd;
     public $mysqli;

@@ -47,6 +47,8 @@ class mostrarParkingsForm extends formBase {
             $precio = htmlspecialchars($parking->getPrecio());
             $nPlazas = htmlspecialchars($parking->getNPlazas());
     
+            $checked = ($idSeleccionado == $id) ? 'checked' : '';
+    
             $html .= <<<EOF
             <tr>
                 <td>{$id}</td>
@@ -55,16 +57,18 @@ class mostrarParkingsForm extends formBase {
                 <td>{$precio} €</td>
                 <td>{$nPlazas}</td>
                 <td>
-                    <button type="submit" name="parking_id" value="{$id}">Seleccionar</button>
+                    <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
                 </td>
             </tr>
             EOF;
         }
     
         $html .= "</table>";
+        $html .= '<button type="submit">Confirmar</button>';
     
         return $html;
     }
+    
     
     protected function Process( $datos ){
         $result = array();
