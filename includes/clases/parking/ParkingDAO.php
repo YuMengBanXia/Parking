@@ -84,14 +84,24 @@ class ParkingDAO extends DAO {
             return false; //Si no se eliminó nada, retorna false
         }
     }
+
     public function getById($id) {
-        $query = "SELECT * FROM parkings WHERE id = $id";
-        $result = $this->ejecutarConsulta($query);
-        if (!empty($result)) {
-            $row = $result[0];
+        $query = "SELECT FROM parkings WHERE id = ?";
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+        $stmt = bind_param("i",$id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $result->free();
+            $stmt->close();
             return new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
         }
-        return 0;//Ids validos empiezan a contarse desde el 1 incluido
+        $stmt->close();
+        return 0;
     }
 
     public function getAll() {
