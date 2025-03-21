@@ -1,22 +1,34 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include __DIR__ ."/../vistas/comun/formBase.php";
-include __DIR__ ."/parking/SAParking.php";
+
 
 class mostrarParkingsForm extends formBase {
 
-    public function __construct() {
+
+    public function __construct()
+    {
+        /* Contrucción del formulario donde 
+        formID = loginForm 
+        action = loginForm.php (porque no se especifica)
+        */
         parent::__construct('mostrarParkingsForm');
     }
-
+   
     protected function CreateFields($datos)
     {
-
-        // Obtener el array de parkingsLibres 
+        $matricula = htmlspecialchars($datos['matricula'] ?? '');
+        $idSeleccionado = $datos['parking_id'] ?? '';
+    
         $parkings = SAParking::mostrarParkingsLibres();
-
-        // Inicio de la tabla
+    
         $html = <<<EOF
+        <label for="matricula">Matrícula:</label>
+        <input type="text" id="matricula" name="matricula" required pattern="[A-Za-z0-9]{6,8}" 
+               title="Introduce una matrícula válida" value="{$matricula}">
         <table>
             <tr>
                 <th>ID</th>
@@ -27,16 +39,14 @@ class mostrarParkingsForm extends formBase {
                 <th>Acción</th>
             </tr>
         EOF;
-
-        // Bucle para recorrer los parkings
+    
         foreach ($parkings as $parking) {
             $id = htmlspecialchars($parking->getId());
             $dir = htmlspecialchars($parking->getDir());
             $ciudad = htmlspecialchars($parking->getCiudad());
             $precio = htmlspecialchars($parking->getPrecio());
             $nPlazas = htmlspecialchars($parking->getNPlazas());
-
-            // Concatenar cada fila de la tabla
+    
             $html .= <<<EOF
             <tr>
                 <td>{$id}</td>
@@ -45,20 +55,47 @@ class mostrarParkingsForm extends formBase {
                 <td>{$precio} €</td>
                 <td>{$nPlazas}</td>
                 <td>
-                    <form method="post" action="ticket.php">
-                        <input type="hidden" name="parking_id" value="{$id}">
-                        <button type="submit">Seleccionar</button>
-                    </form>
+                    <button type="submit" name="parking_id" value="{$id}">Seleccionar</button>
                 </td>
             </tr>
             EOF;
         }
-
-        // Cierre de la tabla
-        $html .= <<<EOF
-        </table>
-        EOF;
-
+    
+        $html .= "</table>";
+    
         return $html;
     }
+    
+    protected function Process( $datos ){
+        $result = array();
+        
+        $matricula = trim($datos['matricula'] ?? '');
+        $id=trim($datos['parking_id']);
+
+        $matricula = filter_var($matricula, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $id = filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if ($matricula==='') {
+            $result[] = "La matrícula del coche no puede estar vacío";
+        }
+
+        if($id===''){
+            $result[]="Debe seleccionar un parking";
+        }
+
+         // Si no hay errores 
+        if (count($result) === 0) {
+        
+
+                $result = 'index.php';
+            
+        }
+
+      
+        
+        return $result;
+
+    }
+
+
 }
