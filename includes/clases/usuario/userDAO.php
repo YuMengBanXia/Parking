@@ -1,7 +1,7 @@
 <?php
 
 include __DIR__ . "/../../mysql/BBDD.php";
-require_once __DIR__ . '/../parking/DAO.php';
+require_once __DIR__ . '/../DAO.php';
 
 require("IUser.php");
 require("userDTO.php");
