@@ -36,9 +36,10 @@ class ParkingDAO extends DAO {
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-
         $stmt->bind_param("ssddi", $dir, $ciudad, $cp, $precio, $n_plazas);
-        return $stmt->execute();
+        $resultado = $stmt->execute();
+        $stmt->close();
+        return $resultado;
     }
 
     public function update(TOParking $p) {
@@ -58,8 +59,9 @@ class ParkingDAO extends DAO {
     
         //Pasar solo variables por referencia
         $stmt->bind_param("ssddii", $dir, $ciudad, $cp, $precio, $n_plazas, $id);
-    
-        return $stmt->execute();
+        $resultado = $stmt->execute();
+        $stmt->close();
+        return $resultado;
     }
 
     public function delete($id) {
@@ -73,35 +75,45 @@ class ParkingDAO extends DAO {
         $id = (int) $id;
         $stmt->bind_param("i", $id);
         $resultado = $stmt->execute();
-    
+        $affectedRows = $stmt->affected_rows;
+        $stmt->close();
+
         if ($resultado) {
-            return $stmt->affected_rows > 0; //Retorna true si se eliminó correctamente
+            return $affectedRows > 0; //Retorna true si se eliminó correctamente
         } else {
             return false; //Si no se eliminó nada, retorna false
         }
     }
+
     public function getById($id) {
-        $query = "SELECT * FROM parkings WHERE id = $id";
-        $result = $this->ejecutarConsulta($query);
-        if (!empty($result)) {
-            $row = $result[0];
+        $query = "SELECT FROM parkings WHERE id = ?";
+        $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+        $stmt = bind_param("i",$id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $result->free();
+            $stmt->close();
             return new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
         }
-        return 0;//Ids validos empiezan a contarse desde el 1 incluido
+        $stmt->close();
+        return 0;
     }
 
     public function getAll() {
         $query = "SELECT * FROM parkings";
         $result = $this->ejecutarConsulta($query);
-        if($result){ //si no hay problemas en la ejecución de la consulta
-            if(count($result)>0){ //si hay datos en la BBDD
-                $parkings = [];
-                foreach ($result as $row) {
+        if ($result && count($result) > 0) { // si hay datos en la BBDD
+            $parkings = [];
+            foreach ($result as $row) {
                 $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-                return $parkings;
-                }
-            }    
-        }
+            }
+            return $parkings;
+        }    
         return [];
     }
     public function showAvailables() {

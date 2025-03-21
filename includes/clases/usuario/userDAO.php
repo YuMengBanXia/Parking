@@ -1,7 +1,7 @@
 <?php
 
 include __DIR__ . "/../../mysql/BBDD.php";
-require_once __DIR__ . '/../parking/DAO.php';
+require_once __DIR__ . '/../DAO.php';
 
 require("IUser.php");
 require("userDTO.php");
@@ -40,18 +40,22 @@ class userDAO extends DAO implements IUser
     private function buscaUsuario($username)
     {
         $query = "SELECT dni, usuario, contrasena FROM usuario WHERE usuario = ?";
-
         $stmt = $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
         $stmt->bind_param("s", $username);
         $stmt->execute();
-
         $result = $stmt->get_result();
 
         if ($fila = $result->fetch_assoc()) {
             $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena']);
+            $result->free();
+            $stmt->close();
             return $user;
         }
-
+        $result->free();
+        $stmt->close();
         return false;
     }
 

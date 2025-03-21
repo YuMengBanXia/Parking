@@ -14,8 +14,18 @@ class TicketDAO extends DAO{
     }
 
     public function lastCodigo($id){
-        $query="SELECT MAX(codigo) AS curr FROM `ticket` WHERE id=$id";
-        $result = $this->ejecutarConsulta($query);
+        $query="SELECT MAX(codigo) AS curr FROM `ticket` WHERE id=?";
+        $stmt-> $this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        }
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
         if(empty($result[0]['curr'])){
             return 1;
         }
@@ -35,39 +45,62 @@ class TicketDAO extends DAO{
         $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
 
         $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
+        $resultado = $stmt->execute();
+        $stmt->close();
         return $stmt->execute();
     }
 
     public function count($id){
-        $query="SELECT COUNT(*) AS n FROM ticket WHERE id=$id";
-        $result = $this->ejecutarConsulta($query);
-        return $result[0]['n'];
-    }
-
-    public function delete($codigo,$id){
-        $query = "DELETE FROM ticket WHERE id=$id AND codigo=$codigo";
-        $stmt = $this->mysqli->prepare($query);
-    
+        $query="SELECT COUNT(*) AS n FROM ticket WHERE id=?";
+        $stmt->$this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        $resultado = $stmt->execute();
-    
-        if ($resultado) {
-            return $stmt->affected_rows > 0; //Retorna true si se eliminó correctamente
-        } else {
-            return 0; //Si no se eliminó nada, retorna 0
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
+        return $row['n'];
+    }
+
+    public function delete($codigo,$id){
+        $query = "DELETE FROM ticket WHERE id=? AND codigo=?";
+        $stmt = $this->mysqli->prepare($query);
+        
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
+        $stmt->bind_param("ii",$id,$codigo);
+        $stmt->execute();
+        $affected = $stmt->affected_rows;
+        $stmt->close();
+
+        return $affected > 0;
+        
     }
 
     public function searchMatricula($matricula){
-        $query="SELECT * FROM ticket WHERE matricula=$matricula";
-        $result = $this->ejecutarConsulta($query);
-        if(empty($result[0])){
-            return 0;
+        $query="SELECT * FROM ticket WHERE matricula=?";
+        $stmt->$this->mysqli->prepare($query);
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        $ticket = new TOTicket($result[0]['codigo'],$result[0]['id'],$result[0]['matricula'],$result[0]['fecha_ini']);
-        return $ticket;
+        $stmt->bind_param("s",$matricula);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if($row = $result->fetch_assoc()){
+            $ticket = new TOTicket($row['codigo'], $row['id'], $row['matricula'], $row['fecha_ini']);
+            $result->free();
+            $stmt->close();
+            return $ticket;
+        }
+        $result->free();
+        $stmt->close();
+        return 0;
     }
 }
 ?>
