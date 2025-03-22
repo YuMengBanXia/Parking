@@ -6,19 +6,16 @@ include __DIR__ .'/includes/clases/procesarTicket.php';
 
 include __DIR__ . "/includes/clases/mostrarParkingsForm.php";
 
-$tituloPagina = 'Escoger parkings';
+//$tituloPagina = 'Escoger parkings';
 
 $form = new mostrarParkingsForm();
 
 $htmlFormRegistro = $form->Manage();
 
-
 $contenidoPrincipal = <<<EOS
    <h3>Coger Ticket</h3>
-   
    $htmlFormRegistro
 EOS;
-//$contenidoPrincipal .= procesarTicket::generar();
 
 $tituloPagina='Coger Ticket';
 

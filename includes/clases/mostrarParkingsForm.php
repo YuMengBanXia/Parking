@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include __DIR__ ."/../vistas/comun/formBase.php";
+require_once __DIR__."/ticket/SATicket.php";
 
 
 class mostrarParkingsForm extends formBase {
@@ -87,15 +88,38 @@ class mostrarParkingsForm extends formBase {
             $result[]="Debe seleccionar un parking";
         }
 
-         // Si no hay errores 
-        if (count($result) === 0) {
-        
+        if (count($result) === 0){
+            $respuesta = SATicket::nuevoTicket($id,$matricula);
+            if (is_array($resultado)) {
+                // Éxito: el código es $resultado[0] (que será 4) 
+                // y $resultado[1] contiene los datos del ticket.
+                $num = $respuesta[0];
+                $datos = $respuesta[1];
+            } else {
+                // Error: $resultado es numérico (0,1,2,3) y representa el código de error.
+                $num = $respuesta;
+            }
 
-                $result = 'index.php';
-            
-        }
-
-      
+            switch($num){
+                case 1: //Errores con el dato id
+                    $result[] = 'Algo ha salido mal, por favor vuelva a seleccionar un parking disponible';
+                    break;
+                case 2: //Matrícula ya encontrada dentro de un parking
+                    $result[] = 'La matrícula introducida ha sido encontrada en otro parking';
+                    break;
+                case 3: //Error base de datos
+                    $result[] = 'Ha habido un error en la base de datos';
+                    break;
+                case 4: //Éxito
+                    $codigo = $datos['codigo'];
+                    $fecha = $datos['fecha']->format('d-m-Y H:i:s');
+                    $result = 'index.php';
+                    break;
+                default: //caso 0 (faltan datos) o error inesperado
+                    $result[] = 'Ha habido un error inesperado vuelva a intentarlo';
+                    break;
+            }
+        }      
         
         return $result;
 

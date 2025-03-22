@@ -12,8 +12,8 @@ class SATicket{
     }
 
     /*Leyenda de códigos:
-    0:Error inesperado
-    1:Faltan datos
+    0:Faltan datos
+    1:Errores asociados a los datos del parking
     2:El coche con esta matrícula ya se encuentra en algún parking de nuestra base de datos
     3:Error en la base de datos (insertar, actualizar o eliminar)
     4:Ticket creado exitosamente
@@ -21,11 +21,11 @@ class SATicket{
     public static function nuevoTicket($id,$matricula) {
         $daoTicket = TicketDAO::getSingleton();
         if(empty($id) || empty($matricula)){
-            return 1; //No se ha especificado id o matricula
+            return 0; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
         }
         $parking = SAParking::obtenerParkingPorId($id);
         if(empty($parking)){
-            return 0; //Error inesperado, el usuario no debería poder seleccionar un id de un parking que no existe
+            return 1; //Error, seleccionado un id de un parking que no existe
         }
         $ticket = self::buscarMatricula($matricula);
         if(!empty($ticket)){
@@ -47,11 +47,11 @@ class SATicket{
             }
             return $ticket;
         }
-        else return 0; //Error inesperado (se supone que el usuario solo puede seleccionar parkings libres)
+        else return 1; //Error, el usuario solo puede seleccionar parkings libres
 
         $datos = [
-            'codigo'    => $codigo,
-            'fecha'     => date('Y-m-d H:i:s')  // Ejemplo de fecha/hora de creación
+            'codigo' => $codigo,
+            'fecha' => date('Y-m-d H:i:s')
         ];
         return [4, $datos];
     }
