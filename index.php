@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require_once __DIR__ . '/includes/config.php';
 
 $tituloPagina = 'Portada';
 
@@ -9,5 +12,5 @@ $contenidoPrincipal = <<<EOS
 
 EOS;
 
-require_once __DIR__ . "/includes/vistas/plantilla/plantilla.php";
+require_once RAIZ_APP . "/vistas/plantilla/plantilla.php";
 ?>
