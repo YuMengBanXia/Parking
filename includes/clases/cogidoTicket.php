@@ -17,7 +17,8 @@ class cogidoTicket extends formBase{
         $html='';
         if($ticket!=null & $matricula!=null){
         $html =<<<EOF
-            Se ha cogido ticket con id: $ticket y matrícula: $matricula exitosamente
+            ID del ticket: $ticket <br>
+            Matrícula: $matricula<br>
              <a href="index.php">
                 <button type="button">Ir al inicio</button>
             </a>

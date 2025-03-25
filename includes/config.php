@@ -15,7 +15,7 @@ define('BD_PASS', 'adminDBPassword');
  * @const RUTA_APP: Ruta hasta la aplicación (directorio Parking)
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/Github/Parking');
+define('RUTA_APP', '/GitHub/Parking');
 define('RUTA_IMGS', RUTA_APP . '/img');
 define('RUTA_CSS', RUTA_APP . '/CSS');
 define('RUTA_JS', RUTA_APP . '/js');

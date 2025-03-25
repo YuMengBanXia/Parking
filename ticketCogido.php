@@ -14,9 +14,9 @@ $formTicketCogido=new cogidoTicket();
 $htmlFormCogido=$formTicketCogido->Manage();
 
 $contenidoPrincipal = <<<EOS
-   <h3>Coger Ticket</h3>
- 
+   <h3>DATOS DEL TICKET</h3>
    $htmlFormCogido
+
 EOS;
 
 
