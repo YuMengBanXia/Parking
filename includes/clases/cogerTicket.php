@@ -8,7 +8,7 @@ require_once __DIR__."/ticket/SATicket.php";
 
 
 class cogerTicket extends formBase {
-    private $mostrar=1;
+
 
 
     public function __construct()
@@ -72,9 +72,7 @@ class cogerTicket extends formBase {
             </a>
         EOF;
 
-        if($this->mostrar==0){
-            return $htmlinicio;
-        }
+       
         return $html.=$htmlinicio;
     }
     
@@ -131,10 +129,9 @@ class cogerTicket extends formBase {
                         'ticket' => $codigo,
                         'matricula' => $matricula
                     ]);
+
+                    $result='ticketCogido.php?'.$params;
                     
-                    $result='prueba.php?'.$params;
-                    
-                    //$this->mostrar=0;
                     break;
                 default: //caso 0 (faltan datos) o error inesperado
                     $result[] = 'Ha habido un error inesperado vuelva a intentarlo';

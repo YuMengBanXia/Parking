@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 include __DIR__ . "/includes/clases/cogidoTicket.php";
 
-//$tituloPagina = 'Escoger parkings';
+$tituloPagina = 'Ticket cogido';
 
 
 $formTicketCogido=new cogidoTicket();
@@ -19,7 +19,7 @@ $contenidoPrincipal = <<<EOS
    $htmlFormCogido
 EOS;
 
-$tituloPagina='Coger Ticket';
+
 
 
 require_once __DIR__ .'/includes/vistas/plantilla/plantilla.php';
