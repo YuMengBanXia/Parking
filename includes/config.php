@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Parámetros de conexión a la BD
  */
@@ -29,7 +27,6 @@ ini_set('default_charset', 'UTF-8');
 setLocale(LC_ALL, 'es_ES.UTF.8');
 date_default_timezone_set('Europe/Madrid');
 
-
 /**
  * Función para autocargar clases PHP.
  *
@@ -38,7 +35,7 @@ date_default_timezone_set('Europe/Madrid');
 spl_autoload_register(function ($class) {
     
     // project-specific namespace prefix
-    $prefix = 'es\\ucm\\fdi\\aw\\';
+    $prefix = 'es\\ucm\\fdi\\aw\\ePark\\';
     
     // base directory for the namespace prefix
     $base_dir = __DIR__ . '/';
@@ -55,7 +52,7 @@ spl_autoload_register(function ($class) {
     
     // replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
-    // with .php
+    // with ".php"
     $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
     // if the file exists, require it
     if (file_exists($file)) {
@@ -64,7 +61,7 @@ spl_autoload_register(function ($class) {
 });
 
 // Inicializa la aplicación
-$app = es\ucm\fdi\aw\Aplicacion::getInstance();
+$app = es\ucm\fdi\aw\ePark\Aplicacion::getInstance();
 $app->init(['host'=>BD_HOST, 'bd'=>BD_NAME, 'user'=>BD_USER, 'pass'=>BD_PASS]);
 
 /**
