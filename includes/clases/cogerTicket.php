@@ -7,14 +7,14 @@ include __DIR__ ."/../vistas/comun/formBase.php";
 require_once __DIR__."/ticket/SATicket.php";
 
 
-class mostrarParkingsForm extends formBase {
+class cogerTicket extends formBase {
     private $mostrar=1;
 
 
     public function __construct()
     {
     
-        parent::__construct('mostrarParkingsForm');
+        parent::__construct('cogerTicket');
         
     }
    
@@ -126,8 +126,15 @@ class mostrarParkingsForm extends formBase {
                 case 4: //Éxito
                     $codigo = $datos['codigo'];
                     $fecha = $datos['fecha']->format('d-m-Y H:i:s');
-                    $result[]="Su ticket con el código:$codigo y matrícula:$matricula se ha generado corectamente. Fecha de inicio: $fecha";
-                    $this->mostrar=0;
+                    
+                    $params = http_build_query([
+                        'ticket' => $codigo,
+                        'matricula' => $matricula
+                    ]);
+                    
+                    $result='prueba.php?'.$params;
+                    
+                    //$this->mostrar=0;
                     break;
                 default: //caso 0 (faltan datos) o error inesperado
                     $result[] = 'Ha habido un error inesperado vuelva a intentarlo';

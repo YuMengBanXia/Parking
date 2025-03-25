@@ -2,21 +2,21 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include __DIR__ . "/includes/clases/cogerTicket.php";
+
 include __DIR__ . "/includes/clases/cogidoTicket.php";
 
 //$tituloPagina = 'Escoger parkings';
 
-$form = new cogerTicket();
-$formTicketCodigo=new cogidoTicket();
 
-$htmlFormCoger = $form->Manage();
-$htmlFormCogido=$form->Manage();
+$formTicketCogido=new cogidoTicket();
+
+
+$htmlFormCogido=$formTicketCogido->Manage();
 
 $contenidoPrincipal = <<<EOS
    <h3>Coger Ticket</h3>
-   $htmlFormCoger
-  
+ 
+   $htmlFormCogido
 EOS;
 
 $tituloPagina='Coger Ticket';
