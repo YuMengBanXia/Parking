@@ -6,7 +6,7 @@ namespace es\ucm\fdi\aw\ePark;
  */
 class Aplicacion
 {
-	const DATOS_SESION = 'datosSesion';
+	const MENSAJE_PETICION = 'mensajePeticion';
 
 	private static $instancia;
 
@@ -30,7 +30,7 @@ class Aplicacion
 	/**
 	 * @var array Tabla asociativa con los datos pendientes de la petición.
 	 */
-	private $datosSesion;
+	private $mensajePeticion;
 
 	/**
 	 * Evita que se pueda instanciar la clase directamente.
@@ -104,8 +104,8 @@ class Aplicacion
 			* Se inicializa los datos asociados a la petición en base a la sesión y se eliminan para que
 			* no estén disponibles después de la gestión de esta petición.
 			*/
-			$this->datosSesion = $_SESSION[self::DATOS_SESION] ?? [];
-			unset($_SESSION[self::DATOS_SESION]);
+			$this->mensajePeticion = $_SESSION[self::MENSAJE_PETICION] ?? [];
+			unset($_SESSION[self::MENSAJE_PETICION]);
 		}
 	}
 
@@ -158,11 +158,11 @@ class Aplicacion
 	public function putAtributoPeticion($clave, $valor)
 	{
 		// Si no existe la el array de datos de la sesión, la creamos
-		if (!isset($_SESSION[self::DATOS_SESION])) {
-			$_SESSION[self::DATOS_SESION] = [];
+		if (!isset($_SESSION[self::MENSAJE_PETICION])) {
+			$_SESSION[self::MENSAJE_PETICION] = [];
 		}
 		// Añadimos el atributo a la sesión
-		$_SESSION[self::DATOS_SESION][$clave] = $valor;
+		$_SESSION[self::MENSAJE_PETICION][$clave] = $valor;
 	}
 
 	/**
@@ -174,9 +174,9 @@ class Aplicacion
 	 */
 	public function getAtributoPeticion($clave)
 	{
-		$result = $this->datosSesion[$clave] ?? null;
-		if (is_null($result) && isset($_SESSION[self::DATOS_SESION])) {
-			$result = $_SESSION[self::DATOS_SESION][$clave] ?? null;
+		$result = $this->mensajePeticion[$clave] ?? null;
+		if (is_null($result) && isset($_SESSION[self::MENSAJE_PETICION])) {
+			$result = $_SESSION[self::MENSAJE_PETICION][$clave] ?? null;
 		}
 		return $result;
 	}
