@@ -2,9 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include __DIR__ .'/includes/clases/procesarTicket.php';
-
-include __DIR__ . "/includes/clases/mostrarParkingsForm.php";
+include __DIR__ . "/includes/clases/cogerTicket.php";
 
 //$tituloPagina = 'Escoger parkings';
 
