@@ -1,12 +1,12 @@
 <?php
 
-include __DIR__ . "/includes/clases/login/loginForm.php";
+require_once __DIR__ . '/includes/config.php';
 
-$tituloPagina = 'Inicio de sesión en el sistema';
-
-$form = new loginForm();
+$form = new \es\ucm\fdi\aw\ePark\loginForm();
 
 $htmlFormRegistro = $form->Manage();
+
+$tituloPagina = 'Inicio de sesión en el sistema';
 
 $contenidoPrincipal = <<<EOS
 <h1>Login de usuario</h1>

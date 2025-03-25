@@ -1,8 +1,5 @@
 <?php
-session_start();
-
-include __DIR__ . "/../../vistas/comun/formBase.php";
-include __DIR__ . "/../usuario/userAppService.php";
+namespace es\ucm\fdi\aw\ePark;
 
 class loginForm extends formBase
 {

@@ -1,4 +1,5 @@
 <?php
+namespace es\ucm\fdi\aw\ePark;
 
 require_once __DIR__ . "/userFactory.php";
 

@@ -1,21 +1,20 @@
 <?php
-session_start();
-
 
 function mostrarSaludo()
 {
-        if (isset($_SESSION['nombre'])) { //Usuario registrado
-                echo "Bienvenido " . $_SESSION['nombre'] . " .<a href='logout.php'>Salir</a>";
+        $rutaApp = RUTA_APP;
+        if (isset($_SESSION['nombre']) && ($_SESSION["login"] === true)) {
+                //Usuario registrado
+                echo "Bienvenido {$_SESSION['nombre']} <a href='{$rutaApp}/logout.php'>Salir</a>";
+                //echo "Bienvenido " . $_SESSION['nombre'] . " .<a href='{$rutaApp}/logout.php'>Salir</a>";
         } else { //Usuario no registrado
-                echo "Usuario desconocido. <a href='login.php'>Login.</a> <a href='register.php'>Registro</a>";
+                echo "Usuario desconocido <a href='{$rutaApp}/login.php'>Login</a> <a href='{$rutaApp}register.php'>Registro</a>";
         }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
 <header>
+        <!-- Navegador superior -->
         <div class="navbar">
                 <a href="index.php">Inicio</a>
                 <a href="detalles.php">Detalles</a>
@@ -24,10 +23,10 @@ function mostrarSaludo()
                 <a href="ticket.php">Coger Ticket</a>
         </div>
 
+        <!-- Saludo al usuario-->
         <div class="saludo">
                 <?php mostrarSaludo(); ?>
         </div>
 </header>
-
 
 </html>
