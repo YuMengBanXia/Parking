@@ -1,11 +1,14 @@
 <?php
-namespace es\ucm\fdi\aw;
+
+namespace es\ucm\fdi\aw\ePark;
 
 /**
  * Clase que mantiene el estado global de la aplicación.
  */
 class Aplicacion
 {
+	const DATOS_SESION = 'datosSesion';
+
 	private static $instancia;
 
 	/**
@@ -24,6 +27,11 @@ class Aplicacion
 	 * @var \mysqli Conexión de BD.
 	 */
 	private $conn;
+
+	/**
+	 * @var array Tabla asociativa con los datos pendientes de la petición.
+	 */
+	private $datosSesion;
 
 	/**
 	 * Evita que se pueda instanciar la clase directamente.
@@ -93,6 +101,12 @@ class Aplicacion
 			$this->bdDatosConexion = $bdDatosConexion;
 			$this->inicializada = true;
 			session_start();
+			/* 
+			* Se inicializa los datos asociados a la petición en base a la sesión y se eliminan para que
+			* no estén disponibles después de la gestión de esta petición.
+			*/
+			$this->datosSesion = $_SESSION[self::DATOS_SESION] ?? [];
+			unset($_SESSION[self::DATOS_SESION]);
 		}
 	}
 
@@ -110,7 +124,7 @@ class Aplicacion
 			$bdPass = $this->bdDatosConexion['pass'];
 			$bdName = $this->bdDatosConexion['bd'];
 
-			$conn = new mysqli($bdHost, $bdUser, $bdPass, $bdName);
+			$conn = new \mysqli($bdHost, $bdUser, $bdPass, $bdName);
 			if ($conn->connect_errno) {
 				echo "Error de conexión a la BD ({$conn->connect_errno}):  {$conn->connect_error}";
 				exit();
@@ -133,5 +147,38 @@ class Aplicacion
 		if ($this->conn !== null && ! $this->conn->connect_errno) {
 			$this->conn->close();
 		}
+	}
+
+	/**
+	 * Añade un <code>$valor</code> para que esté disponible en la siguiente petición bajo la clave <code>$clave</code>.
+	 * 
+	 * @param string $clave Clave bajo la que almacenar el valor.
+	 * @param any    $valor Valor a almacenar.
+	 * 
+	 */
+	public function putAtributoPeticion($clave, $valor)
+	{
+		// Si no existe la el array de datos de la sesión, la creamos
+		if (!isset($_SESSION[self::DATOS_SESION])) {
+			$_SESSION[self::DATOS_SESION] = [];
+		}
+		// Añadimos el atributo a la sesión
+		$_SESSION[self::DATOS_SESION][$clave] = $valor;
+	}
+
+	/**
+	 * Devuelve un dato establecido en la petición actual o en la petición justamente anterior.
+	 * 
+	 * @param string $clave Clave sobre la que buscar el dato.
+	 * 
+	 * @return any Dato asociado a la sesión bajo la clave <code>$clave</code> o <code>null</code> si no existe.
+	 */
+	public function getAtributoPeticion($clave)
+	{
+		$result = $this->datosSesion[$clave] ?? null;
+		if (is_null($result) && isset($_SESSION[self::DATOS_SESION])) {
+			$result = $_SESSION[self::DATOS_SESION][$clave] ?? null;
+		}
+		return $result;
 	}
 }

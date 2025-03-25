@@ -44,7 +44,7 @@ CREATE TABLE `Reserva` (
   `numPlaza` int(10) NOT NULL,
   `idParking` int(10) NOT NULL,
   `fecha` datetime NOT NULL,
-  `matricula` varchar(7) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`dni`, `numPlaza`, `idParking`),
   CONSTRAINT `reservaUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reservaPlaza` FOREIGN KEY (`numPlaza`, `id`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -54,7 +54,7 @@ CREATE TABLE `Ticket` (
   `codigo` int(10) NOT NULL,
   `idParking` int(11) NOT NULL,
   `fecha_ini` datetime NOT NULL,
-  `matricula` varchar(7) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`codigo`, `idParking`),
   CONSTRAINT `ticketParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -64,7 +64,7 @@ CREATE TABLE `Abonado` (
   `numPlaza` int(11) NOT NULL,
   `idParking` int(11) NOT NULL,
   `IBAN` varchar(99) COLLATE utf8mb4_general_ci NOT NULL,
-  `matricula` varchar(7) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`dni`, `numPlaza`, `idParking`),
   CONSTRAINT `abonoUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `plazaAbonado` FOREIGN KEY (`numPlaza`, `idParking`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
