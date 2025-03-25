@@ -106,7 +106,7 @@ class BBDD
         //Tabla plaza
         $sql = "CREATE TABLE IF NOT EXISTS plaza (
             num INT UNSIGNED,
-            id INT REFERENCES parking,
+            id INT REFERENCES parking, -- Tabla mal declarada, debería ser parkings
             ocupado BIT DEFAULT 0,
             PRIMARY KEY(num,id))";
         if (!(mysqli_query($this->db, $sql))) {
@@ -116,7 +116,7 @@ class BBDD
         //Tabla reserva
         $sql = "CREATE TABLE IF NOT EXISTS reserva (
             dni VARCHAR(9) REFERENCES usuario,
-            id INT REFERENCES parking,
+            id INT REFERENCES parking, -- Tabla mal declarada, debería ser parkings
             matricula VARCHAR(7),
             fecha DATE,
             num INT NOT NULL references plaza,
