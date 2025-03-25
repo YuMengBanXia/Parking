@@ -8,28 +8,28 @@ require_once __DIR__."/ticket/SATicket.php";
 
 
 class mostrarParkingsForm extends formBase {
+    private $mostrar=1;
 
 
     public function __construct()
     {
-        /* Contrucción del formulario donde 
-        formID = loginForm 
-        action = loginForm.php (porque no se especifica)
-        */
+    
         parent::__construct('mostrarParkingsForm');
+        
     }
    
     protected function CreateFields($datos)
     {
         $matricula = htmlspecialchars($datos['matricula'] ?? '');
         $idSeleccionado = $datos['parking_id'] ?? '';
-    
         $parkings = SAParking::mostrarParkingsLibres();
+        
     
         $html = <<<EOF
         <label for="matricula">Matrícula:</label>
-        <input type="text" id="matricula" name="matricula" required pattern="[A-Za-z0-9]{6,8}" 
-               title="Introduce una matrícula válida" value="{$matricula}">
+        <input type="text" id="matricula" name="matricula" required pattern="\d{4}[A-Za-z]{3}" 
+        title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
+
         <table>
             <tr>
                 <th>ID</th>
@@ -37,7 +37,7 @@ class mostrarParkingsForm extends formBase {
                 <th>Ciudad</th>
                 <th>Precio</th>
                 <th>Plazas Disponibles</th>
-                <th>Acción</th>
+                <th>Escoger</th>
             </tr>
         EOF;
     
@@ -66,8 +66,16 @@ class mostrarParkingsForm extends formBase {
     
         $html .= "</table>";
         $html .= '<button type="submit">Confirmar</button>';
-    
-        return $html;
+        $htmlinicio=<<<EOF
+            <a href="index.php">
+                <button type="button">Ir al inicio</button>
+            </a>
+        EOF;
+
+        if($this->mostrar==0){
+            return $htmlinicio;
+        }
+        return $html.=$htmlinicio;
     }
     
     
@@ -82,15 +90,17 @@ class mostrarParkingsForm extends formBase {
 
         if ($matricula==='') {
             $result[] = "La matrícula del coche no puede estar vacío";
+            return $result;
         }
 
         if($id===''){
             $result[]="Debe seleccionar un parking";
+            return $result;
         }
 
         if (count($result) === 0){
             $respuesta = SATicket::nuevoTicket($id,$matricula);
-            if (is_array($resultado)) {
+            if (is_array($respuesta)) {
                 // Éxito: el código es $resultado[0] (que será 4) 
                 // y $resultado[1] contiene los datos del ticket.
                 $num = $respuesta[0];
@@ -101,6 +111,9 @@ class mostrarParkingsForm extends formBase {
             }
 
             switch($num){
+                case 0:
+                    $result[] = "Faltan datos por seleccionar";
+                    break;
                 case 1: //Errores con el dato id
                     $result[] = 'Algo ha salido mal, por favor vuelva a seleccionar un parking disponible';
                     break;
@@ -113,7 +126,8 @@ class mostrarParkingsForm extends formBase {
                 case 4: //Éxito
                     $codigo = $datos['codigo'];
                     $fecha = $datos['fecha']->format('d-m-Y H:i:s');
-                    $result = 'index.php';
+                    $result[]="Su ticket con id: $id y matrícula:$matricula se ha generado corectamente";
+                    $this->mostrar=0;
                     break;
                 default: //caso 0 (faltan datos) o error inesperado
                     $result[] = 'Ha habido un error inesperado vuelva a intentarlo';

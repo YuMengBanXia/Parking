@@ -13,25 +13,45 @@ class TicketDAO extends DAO{
         return self::$instancia; 
     }
 
-    public function lastCodigo($id){
-        $query="SELECT MAX(codigo) AS curr FROM `ticket` WHERE id=?";
-        $stmt-> $this->mysqli->prepare($query);
+    
+    public function lastCodigo($id) {
+        $query = "SELECT MAX(codigo) AS curr FROM `ticket` WHERE id = ?";
+        $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        $stmt->bind_param("i",$id);
+    
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-
+    
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         $result->free();
         $stmt->close();
-        if(empty($result[0]['curr'])){
+    
+        if (empty($row['curr'])) {
             return 1;
         }
-        return $result[0]['curr'];
+        return $row['curr'];
     }
+    
+    
 
+    //Función provisional para probar la funcionalidad pero que hay que adaptarla a la nueva estructura
+    /*
+    public function lastCodigo($id){
+        $query="SELECT max(codigo) as num FROM ticket";
+        $result = $this->ejecutarConsulta($query);
+        if(empty($result)){
+            return 1;
+        }
+        return $result['num'];
+    }
+    */
+
+
+
+    
     public function insert(TOticket $ticket){
         $query="INSERT INTO ticket (codigo,id,matricula,fecha_ini) VALUES (?,?,?,?)";
         $stmt = $this->mysqli->prepare($query);
@@ -46,13 +66,17 @@ class TicketDAO extends DAO{
 
         $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
         $resultado = $stmt->execute();
-        $stmt->close();
-        return $stmt->execute();
+        //$stmt->close();Comentado porque salta excepción
+        return $resultado;
     }
+    
+
+
+
 
     public function count($id){
         $query="SELECT COUNT(*) AS n FROM ticket WHERE id=?";
-        $stmt->$this->mysqli->prepare($query);
+        $stmt=$this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
@@ -84,7 +108,7 @@ class TicketDAO extends DAO{
 
     public function searchMatricula($matricula){
         $query="SELECT * FROM ticket WHERE matricula=?";
-        $stmt->$this->mysqli->prepare($query);
+        $stmt=$this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }

@@ -86,23 +86,21 @@ class ParkingDAO extends DAO {
     }
 
     public function getById($id) {
-        $query = "SELECT FROM parkings WHERE id = ?";
-        $stmt = $this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+        $query = "SELECT * FROM parkings WHERE id = $id";
+        $result = $this->ejecutarConsulta($query); // Ya devuelve un array de datos
+    
+        if (!empty($result)) { // Verifica si hay datos en la BBDD
+            $parkings = [];
+            foreach ($result as $row) {
+                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
+            }
+            
+            return $parkings; // Devuelve todos los objetos TOParking
         }
-        $stmt = bind_param("i",$id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result && $result->num_rows > 0){
-            $row = $result->fetch_assoc();
-            $result->free();
-            $stmt->close();
-            return new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-        }
-        $stmt->close();
-        return 0;
+        
+        return []; // Devuelve un array vacío si no hay parkings disponibles
     }
+    
 
     public function getAll() {
         $query = "SELECT * FROM parkings";

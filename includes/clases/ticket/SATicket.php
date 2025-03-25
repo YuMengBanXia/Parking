@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once __DIR__.'/TicketDAO.php';
 require_once __DIR__.'/TOTicket.php';
 
@@ -18,18 +20,25 @@ class SATicket{
     3:Error en la base de datos (insertar, actualizar o eliminar)
     4:Ticket creado exitosamente
     */
+
+        
     public static function nuevoTicket($id,$matricula) {
+        
         $daoTicket = TicketDAO::getSingleton();
         if(empty($id) || empty($matricula)){
-            return 0; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
+            return [0,0]; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
         }
-        $parking = SAParking::obtenerParkingPorId($id);
+        $aux= SAParking::obtenerParkingPorId($id);
+        $parking=$aux[0];
+        
+        
         if(empty($parking)){
-            return 1; //Error, seleccionado un id de un parking que no existe
+            return [1,0]; //Error, seleccionado un id de un parking que no existe
         }
+        
         $ticket = self::buscarMatricula($matricula);
         if(!empty($ticket)){
-            return 2; //Ya hay un coche en el parking con esta matricula
+            return [2,0]; //Ya hay un coche en el parking con esta matricula
         }
         if($parking->getNPlazas() > 0){
             $n=$parking->getNPlazas();
@@ -42,16 +51,17 @@ class SATicket{
             $codigo = $daoTicket->lastCodigo($id);
             $codigo = $codigo + 1;
             $ticket = new TOTicket($codigo,$id,$matricula);
+            $fecha=$ticket->get_fecha();
             if(empty($daoTicket->insert($ticket))){
                 return 3; //Error al insertar el ticket en la base de datos
             }
-            return $ticket;
+            
         }
         else return 1; //Error, el usuario solo puede seleccionar parkings libres
 
         $datos = [
             'codigo' => $codigo,
-            'fecha' => date('Y-m-d H:i:s')
+            'fecha' => $fecha
         ];
         return [4, $datos];
     }

@@ -60,6 +60,7 @@ textarea {
 
 }
 
+
 button {
     background: #4facfe;
     color: white;
@@ -138,6 +139,7 @@ table {
     background: #fff;
 }
 
+
 th {
     background-color: #333;
     color: #fff;
@@ -159,3 +161,4 @@ td {
     margin: 10px;
     left: 35%;
 }
+
