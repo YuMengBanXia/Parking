@@ -83,7 +83,7 @@ class mostrarParkingsForm extends formBase {
         $result = array();
         
         $matricula = trim($datos['matricula'] ?? '');
-        $id=trim($datos['parking_id']);
+        $id=trim($datos['parking_id'] ?? '');
 
         $matricula = filter_var($matricula, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $id = filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -126,7 +126,7 @@ class mostrarParkingsForm extends formBase {
                 case 4: //Éxito
                     $codigo = $datos['codigo'];
                     $fecha = $datos['fecha']->format('d-m-Y H:i:s');
-                    $result[]="Su ticket con id: $id y matrícula:$matricula se ha generado corectamente";
+                    $result[]="Su ticket con el código:$codigo y matrícula:$matricula se ha generado corectamente. Fecha de inicio: $fecha";
                     $this->mostrar=0;
                     break;
                 default: //caso 0 (faltan datos) o error inesperado
