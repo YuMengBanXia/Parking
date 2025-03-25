@@ -1,18 +1,27 @@
+<?php
+require_once __DIR__ . '/plantilla_utils.php';
+$mensajes = mensajesPeticionAnterior();
+?>
+
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="CSS/default.css">
     <title><?= $tituloPagina ?></title>
+    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/default.css" />
 </head>
 
 <body>
+    <!-- Mensajes de la petición anterior -->
+    <?= $mensajes ?>
 
+    <!-- Navegador superior -->
     <div id="navbar">
-        <?php require __DIR__ . "/../comun/navbar.php"; ?>
+        <?php require RAIZ_APP . "/vistas/comun/navbar.php"; ?>
     </div>
 
+    <!-- Contenido principal -->
     <div class="container">
         <main>
             <article>
@@ -21,8 +30,8 @@
         </main>
     </div>
 
-    <?php require __DIR__ . "/../comun/pie.php"; ?>
-
+    <!-- Pie de página -->
+    <?php require RAIZ_APP . "/vistas/comun/pie.php"; ?>
 </body>
 
 </html>

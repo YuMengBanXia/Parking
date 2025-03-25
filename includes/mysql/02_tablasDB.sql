@@ -47,7 +47,7 @@ CREATE TABLE `Reserva` (
   `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`dni`, `numPlaza`, `idParking`),
   CONSTRAINT `reservaUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `reservaPlaza` FOREIGN KEY (`numPlaza`, `id`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `reservaPlaza` FOREIGN KEY (`numPlaza`, `idParking`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `Ticket` (
