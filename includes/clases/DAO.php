@@ -10,7 +10,7 @@ class DAO{
         if(!$this->mysqli){
             
             $this->mysqli=new BBDD('127.0.0.1', 'root','','practica'); //Primera ejecucion
-            $this->mysqli=new mysqli('127.0.0.1', 'root','','practica');//establecer una nueva conexión a BBDD
+            $this->mysqli=new mysqli('127.0.0.1', 'root','','practica');
             if($this->mysqli->connect_errno){ //comprobar que se ha establecido correctamente la conexión
                 echo "Fallo al conectar MySQL:(". $this->mysqli->connect_errno .")".$this->mysqli->connect_error;
             }

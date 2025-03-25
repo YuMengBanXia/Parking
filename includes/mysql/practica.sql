@@ -33,7 +33,7 @@ CREATE TABLE `abonado` (
   `matricula` varchar(7) DEFAULT NULL,
   `banco` varchar(99) NOT NULL,
   `num` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE `parkings` (
   `CP` decimal(5,0) NOT NULL,
   `precio` decimal(5,4) NOT NULL,
   `n_plazas` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `parkings`
@@ -68,7 +68,7 @@ CREATE TABLE `plaza` (
   `num` int(10) UNSIGNED NOT NULL,
   `id` int(11) NOT NULL,
   `ocupado` bit(1) DEFAULT b'0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ CREATE TABLE `reserva` (
   `matricula` varchar(7) DEFAULT NULL,
   `fecha` date NOT NULL,
   `num` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE `ticket` (
   `id` int(11) NOT NULL,
   `matricula` varchar(7) DEFAULT NULL,
   `fecha_ini` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE `usuario` (
   `dni` varchar(9) NOT NULL,
   `email` varchar(99) DEFAULT NULL,
   `tipo` enum('admin','cliente') DEFAULT 'cliente'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas

@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__.'/Aplicacion.php';
+require_once __DIR__ . '/Aplicacion.php';
 
 /**
  * Parámetros de conexión a la BD
  */
-define('BD_HOST', 'localhost');
-define('BD_NAME', 'ejercicio3');
-define('BD_USER', 'ejercicio3');
-define('BD_PASS', 'ejercicio3');
+define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
+define('BD_NAME', 'ePark');
+define('BD_USER', 'adminDB');
+define('BD_PASS', 'adminDBPassword');
 
 /**
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
@@ -18,9 +18,9 @@ define('BD_PASS', 'ejercicio3');
  */
 define('RAIZ_APP', __DIR__);
 define('RUTA_APP', '/GitHub/Parking');
-define('RUTA_IMGS', RUTA_APP.'/img');
-define('RUTA_CSS', RUTA_APP.'/CSS');
-define('RUTA_JS', RUTA_APP.'/js');
+define('RUTA_IMGS', RUTA_APP . '/img');
+define('RUTA_CSS', RUTA_APP . '/CSS');
+define('RUTA_JS', RUTA_APP . '/js');
 
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria
