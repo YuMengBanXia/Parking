@@ -18,7 +18,7 @@ $mensajes = mensajesPeticionAnterior();
 
     <!-- Navegador superior -->
     <div id="navbar">
-        <?php require RAIZ_APP . "/vistas/comun/navbar.php"; ?>
+        <?php require RAIZ_APP . "/vistas/comun/cabecera.php"; ?>
     </div>
 
     <!-- Contenido principal -->
