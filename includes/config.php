@@ -46,7 +46,12 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/clases/login/',
         __DIR__ . '/vistas/comun/',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         __DIR__ . '/clases/usuario/'
+=======
+        __DIR__ . '/clases/parking/',
+        __DIR__ . '/clases/ticket/'
+>>>>>>> Stashed changes
 =======
         __DIR__ . '/clases/parking/',
         __DIR__ . '/clases/ticket/'
