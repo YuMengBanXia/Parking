@@ -1,4 +1,7 @@
 <?php
+
+namespace es\ucm\fdi\aw\ePark;
+
 class TOParking {
     private $id;
     private $dir;

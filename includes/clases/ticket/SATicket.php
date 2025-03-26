@@ -1,10 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require_once __DIR__.'/TicketDAO.php';
-require_once __DIR__.'/TOTicket.php';
 
-require_once __DIR__.'/../parking/SAParking.php';
+namespace es\ucm\fdi\aw\ePark;
 
 class SATicket{
 

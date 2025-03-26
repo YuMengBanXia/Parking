@@ -42,9 +42,15 @@ spl_autoload_register(function ($class) {
     // base directory for the namespace prefix
     $base_dirs = [
         __DIR__ . '/',
+        __DIR__ . '/clases/',
         __DIR__ . '/clases/login/',
         __DIR__ . '/vistas/comun/',
+<<<<<<< Updated upstream
         __DIR__ . '/clases/usuario/'
+=======
+        __DIR__ . '/clases/parking/',
+        __DIR__ . '/clases/ticket/'
+>>>>>>> Stashed changes
     ];
     
     // does the class use the namespace prefix?

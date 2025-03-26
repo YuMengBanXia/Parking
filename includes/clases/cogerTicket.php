@@ -1,15 +1,7 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-include __DIR__ ."/../vistas/comun/formBase.php";
-require_once __DIR__."/ticket/SATicket.php";
-
+namespace es\ucm\fdi\aw\ePark;
 
 class cogerTicket extends formBase {
-
-
 
     public function __construct()
     {

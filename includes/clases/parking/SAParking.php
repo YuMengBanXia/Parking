@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'/ParkingDAO.php';
-require_once __DIR__.'/TOParking.php';
+namespace es\ucm\fdi\aw\ePark;
+
 class SAParking{
     
    

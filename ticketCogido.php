@@ -3,12 +3,12 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
-include __DIR__ . "/includes/clases/cogidoTicket.php";
+require_once __DIR__ . '/includes/config.php';
 
 $tituloPagina = 'Ticket cogido';
 
 
-$formTicketCogido=new cogidoTicket();
+$formTicketCogido=new \es\ucm\fdi\aw\ePark\cogidoTicket();
 
 
 $htmlFormCogido=$formTicketCogido->Manage();

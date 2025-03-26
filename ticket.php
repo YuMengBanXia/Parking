@@ -2,12 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include __DIR__ . "/includes/clases/cogerTicket.php";
+require_once __DIR__ . '/includes/config.php';
 
 
 //$tituloPagina = 'Escoger parkings';
 
-$form = new cogerTicket();
+$form = new \es\ucm\fdi\aw\ePark\cogerTicket();
 $htmlFormCoger = $form->Manage();
 
 

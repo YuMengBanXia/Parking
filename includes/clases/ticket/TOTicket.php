@@ -1,4 +1,5 @@
 <?php
+namespace es\ucm\fdi\aw\ePark;
 class TOTicket {
     private $codigo;
     private $id;
@@ -9,7 +10,7 @@ class TOTicket {
         $this->codigo = $codigo; 
         $this->id = $id;
         $this->matricula = $matricula;
-        $this->fecha = empty($fecha)?new DateTime():$fecha;
+        $this->fecha = empty($fecha)?new \DateTime():$fecha;
     }
 
     public function get_codigo() {return $this->codigo;}

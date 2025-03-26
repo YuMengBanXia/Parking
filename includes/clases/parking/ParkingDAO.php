@@ -1,7 +1,6 @@
 <?php
 
-require_once __DIR__.'/TOParking.php';
-require_once __DIR__.'/../DAO.php';
+namespace es\ucm\fdi\aw\ePark;
 
 class ParkingDAO extends DAO {
 
@@ -15,119 +14,187 @@ class ParkingDAO extends DAO {
         return self::$instancia; 
     }
 
-    public function lastId(){
-        $query="SELECT max(id) as num FROM parkings";
-        $result = $this->ejecutarConsulta($query);
-        if(empty($result)){
-            return 1;
+    //Modificado
+    protected function lastId(){
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="SELECT max(id) as num FROM Parking";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $stmt->bind_result($numero);
+
+        if($stmt->fetch()){
+
+            $stmt->close();
+
+            return $numero;
         }
-        return $result['num'];
+
+        return 0;
     }
+
+    //Modificado
     
     public function insert(TOParking $p) {
         $dir = $p->getDir();
         $ciudad = $p->getCiudad();
         $cp = $p->getCP();
         $precio = $p->getPrecio();
-        $n_plazas = $p->getNPlazas();
-        
-        $query = "INSERT INTO parkings (dir, ciudad, CP, precio, n_plazas) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
-        $stmt->bind_param("ssddi", $dir, $ciudad, $cp, $precio, $n_plazas);
-        $resultado = $stmt->execute();
-        $stmt->close();
-        return $resultado;
-    }
-
-    public function update(TOParking $p) {
-        $query = "UPDATE parkings SET dir = ?, ciudad = ?, CP = ?, precio = ?, n_plazas = ? WHERE id = ?";
-        $stmt = $this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
+        $nPlazas = $p->getNPlazas();
+        $id = self::lastId() + 1; 
     
+        $conn = Aplicacion::getInstance()->getConexionBd();
+    
+        $query = "INSERT INTO Parking (id, dir, ciudad, CP, precio, nPlazas) VALUES (?, ?, ?, ?, ?, ?)";
+    
+        $stmt = $conn->prepare($query);
+    
+        $stmt->bind_param("issddi", $id, $dir, $ciudad, $cp, $precio, $nPlazas);
+    
+        if ($stmt->execute()) {
+
+            $stmt->close();
+
+            return true; // éxito
+
+        } else {
+
+            $stmt->close();
+
+            return false; // error
+        }
+    }
+    
+
+    //Modificado
+    public function update(TOParking $p) {
+
         // Variables intermedias
         $dir = $p->getDir();
         $ciudad = $p->getCiudad();
         $cp = $p->getCP();
         $precio = $p->getPrecio();
-        $n_plazas = $p->getNPlazas();
+        $nPlazas = $p->getNPlazas();
         $id = $p->getId();
-    
-        //Pasar solo variables por referencia
-        $stmt->bind_param("ssddii", $dir, $ciudad, $cp, $precio, $n_plazas, $id);
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ? WHERE id = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("ssddii", $dir, $ciudad, $cp, $precio, $nPlazas,$id);
+
         $resultado = $stmt->execute();
+
         $stmt->close();
+
         return $resultado;
     }
 
+
+    //Modificado
     public function delete($id) {
-        $query = "DELETE FROM parkings WHERE id = ?";
-        $stmt = $this->mysqli->prepare($query);
-    
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
-        //Convertir ID a entero para evitar errores
+
+        $query = "DELETE FROM Parking WHERE id = ?";
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $stmt = $conn->prepare($query);
+
         $id = (int) $id;
+
         $stmt->bind_param("i", $id);
+
         $resultado = $stmt->execute();
-        $affectedRows = $stmt->affected_rows;
+
         $stmt->close();
 
-        if ($resultado) {
-            return $affectedRows > 0; //Retorna true si se eliminó correctamente
-        } else {
-            return false; //Si no se eliminó nada, retorna false
-        }
+        return $resultado;
     }
 
+    //Modificado
     public function getById($id) {
-        $query = "SELECT * FROM parkings WHERE id = $id";
-        $result = $this->ejecutarConsulta($query); // Ya devuelve un array de datos
-    
-        if (!empty($result)) { // Verifica si hay datos en la BBDD
-            $parkings = [];
-            foreach ($result as $row) {
-                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-            }
-            
-            return $parkings; // Devuelve todos los objetos TOParking
-        }
-        
-        return []; // Devuelve un array vacío si no hay parkings disponibles
-    }
-    
 
-    public function getAll() {
-        $query = "SELECT * FROM parkings";
-        $result = $this->ejecutarConsulta($query);
-        if ($result && count($result) > 0) { // si hay datos en la BBDD
-            $parkings = [];
-            foreach ($result as $row) {
-                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-            }
-            return $parkings;
-        }    
-        return [];
-    }
-    public function showAvailables() {
-        $query = "SELECT * FROM parkings WHERE n_plazas > 0";
-        $result = $this->ejecutarConsulta($query); // Ya devuelve un array de datos
-    
-        if (!empty($result)) { // Verifica si hay datos en la BBDD
-            $parkings = [];
-            foreach ($result as $row) {
-                $parkings[] = new TOParking($row['id'], $row['dir'], $row['ciudad'], $row['CP'], $row['precio'], $row['n_plazas']);
-            }
-            
-            return $parkings; // Devuelve todos los objetos TOParking
+        $parkings=[];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT * FROM Parking WHERE id = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $id);
+
+        $stmt->execute();
+
+        $stmt->bind_result($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+
+        while ($stmt->fetch())
+        {
+            $parkings[] = new TOparking($id, $dir, $ciudad,$cp,$precio,$nPlazas);
         }
+
+        $stmt->close();
         
-        return []; // Devuelve un array vacío si no hay parkings disponibles
+        return $parkings; // Devuelve un array vacío si no hay parkings disponibles
+    }
+
+    
+    //Modificado
+    public function getAll() {
+
+        $parkings=[];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        
+        $query = "SELECT * FROM Parking";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $stmt->bind_result($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+
+        while ($stmt->fetch())
+        {
+            $parkings[] = new TOparking($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+        }
+
+        $stmt->close();
+
+        return $parkings;
+        
+    }
+
+
+
+    //Modificado
+    public function showAvailables() {
+
+        $parkings=[];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT * FROM Parking WHERE nPlazas > 0";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $stmt->bind_result($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+
+        while ($stmt->fetch())
+        {
+            $parkings[] = new TOparking($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+        }
+        $stmt->close();
+
+        return $parkings; // Devuelve un array vacío si no hay parkings disponibles
     }
 }
 

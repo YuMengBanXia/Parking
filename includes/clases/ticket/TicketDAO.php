@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__.'/TOTicket.php';
-require_once __DIR__.'/../DAO.php';
+namespace es\ucm\fdi\aw\ePark;
 
 class TicketDAO extends DAO{
     public static $instancia;
@@ -14,80 +13,76 @@ class TicketDAO extends DAO{
     }
 
     
+    //Modificado
     public function lastCodigo($id) {
-        $query = "SELECT MAX(codigo) AS curr FROM `ticket` WHERE id = ?";
-        $stmt = $this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT MAX(codigo) FROM `ticket` WHERE idParking = ?";
+
+        $stmt = $conn->prepare($query);
     
         $stmt->bind_param("i", $id);
+
         $stmt->execute();
     
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $result->free();
+        $stmt->bind_result($codigo);
+
+        if($stmt->fetch()){
+
+            $stmt->close();
+
+            return $codigo;
+        }
+
         $stmt->close();
     
-        if (empty($row['curr'])) {
-            return 1;
-        }
-        return $row['curr'];
+        return 0;
     }
     
     
-
-    //Función provisional para probar la funcionalidad pero que hay que adaptarla a la nueva estructura
-    /*
-    public function lastCodigo($id){
-        $query="SELECT max(codigo) as num FROM ticket";
-        $result = $this->ejecutarConsulta($query);
-        if(empty($result)){
-            return 1;
-        }
-        return $result['num'];
-    }
-    */
-
-
-
-    
+    //Modificado
     public function insert(TOticket $ticket){
-        $query="INSERT INTO ticket (codigo,id,matricula,fecha_ini) VALUES (?,?,?,?)";
-        $stmt = $this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
 
         $cod = $ticket->get_codigo();
         $id = $ticket->get_id();
         $matricula = $ticket->get_matricula();
         $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
 
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="INSERT INTO ticket (codigo,idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
+
+        $stmt = $conn->prepare($query);
+
         $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
-        $resultado = $stmt->execute();
-        //$stmt->close();Comentado porque salta excepción
+
+        $resultado=$stmt->execute();
+
+        $stmt->close();
+  
         return $resultado;
     }
     
 
-
-
-
+//Modificado
     public function count($id){
-        $query="SELECT COUNT(*) AS n FROM ticket WHERE id=?";
-        $stmt=$this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="SELECT COUNT(*) FROM ticket WHERE idParking=?";
+
+        $stmt = $conn->prepare($query);
+
         $stmt->bind_param("i",$id);
+
         $stmt->execute();
+
+        $stmt->bind_result($num);
+
+        $stmt->fetch();
         
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $result->free();
         $stmt->close();
-        return $row['n'];
+
+        return $num;
     }
 
     public function delete($codigo,$id){
@@ -106,25 +101,35 @@ class TicketDAO extends DAO{
         
     }
 
-    public function searchMatricula($matricula){
-        $query="SELECT * FROM ticket WHERE matricula=?";
-        $stmt=$this->mysqli->prepare($query);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
-        $stmt->bind_param("s",$matricula);
-        $stmt->execute();
+    //Modificado
+    public function searchMatricula($matricula) {
 
-        $result = $stmt->get_result();
-        if($row = $result->fetch_assoc()){
-            $ticket = new TOTicket($row['codigo'], $row['id'], $row['matricula'], $row['fecha_ini']);
-            $result->free();
+        $conn = Aplicacion::getInstance()->getConexionBd();
+    
+        $query = "SELECT codigo, idParking, matricula, fecha_ini FROM Ticket WHERE matricula = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("s", $matricula);
+
+        $stmt->execute();
+    
+        // Declaras las variables donde se guardará el resultado
+        $stmt->bind_result($codigo, $id, $mat, $fecha);
+    
+        if ($stmt->fetch()) {
+
             $stmt->close();
-            return $ticket;
+            
+            return new TOTicket($codigo, $id, $mat, new \DateTime($fecha));
+
+        } else {
+
+            $stmt->close();
+
+            return null; // No se encontró nada
         }
-        $result->free();
-        $stmt->close();
-        return 0;
     }
+    
 }
 ?>

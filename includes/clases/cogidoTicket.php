@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ ."/../vistas/comun/formBase.php";
+namespace es\ucm\fdi\aw\ePark;
 
 class cogidoTicket extends formBase{
 
