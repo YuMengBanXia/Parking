@@ -1,9 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-include __DIR__ . "/../../vistas/comun/formBase.php";
-include __DIR__ . "/../usuario/userAppService.php";
+namespace es\ucm\fdi\aw\ePark;
 
 class registerForm extends formBase
 {
@@ -29,7 +25,7 @@ class registerForm extends formBase
 
         $html = <<<EOF
         <fieldset>
-            <legend>Registrar usuario</legend>
+            <legend>Register</legend>
             <p><label>DNI:</label> <input type="text" name="dni" value="$dniUsuario"/></p>
             <p><label>Usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario"/></p>
             <p><label>Contraseña:</label> <input type="password" name="password" /></p>

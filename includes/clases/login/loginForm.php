@@ -7,7 +7,7 @@ class loginForm extends formBase
     {
         /* Contrucción del formulario donde 
         formID = loginForm 
-        action = loginForm.php (porque no se especifica)
+        action = loginForm.php 
         */
         parent::__construct('loginForm');
     }
@@ -20,7 +20,7 @@ class loginForm extends formBase
         }
         $html = <<<EOF
         <fieldset>
-            <legend>Iniciar sesión</legend>
+            <legend>Login</legend>
             <p><label>Usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario"/></p>
             <p><label>Contraseña:</label> <input type="password" name="password" /></p>
             <button type="submit" name="login">Entrar</button>
@@ -36,18 +36,14 @@ class loginForm extends formBase
 
         // nombreUsuario
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
-
         $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
         if (empty($nombreUsuario)) {
             $result[] = "El nombre de usuario no puede estar vacío";
         }
 
         // password
         $password = trim($datos['password'] ?? '');
-
         $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
         if (empty($password)) {
             $result[] = "El password no puede estar vacío.";
         }
@@ -64,10 +60,13 @@ class loginForm extends formBase
             if (! $foundedUserDTO) {
                 // No se da pistas a un posible atacante
                 $result[] = "El usuario o el password no coinciden";
-            } else {
+            } 
+            else {
                 $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
-
+                $app = Aplicacion::getInstance();
+                $mensajes = ["Bienvenido $nombreUsuario"];
+                $app->putAtributoPeticion('mensajes', $mensajes);
                 $result = 'index.php';
             }
         }

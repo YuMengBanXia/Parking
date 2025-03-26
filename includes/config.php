@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -44,7 +43,8 @@ spl_autoload_register(function ($class) {
     $base_dirs = [
         __DIR__ . '/',
         __DIR__ . '/clases/login/',
-        __DIR__ . '/vistas/comun/'
+        __DIR__ . '/vistas/comun/',
+        __DIR__ . '/clases/usuario/'
     ];
     
     // does the class use the namespace prefix?
@@ -63,6 +63,7 @@ spl_autoload_register(function ($class) {
     $file_path = str_replace('\\', '/', $relative_class) . '.php';
     foreach ($base_dirs as $base_dir) {
         $file = $base_dir . $file_path;
+        echo "Probando: $file <br>";
         // if the file exists, require it
         if (file_exists($file)) {
             require_once $file;

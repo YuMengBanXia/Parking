@@ -1,7 +1,6 @@
 <?php
 namespace es\ucm\fdi\aw\ePark;
 
-
 class userDTO
 {
     private $dni;

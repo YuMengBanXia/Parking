@@ -1,3 +1,3 @@
 <footer>
-© ePark S.L. 2025. Todos los derechos reservados.
+Copyright © 2025 ePark SL. Todos los derechos reservados.
 </footer>
