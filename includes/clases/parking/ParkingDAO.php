@@ -174,32 +174,33 @@ class ParkingDAO extends DAO {
 
 
     //Modificado
-   public function showAvailables() {
-    $parkings = [];
-
-    $conn = Aplicacion::getInstance()->getConexionBd();
-
-    $query = "SELECT * FROM Parking WHERE nPlazas > 0";
-
-    $result = $conn->query($query);
-
-    if ($result === false) {
-        die("Error en la consulta: " . $conn->error);
+    public function showAvailables() {
+        $parkings = [];
+    
+        $conn = Aplicacion::getInstance()->getConexionBd();
+    
+        $query = "SELECT * FROM Parking WHERE nPlazas > 0";
+    
+        $result = $conn->query($query);
+    
+        if ($result === false) {
+            die("Error en la consulta: " . $conn->error);
+        }
+    
+        while ($row = $result->fetch_assoc()) {
+            $parkings[] = new TOparking(
+                $row['id'],
+                $row['precio'], 
+                $row['dir'], 
+                $row['ciudad'], 
+                $row['cp'], 
+                $row['nPlazas']
+            );
+        }
+    
+        return $parkings; // Devuelve un array vacío si no hay parkings disponibles
     }
-
-    while ($row = $result->fetch_assoc()) {
-        $parkings[] = new TOparking(
-            $row['id'], 
-            $row['dir'], 
-            $row['ciudad'], 
-            $row['cp'], 
-            $row['precio'], 
-            $row['nPlazas']
-        );
-    }
-
-    return $parkings; // Devuelve un array vacío si no hay parkings disponibles
-}
+    
 
 }
 

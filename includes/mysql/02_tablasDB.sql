@@ -20,11 +20,11 @@ CREATE TABLE `Usuario` (
 
 CREATE TABLE `Parking` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `precio` decimal(5,4) NOT NULL,
-  `nPlazas` int(11) NOT NULL,
   `dir` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `ciudad` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `CP` decimal(5,0) NOT NULL,
+  `precio` decimal(5,4) NOT NULL,
+  `nPlazas` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `parkingCiudad` (`dir`, `ciudad`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
