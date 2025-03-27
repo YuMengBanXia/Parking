@@ -1,7 +1,5 @@
 <?php
-
-require("userDAO.php");
-require("userMock.php");
+namespace es\ucm\fdi\aw\ePark;
 
 class userFactory
 {

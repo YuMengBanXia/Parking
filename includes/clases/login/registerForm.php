@@ -79,7 +79,7 @@ class registerForm extends formBase
 
         if (count($result) === 0) {
 
-            $userDTO = new userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
+            $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
 
             $userAppService = userAppService::GetSingleton();
             $createdUserDTO = $userAppService->create($userDTO);
