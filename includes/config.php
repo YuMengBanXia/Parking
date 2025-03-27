@@ -45,9 +45,9 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/',
         __DIR__ . '/clases/',
         __DIR__ . '/clases/login/',
-        __DIR__ . '/vistas/comun/',
         __DIR__ . '/clases/parking/',
-        __DIR__ . '/clases/ticket/'
+        __DIR__ . '/clases/ticket/',
+        __DIR__ . '/vistas/comun/'
     ];
     
     // does the class use the namespace prefix?

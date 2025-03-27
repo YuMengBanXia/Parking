@@ -1,19 +1,27 @@
 <?php
+
 namespace es\ucm\fdi\aw\ePark;
 
 class userDTO
 {
+    // DNI del usuario varchar(9) PK
     private $dni;
 
-    private $username;
+    // Nombre de usuario varchar(99) UNIQUE
+    private $nomUsuario;
 
-    private $password;
+    // Contraseña del usuario varchar(99)
+    private $contrasenia;
 
-    public function __construct($dni, $username, $password)
+    // Tipo de usuario bit(1) 0: Cliente, 1: Propietario
+    private $tipoUsuario;
+
+    public function __construct($dni, $nomUsuario, $contrasenia, $tipoUsuario)
     {
         $this->dni = $dni;
-        $this->username = $username;
-        $this->password = $password;
+        $this->nomUsuario = $nomUsuario;
+        $this->contrasenia = $contrasenia;
+        $this->tipoUsuario = $tipoUsuario;
     }
 
     public function dni()
@@ -21,14 +29,18 @@ class userDTO
         return $this->dni;
     }
 
-    public function username()
+    public function nomUsuario()
     {
-        return $this->username;
+        return $this->nomUsuario;
     }
 
-    public function password()
+    public function contrasenia()
     {
-        return $this->password;
+        return $this->contrasenia;
+    }
+
+    public function tipoUsuario()
+    {
+        return $this->tipoUsuario;
     }
 }
-?>

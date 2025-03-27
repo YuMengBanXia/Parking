@@ -7,14 +7,14 @@ DROP TABLE IF EXISTS `Plaza`;
 DROP TABLE IF EXISTS `Parking`;
 DROP TABLE IF EXISTS `Usuario`;
 
--- Estructura de tabla para la tabla `Usuario`
--- rol = 0 -> Cliente
--- rol = 1 -> Propietario
+-- Estructura de tabla para la tabla Usuario
+-- tipoUsuario = 0 -> Cliente
+-- tipoUsuario = 1 -> Propietario
 CREATE TABLE `Usuario` (
   `dni` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
   `nomUsuario` varchar(99) COLLATE utf8mb4_general_ci NOT NULL UNIQUE,
   `contrasenia` varchar(99) COLLATE utf8mb4_general_ci NOT NULL,
-  `rol` bit(1) NOT NULL,
+  `tipoUsuario` bit(1) NOT NULL,
   PRIMARY KEY (`dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
