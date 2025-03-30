@@ -45,15 +45,17 @@ class ParkingDAO extends DAO {
         $cp = $p->getCP();
         $precio = $p->getPrecio();
         $nPlazas = $p->getNPlazas();
-        $id = self::lastId() + 1; 
+
+        $dni = $p->getDni();
+        $img = $p->getImg() ?? '';
     
         $conn = Aplicacion::getInstance()->getConexionBd();
     
-        $query = "INSERT INTO Parking (id, dir, ciudad, CP, precio, nPlazas) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO Parking (dni, dir, ciudad, CP, precio, nPlazas, img) VALUES (?, ?, ?, ?, ?, ?)";
     
         $stmt = $conn->prepare($query);
     
-        $stmt->bind_param("issddi", $id, $dir, $ciudad, $cp, $precio, $nPlazas);
+        $stmt->bind_param("isssddis", $id, $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
     
         if ($stmt->execute()) {
 
@@ -81,13 +83,16 @@ class ParkingDAO extends DAO {
         $nPlazas = $p->getNPlazas();
         $id = $p->getId();
 
+        $dni = $p->getDni();
+        $img = $p->getImg() ?? '';
+        
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ? WHERE id = ?";
+        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ?, dni = ?, img = ? WHERE id = ?";
 
         $stmt = $conn->prepare($query);
 
-        $stmt->bind_param("ssddii", $dir, $ciudad, $cp, $precio, $nPlazas,$id);
+        $stmt->bind_param("ssddissi", $dir, $ciudad, $cp, $precio, $nPlazas, $dni, $img, $id);
 
         $resultado = $stmt->execute();
 
@@ -132,11 +137,11 @@ class ParkingDAO extends DAO {
 
         $stmt->execute();
 
-        $stmt->bind_result($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+        $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
 
         while ($stmt->fetch())
         {
-            $parkings[] = new TOparking($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+            $parkings[] = new TOparking($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
         }
 
         $stmt->close();
@@ -158,11 +163,11 @@ class ParkingDAO extends DAO {
 
         $stmt->execute();
 
-        $stmt->bind_result($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+        $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
 
         while ($stmt->fetch())
         {
-            $parkings[] = new TOparking($id, $dir, $ciudad,$cp,$precio,$nPlazas);
+            $parkings[] = new TOparking($id, $dni,$dir, $ciudad,$cp,$precio,$nPlazas,$img);
         }
 
         $stmt->close();
@@ -190,11 +195,13 @@ class ParkingDAO extends DAO {
         while ($row = $result->fetch_assoc()) {
             $parkings[] = new TOparking(
                 $row['id'],
+                $row['dni'],
                 $row['precio'], 
                 $row['dir'], 
                 $row['ciudad'], 
                 $row['cp'], 
-                $row['nPlazas']
+                $row['nPlazas'],
+                $row['img']
             );
         }
     

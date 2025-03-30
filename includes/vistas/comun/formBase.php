@@ -4,10 +4,10 @@ namespace es\ucm\fdi\aw\ePark;
 abstract class formBase
 {
     // Tipo de formulario
-    private $formId; 
+    protected $formId; 
 
     // Acción a realizar
-    private $action; 
+    protected $action; 
 
     public function __construct($formId, $opciones = array())
     {
@@ -54,7 +54,7 @@ abstract class formBase
         return isset($params['action']) && $params['action'] == $this->formId;
     }
 
-    private function Create($errores = array(), &$datos = array())
+    protected function Create($errores = array(), &$datos = array())
     {
         $html = $this->CreateErrors($errores);
 
@@ -67,7 +67,7 @@ abstract class formBase
         return $html;
     }
 
-    private function CreateErrors($errores)
+    protected function CreateErrors($errores)
     {
         $html = '';
         $numErrores = count($errores);

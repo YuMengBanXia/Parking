@@ -82,12 +82,10 @@ class cogerTicket extends formBase
 
         if ($matricula === '') {
             $result[] = "La matrícula del coche no puede estar vacío";
-            return $result;
         }
 
         if ($id === '') {
             $result[] = "Debe seleccionar un parking";
-            return $result;
         }
 
         if (count($result) === 0) {

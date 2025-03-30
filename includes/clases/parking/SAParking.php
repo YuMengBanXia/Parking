@@ -15,9 +15,9 @@ class SAParking{
         return $daoParking->getById($id);
     }
 
-    public static function modificarParking($id, $dir, $ciudad, $CP, $precio, $n_plazas) {
+    public static function modificarParking($id, $dni, $precio, $dir, $ciudad, $CP, $n_plazas, $img) {
         $daoParking = ParkingDAO::getSingleton();
-        $parking = new TOParking($id, $dir, $ciudad, $CP, $precio, $n_plazas);
+        $parking = new TOParking($id, $dni, $precio, $dir, $ciudad, $CP,$n_plazas, $img);
         return $daoParking->update($parking);
     }
 
@@ -26,14 +26,14 @@ class SAParking{
         return $daoParking->update($parking);
     }
 
-    public static function registrarParking($dir, $ciudad, $CP, $precio, $n_plazas) {
+    public static function registrarParking($dni, $dir, $precio, $ciudad, $CP, $n_plazas, $img) {
         $daoParking = ParkingDAO::getSingleton();
-        $parking = new TOParking(null, $dir, $ciudad, $CP, $precio, $n_plazas);
-        $daoParking->insert($parking);
+        $parking = new TOParking(null, $dni, $precio, $dir, $ciudad, $CP,  $n_plazas, $img);
+        return $daoParking->insert($parking);
     }
     public static function eliminarParking($id) {
         $daoParking = ParkingDAO::getSingleton();
-        $daoParking->delete($id);
+        return $daoParking->delete($id);
     }
 
 }
