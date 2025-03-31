@@ -7,9 +7,13 @@ DELETE FROM `Plaza`;
 DELETE FROM `Parking`;
 DELETE FROM `Usuario`;
 
-INSERT INTO `Parking` (`id`,`dir`, `ciudad`, `CP`, `precio`, `nPlazas`) VALUES
-(1,'Calle Princesa', 'Madrid', 28008, 1.23, 100),
-(2,'Avenida Valvanera', 'Madrid',28047,1.15, 50);
+INSERT INTO `Usuario` (`dni`, `nomUsuario`, `contrasenia`, `tipoUsuario`)
+VALUES ('12345678A', 'nombreEjemplo', 'contraseñaEjemplo', b'0');
+
+INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`) VALUES
+(1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 1.23, 100),
+(2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 1.15, 50);
+
 
 
 
