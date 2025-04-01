@@ -6,10 +6,24 @@ ini_set('display_errors', 1);
 /**
  * Parámetros de conexión a la BD
  */
+
+ 
 define('BD_HOST', 'vm009.db.swarm.test'); //Si falla sustituir por 127.0.0.1
 define('BD_NAME', 'ePark');
 define('BD_USER', 'ePark');
 define('BD_PASS', 'aw2025');
+
+
+
+/*
+//Temporal, para la base de datos local hasta que se arregle el servidor
+
+define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
+define('BD_NAME', 'ePark');
+define('BD_USER', 'adminDB');
+define('BD_PASS', 'adminDBPassword');
+*/
+
 
 /**
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
@@ -48,6 +62,8 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/clases/parking/',
         __DIR__ . '/clases/ticket/',
         __DIR__ . '/clases/usuario/',
+        __DIR__ . '/clases/cogerTicket/',
+        __DIR__ . '/clases/administracionParkings/',
         __DIR__ . '/vistas/comun/'
     ];
     
