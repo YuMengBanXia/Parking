@@ -72,9 +72,9 @@ class nuevoParking extends formBase
 
         //Recoger y sanitizar datos
         $precio = trim($datos['precio']  ?? '');
-        $dir = trim($datos['dir']     ?? '');
+        $dir = trim($datos['dir']        ?? '');
         $ciudad = trim($datos['ciudad']  ?? '');
-        $cp = trim($datos['cp']      ?? '');
+        $cp = trim($datos['cp']          ?? '');
         $plazas = trim($datos['plazas']  ?? '');
 
         $precio = filter_var($precio, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
