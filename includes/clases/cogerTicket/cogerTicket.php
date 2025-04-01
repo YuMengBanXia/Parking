@@ -46,7 +46,8 @@ class cogerTicket extends formBase
             $dir = htmlspecialchars($parking->getDir());
             $ciudad = htmlspecialchars($parking->getCiudad());
             $precio = htmlspecialchars($parking->getPrecio());
-            $libres = htmlspecialchars(SATicket::plazasLibres($id));
+            $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
+            $libres = $nPlazas - $ocupadas;
 
             $checked = ($idSeleccionado == $id) ? 'checked' : '';
 

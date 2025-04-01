@@ -31,7 +31,7 @@ class administrarParking extends formBase
                     <th>CP<th>
                     <th>Precio</th>
                     <th>Plazas</th>
-                    <th>Plazas disponibles</th>
+                    <th>Ocupadas</th>
                     <th>Actualizar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -45,7 +45,7 @@ class administrarParking extends formBase
                 $nPlazas = htmlspecialchars($parking->getNPlazas());
 
                 $img = htmlspecialchars($parking->getImg());
-                $libres = htmlspecialchars(SATicket::plazasLibres($id));
+                $libres = htmlspecialchars(SATicket::plazasOcupadas($id));
                 $cp = htmlspecialchars($parking->getCP());
 
                 $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/mengxia.jpg";

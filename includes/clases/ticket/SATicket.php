@@ -61,7 +61,7 @@ class SATicket{
         return $num < $plazas;
     }
 
-    public static function plazasLibres($id){
+    public static function plazasOcupadas($id){
         $daoTicket = TicketDAO::getSingleton();
         return $daoTicket->ocupacion($id);
     }
