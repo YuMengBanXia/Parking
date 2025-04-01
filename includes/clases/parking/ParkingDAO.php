@@ -48,7 +48,8 @@ class ParkingDAO extends DAO {
 
         $dni = $p->getDni();
         $img = $p->getImg() ?? '';
-    
+        
+        try{
         $conn = Aplicacion::getInstance()->getConexionBd();
     
         $query = "INSERT INTO Parking (dni, dir, ciudad, CP, precio, nPlazas, img) VALUES (?, ?, ?, ?, ?, ?)";
@@ -56,19 +57,21 @@ class ParkingDAO extends DAO {
         $stmt = $conn->prepare($query);
     
         $stmt->bind_param("isssddis", $id, $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
-    
-        if ($stmt->execute()) {
+            
+        $result=$stmt->execute();
 
-            $stmt->close();
+        $stmt->close();
 
-            return true; // éxito
-
-        } else {
-
-            $stmt->close();
-
-            return false; // error
         }
+        catch(\mysqli_sql_exception $e){
+            if ($conn->sqlstate == 23000) 
+            { 
+                throw new parkingAlreadyExistsException("Ya existe el parking en la dirección '{$p->getDir()}' y ciudad {$p->getCiudad()}");
+            }
+
+            throw $e;
+        }
+        return $result;
     }
     
 
@@ -154,7 +157,7 @@ class ParkingDAO extends DAO {
     
         $conn = Aplicacion::getInstance()->getConexionBd();
     
-        $query = "SELECT * FROM Parking WHERE nPlazas > 0";
+        $query = "SELECT * FROM Parking";
     
         $result = $conn->query($query);
     
