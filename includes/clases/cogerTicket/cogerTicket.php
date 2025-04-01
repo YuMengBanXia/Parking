@@ -39,7 +39,7 @@ class cogerTicket extends formBase
             $nPlazas = htmlspecialchars($parking->getNPlazas());
 
             //Comprobamos si tiene plazas libres
-            if(empty(SATicket::ocupacion($id, $nPlazas))) {
+            if(empty(SATicket::libre($id, $nPlazas))) {
                 continue;
             }
 

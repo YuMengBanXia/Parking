@@ -35,7 +35,7 @@ class SATicket{
             return 2; //Ya hay un coche en el parking con esta matricula
         }
         $plazas = $parking->getNPlazas();
-        $libre = self::ocupacion($id,$plazas);
+        $libre = self::libre($id,$plazas);
         if($libre){
             $codigo = $daoTicket->lastCodigo($id);
             $codigo = $codigo + 1;
@@ -55,7 +55,7 @@ class SATicket{
         return [4, $datos];
     }
 
-    public static function ocupacion($id, $plazas){
+    public static function libre($id, $plazas){
         $daoTicket = TicketDAO::getSingleton();
         $num = $daoTicket->ocupacion($id);
         return $num < $plazas;
