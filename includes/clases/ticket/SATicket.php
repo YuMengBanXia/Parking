@@ -24,9 +24,7 @@ class SATicket{
         if(empty($id) || empty($matricula)){
             return 0; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
         }
-        $aux= SAParking::obtenerParkingPorId($id);
-        $parking=$aux[0];
-        
+        $aux= SAParking::obtenerParkingPorId($id);        
         
         if(empty($parking)){
             return 1; //Error, seleccionado un id de un parking que no existe
