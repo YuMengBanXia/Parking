@@ -22,28 +22,23 @@ class SATicket{
         
         $daoTicket = TicketDAO::getSingleton();
         if(empty($id) || empty($matricula)){
-            return [0,0]; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
+            return 0; //No se ha especificado id o matricula,  error inesperado (se hace comprobaciones antes de la funcion)
         }
         $aux= SAParking::obtenerParkingPorId($id);
         $parking=$aux[0];
         
         
         if(empty($parking)){
-            return [1,0]; //Error, seleccionado un id de un parking que no existe
+            return 1; //Error, seleccionado un id de un parking que no existe
         }
         
         $ticket = self::buscarMatricula($matricula);
         if(!empty($ticket)){
-            return [2,0]; //Ya hay un coche en el parking con esta matricula
+            return 2; //Ya hay un coche en el parking con esta matricula
         }
-        if($parking->getNPlazas() > 0){
-            $n=$parking->getNPlazas();
-            $n--;
-            $parking->setNPlazas($n);
-            if(empty(SAParking::modificarParkingObj($parking))){
-                return 3; //Ha ocurrido un error al actualizar los datos del parking en la base de datos
-            }
-
+        $plazas = $parking->getNPlazas();
+        $libre = self::ocupacion($id,$plazas);
+        if($libre){
             $codigo = $daoTicket->lastCodigo($id);
             $codigo = $codigo + 1;
             $ticket = new TOTicket($codigo,$id,$matricula);
@@ -60,6 +55,17 @@ class SATicket{
             'fecha' => $fecha
         ];
         return [4, $datos];
+    }
+
+    public static function ocupacion($id, $plazas){
+        $daoTicket = TicketDAO::getSingleton();
+        $num = $daoTicket->ocupacion($id);
+        return $num < $plazas;
+    }
+
+    public static function plazasLibres($id){
+        $daoTicket = TicketDAO::getSingleton();
+        return $daoTicket->ocupacion($id);
     }
 }
 ?>

@@ -4,10 +4,15 @@ namespace es\ucm\fdi\aw\ePark;
 class SAParking{
     
    
-
+    /*Obsoleto
     public static function mostrarParkingsLibres(){ //mostrar parkings con plazas disponibles 
         $daoParking = ParkingDAO::getSingleton();
         return $daoParking->showAvailables();
+    }
+    */
+    public static function mostrarParkings() {
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->getAll();
     }
 
     public static function obtenerParkingPorId($id) {
@@ -36,6 +41,15 @@ class SAParking{
         return $daoParking->delete($id);
     }
 
+    public static function getByDni($dni) {
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->getByDni($dni);
+    }
+
+    public static function comprobarDni($id,$dni){
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->getDni($id) === $dni;
+    }
 }
 
 ?>

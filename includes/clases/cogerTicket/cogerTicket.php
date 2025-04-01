@@ -15,7 +15,7 @@ class cogerTicket extends formBase
     {
         $matricula = htmlspecialchars($datos['matricula'] ?? '');
         $idSeleccionado = $datos['parking_id'] ?? '';
-        $parkings = SAParking::mostrarParkingsLibres();
+        $parkings = SAParking::mostrarParkings();
 
 
         $html = <<<EOF
@@ -36,10 +36,17 @@ class cogerTicket extends formBase
 
         foreach ($parkings as $parking) {
             $id = htmlspecialchars($parking->getId());
+            $nPlazas = htmlspecialchars($parking->getNPlazas());
+
+            //Comprobamos si tiene plazas libres
+            if(empty(SATicket::ocupacion($id, $nPlazas))) {
+                continue;
+            }
+
             $dir = htmlspecialchars($parking->getDir());
             $ciudad = htmlspecialchars($parking->getCiudad());
             $precio = htmlspecialchars($parking->getPrecio());
-            $nPlazas = htmlspecialchars($parking->getNPlazas());
+            $libres = htmlspecialchars(SATicket::plazasLibres($id));
 
             $checked = ($idSeleccionado == $id) ? 'checked' : '';
 
@@ -49,7 +56,7 @@ class cogerTicket extends formBase
                 <td>{$dir}</td>
                 <td>{$ciudad}</td>
                 <td>{$precio} €</td>
-                 <td>{$nPlazas}</td>
+                <td>{$libres}</td>
                 <td>
                     <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
                 </td>

@@ -37,8 +37,8 @@ class ParkingDAO extends DAO {
         return 0;
     }
 
-    //Modificado
     
+    //No hace falta insertar con el campo id porque este es auto_increment por lo que se asigna automáticamente
     public function insert(TOParking $p) {
         $dir = $p->getDir();
         $ciudad = $p->getCiudad();
@@ -83,16 +83,15 @@ class ParkingDAO extends DAO {
         $nPlazas = $p->getNPlazas();
         $id = $p->getId();
 
-        $dni = $p->getDni();
         $img = $p->getImg() ?? '';
         
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ?, dni = ?, img = ? WHERE id = ?";
+        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ?, img = ? WHERE id = ?";
 
         $stmt = $conn->prepare($query);
 
-        $stmt->bind_param("ssddissi", $dir, $ciudad, $cp, $precio, $nPlazas, $dni, $img, $id);
+        $stmt->bind_param("ssddisi", $dir, $ciudad, $cp, $precio, $nPlazas, $img, $id);
 
         $resultado = $stmt->execute();
 
@@ -125,8 +124,6 @@ class ParkingDAO extends DAO {
     //Modificado
     public function getById($id) {
 
-        $parkings=[];
-
         $conn = Aplicacion::getInstance()->getConexionBd();
 
         $query = "SELECT * FROM Parking WHERE id = ?";
@@ -139,14 +136,14 @@ class ParkingDAO extends DAO {
 
         $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
 
-        while ($stmt->fetch())
+        if ($stmt->fetch())
         {
-            $parkings[] = new TOparking($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
+            $parking = new TOparking($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
         }
 
         $stmt->close();
         
-        return $parkings; // Devuelve un array vacío si no hay parkings disponibles
+        return $parking; // Devuelve un array vacío si no hay parkings disponibles
     }
 
     
@@ -177,7 +174,7 @@ class ParkingDAO extends DAO {
     }
 
 
-
+    /*Obsoleto
     //Modificado
     public function showAvailables() {
         $parkings = [];
@@ -207,8 +204,57 @@ class ParkingDAO extends DAO {
     
         return $parkings; // Devuelve un array vacío si no hay parkings disponibles
     }
+    */
     
+    public function getByDni($dni){
+        $parkings=[];
 
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT * FROM Parking WHERE dni = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("s", $dni);
+
+        $stmt->execute();
+
+        $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
+
+        while ($stmt->fetch())
+        {
+            $parkings[] = new TOparking($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
+        }
+
+        $stmt->close();
+        
+        return $parkings;
+    }
+
+    public function getDni($id){
+        $result = null;
+        
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT dni FROM Parking WHERE id = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $id);
+
+        $stmt->execute();
+
+        $stmt->bind_result($dni);
+
+        if($stmt->fetch()){
+
+            $result = $dni;
+        }
+
+        $stmt->close();
+
+        return $result;
+    }
 }
 
 ?>

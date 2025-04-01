@@ -65,7 +65,7 @@ class TicketDAO extends DAO{
     
 
 //Modificado
-    public function count($id){
+    public function ocupacion($id){
         $conn = Aplicacion::getInstance()->getConexionBd();
 
         $query="SELECT COUNT(*) FROM ticket WHERE idParking=?";
@@ -130,6 +130,5 @@ class TicketDAO extends DAO{
             return null; // No se encontró nada
         }
     }
-    
 }
 ?>

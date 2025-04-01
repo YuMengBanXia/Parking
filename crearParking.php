@@ -4,13 +4,34 @@ ini_set('display_errors', 1);
 
 require_once __DIR__ . '/includes/config.php';
 
-$form = new \es\ucm\fdi\aw\ePark\nuevoParking();
-$htmlFormCrearParking = $form->Manage();
+if(empty($_SESSION["login"])){
+   $html = <<<EOF
+   <p>Inicia sesión o regístrate como propietario para empezar a crear tus parkings</p>
+   EOF;
+}
+else{
+   if(isset($_SESSION["tipo"])){
+      if($_SESSION["tipo"] === 2 || $_SESSION["tipo"] === 3){
+         $form = new \es\ucm\fdi\aw\ePark\nuevoParking();
+         $html = $form->Manage();
+      }
+      else{
+         $html = <<<EOF
+         <p>El usuario no tiene acceso a esta funcionalidad</p>
+         EOF;
+      }
+   } else {
+      $html = <<<EOF
+        <p>Ha habido un error al procesar el tipo de usuario</p>
+      EOF;
+   }
+}
+
 
 
 $contenidoPrincipal = <<<EOS
    <h3>Crear Parking</h3>
-   $htmlFormCrearParking
+   $html
    
 EOS;
 
