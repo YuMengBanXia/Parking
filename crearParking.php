@@ -5,12 +5,12 @@ ini_set('display_errors', 1);
 require_once __DIR__ . '/includes/config.php';
 
 $form = new \es\ucm\fdi\aw\ePark\nuevoParking();
-$htmlFormCoger = $form->Manage();
+$htmlFormCrearParking = $form->Manage();
 
 
 $contenidoPrincipal = <<<EOS
    <h3>Crear Parking</h3>
-   $htmlFormCoger
+   $htmlFormCrearParking
    
 EOS;
 
