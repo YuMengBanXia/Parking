@@ -51,7 +51,7 @@ class loginForm extends formBase
         // Si no hay errores intentar loguear
         if (count($result) === 0) {
             
-            $userDTO = new userDTO(0, $nombreUsuario, $password);
+            $userDTO = new userDTO(0, $nombreUsuario, $password, null);
 
             $userAppService = userAppService::GetSingleton();
 

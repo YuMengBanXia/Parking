@@ -1,4 +1,5 @@
 <?php
+
 namespace es\ucm\fdi\aw\ePark;
 
 class userDAO extends DAO implements IUser
@@ -22,10 +23,9 @@ class userDAO extends DAO implements IUser
 
     public function login($userDTO)
     {
-        $foundedUserDTO = $this->buscaUsuario($userDTO->username());
+        $foundedUserDTO = $this->buscaUsuario($userDTO->nomUsuario());
 
-        if ($foundedUserDTO && password_verify($userDTO->password(), $foundedUserDTO->password()))
-    {
+        if ($foundedUserDTO && password_verify($userDTO->contrasenia(), $foundedUserDTO->contrasenia())) {
             return $foundedUserDTO;
         }
 
@@ -34,17 +34,18 @@ class userDAO extends DAO implements IUser
 
     private function buscaUsuario($username)
     {
-        $query = "SELECT dni, usuario, contrasena FROM usuario WHERE usuario = ?";
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = "SELECT dni, nomUsuario, contrasenia, tipoUsuario FROM Usuario WHERE nomUsuario = ?";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->bind_param("s", $username); // Vincula el valor de $username al marcador ?
+        $stmt->execute(); // Ejecuta la consulta
+        $result = $stmt->get_result(); // Obtiene los resultados
 
         if ($fila = $result->fetch_assoc()) {
-            $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena']);
+            $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena'], null);
             $result->free();
             $stmt->close();
             return $user;
@@ -76,7 +77,7 @@ class userDAO extends DAO implements IUser
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
                 // Solo crear el objeto si la inserción fue exitosa
-                $createdUserDTO = new userDTO($dniUser, $userName, $password);
+                $createdUserDTO = new userDTO($dniUser, $userName, $password, null);
             }
         } else {
             error_log("Error en la ejecución de la consulta: " . $stmt->error);

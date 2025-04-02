@@ -39,7 +39,7 @@ class userAppService
 
         $createdUserDTO = $IUserDAO->create($userDTO);
 
-        $usuario = new userDTO($userDTO->dni(), $userDTO->username(), $userDTO->password());
+        $usuario = new userDTO($userDTO->dni(), $userDTO->username(), $userDTO->password(), null);
 
         return $createdUserDTO;
     }
