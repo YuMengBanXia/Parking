@@ -22,8 +22,8 @@ class loginForm extends formBase
         <fieldset>
             <legend>Login</legend>
             <p><label>Usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario"/></p>
-            <p><label>Contraseña:</label> <input type="password" name="password" /></p>
-            <button type="submit" name="login">Entrar</button>
+            <p><label>Contraseña:</label> <input type="password" name="password" /></p> 
+                <button type="submit" name="login">Entrar</button>
         </fieldset>
         EOF;
 
