@@ -13,9 +13,24 @@ $formTicketCogido=new \es\ucm\fdi\aw\ePark\cogidoTicket();
 
 $htmlFormCogido=$formTicketCogido->Manage();
 
+
+  
+    $ticket = $_GET['ticket'] ?? null;
+        $matricula = $_GET['matricula'] ?? null;
+        $html='';
+      
+
 $contenidoPrincipal = <<<EOS
-   <h3>DATOS DEL TICKET</h3>
-   $htmlFormCogido
+ <h3>DATOS DEL TICKET</h3>
+        
+        
+            ID del ticket: $ticket <br>
+            Matrícula: $matricula<br>
+             <a href="index.php">
+                <button type="button">Ir al inicio</button>
+            </a>
+        
+        
 
 EOS;
 
