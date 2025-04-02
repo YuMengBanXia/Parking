@@ -1,6 +1,6 @@
 <?php
-
 namespace es\ucm\fdi\aw\ePark;
+
 class userAlreadyExistException extends \Exception
 {
     function __construct(string $message = "" , int $code = 0 , \Throwable $previous = null )
