@@ -1,4 +1,5 @@
 <?php
+
 namespace es\ucm\fdi\aw\ePark;
 
 class userAppService
@@ -6,23 +7,21 @@ class userAppService
     private static $instance;
     private static $daoUsuario;
 
-    public static function inicializar(){
-        self::$daoUsuario=userDAO::getSingleton();
+    public static function inicializar()
+    {
+        self::$daoUsuario = userDAO::getSingleton();
     }
 
     public static function GetSingleton()
     {
-        if (!self::$instance instanceof self)
-        {
+        if (!self::$instance instanceof self) {
             self::$instance = new self;
         }
 
         return self::$instance;
     }
-  
-    private function __construct()
-    {
-    } 
+
+    private function __construct() {}
 
     public static function login($userDTO)
     {
@@ -39,11 +38,8 @@ class userAppService
 
         $createdUserDTO = $IUserDAO->create($userDTO);
 
-        $usuario = new userDTO($userDTO->dni(), $userDTO->username(), $userDTO->password(), null);
+        $usuario = new userDTO($userDTO->dni(), $userDTO->nomUsuario(), $userDTO->contrasenia(), $userDTO->tipoUsuario());
 
         return $createdUserDTO;
     }
-
 }
-
-?>
