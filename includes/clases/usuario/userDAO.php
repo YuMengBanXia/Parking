@@ -19,6 +19,7 @@ class userDAO extends DAO implements IUser
     public function __construct()
     {
         parent::__construct();
+        $this->mysqli = Aplicacion::getInstance()->getConexionBd(); // Inicializa la conexión
     }
 
     public function login($userDTO)
@@ -34,7 +35,6 @@ class userDAO extends DAO implements IUser
 
     private function buscaUsuario($username)
     {
-        $conn = Aplicacion::getInstance()->getConexionBd();
         $query = "SELECT dni, nomUsuario, contrasenia, tipoUsuario FROM Usuario WHERE nomUsuario = ?";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
