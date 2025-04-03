@@ -17,7 +17,7 @@ class TicketDAO extends DAO{
     public function lastCodigo($id) {
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "SELECT MAX(codigo) FROM `ticket` WHERE idParking = ?";
+        $query = "SELECT MAX(codigo) FROM `Ticket` WHERE idParking = ?";
 
         $stmt = $conn->prepare($query);
     
@@ -41,7 +41,7 @@ class TicketDAO extends DAO{
     
     
     //Modificado
-    public function insert(TOticket $ticket){
+    public function insert(TOTicket $ticket){
 
         $cod = $ticket->get_codigo();
         $id = $ticket->get_id();
@@ -50,7 +50,7 @@ class TicketDAO extends DAO{
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query="INSERT INTO ticket (codigo,idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
+        $query="INSERT INTO Ticket (codigo,idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
 
         $stmt = $conn->prepare($query);
 
@@ -68,7 +68,7 @@ class TicketDAO extends DAO{
     public function ocupacion($id){
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query="SELECT COUNT(*) FROM ticket WHERE idParking=?";
+        $query="SELECT COUNT(*) FROM Ticket WHERE idParking=?";
 
         $stmt = $conn->prepare($query);
 
@@ -86,7 +86,7 @@ class TicketDAO extends DAO{
     }
 
     public function delete($codigo,$id){
-        $query = "DELETE FROM ticket WHERE id=? AND codigo=?";
+        $query = "DELETE FROM Ticket WHERE id=? AND codigo=?";
         $stmt = $this->mysqli->prepare($query);
         
         if (!$stmt) {

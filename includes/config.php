@@ -6,18 +6,19 @@ ini_set('display_errors', 1);
 /**
  * Parámetros de conexión a la BD
  */
-// define('BD_HOST', 'vm009.db.swarm.test'); //Si falla sustituir por 127.0.0.1
-// define('BD_NAME', 'ePark');
-// define('BD_USER', 'ePark');
-// define('BD_PASS', 'aw2025');
-
-
-//Temporal, para la base de datos local hasta que se arregle el servidor
-define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
+/*
+define('BD_HOST', 'vm009.db.swarm.test'); //Si falla sustituir por 127.0.0.1
 define('BD_NAME', 'ePark');
-define('BD_USER', 'adminDB');
-define('BD_PASS', 'adminDBPassword');
+define('BD_USER', 'ePark');
+define('BD_PASS', 'aw2025');
+*/
 
+ //* Temporal, para la base de datos local hasta que se arregle el servidor
+ define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
+ define('BD_NAME', 'ePark');
+ define('BD_USER', 'adminDB');
+ define('BD_PASS', 'adminDBPassword');
+ 
 
  /**
  * Validación de configuración de base de datos

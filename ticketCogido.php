@@ -23,9 +23,7 @@ $html =<<<EOF
    </a>
 EOF;
 }
-
-
-$htmlFormCogido=$formTicketCogido->Manage();
+     
 
 $contenidoPrincipal = <<<EOS
    <h3>DATOS DEL TICKET</h3>

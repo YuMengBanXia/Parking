@@ -69,7 +69,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    width: 100%;
+    max-width: 100%;
 }
 
 button:hover {
@@ -161,4 +161,5 @@ td {
     margin: 10px;
     left: 35%;
 }
+
 

@@ -45,7 +45,7 @@ class userDAO extends DAO implements IUser
         $result = $stmt->get_result(); // Obtiene los resultados
 
         if ($fila = $result->fetch_assoc()) {
-            $user = new userDTO($fila['dni'], $fila['usuario'], $fila['contrasena'], null);
+            $user = new userDTO($fila['dni'], $fila['nomUsuario'], $fila['contrasenia'], null);
             $result->free();
             $stmt->close();
             return $user;
@@ -60,24 +60,23 @@ class userDAO extends DAO implements IUser
         $createdUserDTO = false;
 
         $dniUser = $userDTO->dni();
-        $userName = $userDTO->userName();
-        $password = $userDTO->password();
+        $userName = $userDTO->nomUsuario();
+        $password = $userDTO->contrasenia();
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-
-        $query = "INSERT INTO usuario (usuario, contrasena, dni) VALUES (?, ?, ?)";
+        $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, b'1')";
         $stmt = $this->mysqli->prepare($query);
 
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
 
-        $stmt->bind_param("sss", $userName, $hashedPassword, $dniUser);
+        $stmt->bind_param("sss", $dniUser, $userName, $hashedPassword); // Vincula los valores a los marcadores ?
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
                 // Solo crear el objeto si la inserción fue exitosa
-                $createdUserDTO = new userDTO($dniUser, $userName, $password, null);
+                $createdUserDTO = new userDTO($dniUser, $userName, $password, b'1');
             }
         } else {
             error_log("Error en la ejecución de la consulta: " . $stmt->error);
