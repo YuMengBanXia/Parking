@@ -18,15 +18,15 @@ else{
                 EOF;
                 break;
             case '2': //Propietario
-                $form = new \es\ucm\fdi\aw\ePark\gestionProp();
+                $form = new \es\ucm\fdi\aw\ePark\gestionProp($dni);
                 $html = $form->Manage();
                 break;
             case '3': //Admin
-                $form = new \es\ucm\fdi\aw\ePark\gestionAdmin();
+                $form = new \es\ucm\fdi\aw\ePark\gestionAdmin($dni);
                 $html = $form->Manage();
                 break;
             default: //Pruebas
-                $form = new \es\ucm\fdi\aw\ePark\gestionAdmin();
+                $form = new \es\ucm\fdi\aw\ePark\gestionAdmin($dni);
                 $html = $form->Manage();
                 break;
         }

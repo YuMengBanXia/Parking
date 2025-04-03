@@ -12,7 +12,8 @@ if(empty($_SESSION["login"])){
 else{
    if(isset($_SESSION["tipo"])){
       if($_SESSION["tipo"] === 2 || $_SESSION["tipo"] === 3){
-         $form = new \es\ucm\fdi\aw\ePark\nuevoParking();
+         $dni= $_SESSION['dni'];
+         $form = new \es\ucm\fdi\aw\ePark\nuevoParking($dni);
          $html = $form->Manage();
       }
       else{

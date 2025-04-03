@@ -12,8 +12,17 @@ if(empty($_SESSION["login"])){
  else{
     if(isset($_SESSION["tipo"])){
        if($_SESSION["tipo"] === 2 || $_SESSION["tipo"] === 3){
-          $form = new \es\ucm\fdi\aw\ePark\modificarForm();
-          $html = $form->Manage();
+         $id = $_GET['id'];
+         $parking = \es\ucm\fdi\aw\ePark\SAParking::obtenerParkingPorId($id);
+         if(empty($parking)){
+            $html = <<<EOF
+            <p>No existe ningún parking con el id seleccionado</p>
+            EOF;
+         }
+         else{
+            $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking);
+            $html = $form->Manage();
+         }
        }
        else{
           $html = <<<EOF

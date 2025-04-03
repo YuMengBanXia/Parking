@@ -5,10 +5,14 @@ namespace es\ucm\fdi\aw\ePark;
 class modificarForm extends formBase
 {
 
-    public function __construct()
-    {
+    private $parking;
 
-        parent::__construct('nuevoParking');
+    public function __construct($parking)
+    {   
+
+        $this->parking = $parking;
+
+        parent::__construct('modificarParking');
     }
 
     //Para la subida de archivos es necesario cambiar el enctype por defecto
@@ -27,28 +31,11 @@ class modificarForm extends formBase
     }
     protected function CreateFields($datos)
     {
-        if(isset($_GET['id'])){
-            $html = <<<EOF
-            <p>No se ha seleccionado un parking para modificar</p>
-            EOF;
-            return $html;
-        }
-
-        $id = $_GET['id'];
-        $parking = SAParking::obtenerParkingPorId($id);
-
-        if(empty($parking)) {
-            $html = <<<EOF
-            <p>El parking seleccionado no existe</p>
-            EOF;
-            return $html;
-        }
-
-        $dir = htmlspecialchars($parking->getDir());
-        $ciudad = htmlspecialchars($parking->getCiudad());
-        $precio = htmlspecialchars($parking->getPrecio());
-        $nPlazas = htmlspecialchars($parking->getNPlazas());
-        $cp = htmlspecialchars($parking->getCP());
+        $dir = htmlspecialchars($this->parking->getDir());
+        $ciudad = htmlspecialchars($this->parking->getCiudad());
+        $precio = htmlspecialchars($this->parking->getPrecio());
+        $nPlazas = htmlspecialchars($this->parking->getNPlazas());
+        $cp = htmlspecialchars($this->parking->getCP());
 
         $html = <<<EOF
         <div>
@@ -93,15 +80,14 @@ class modificarForm extends formBase
     {
         $result = array();
 
-        $id = $_GET['id'];
-        $parking = SAParking::obtenerParkingPorId($id);
+        $id =  htmlspecialchars($this->parking->getId());
 
         //Recoger y sanitizar datos
-        $precio = trim($datos['precio'] ?? $parking->getPrecio());
-        $dir = trim($datos['dir'] ?? $parking->getDir());
-        $ciudad = trim($datos['ciudad'] ?? $parking->getCiudad());
-        $cp = trim($datos['cp'] ?? $parking->getCP());
-        $plazas = trim($datos['plazas'] ?? $parking->getNPlazas());
+        $precio = trim($datos['precio'] ?? $this->parking->getPrecio());
+        $dir = trim($datos['dir'] ?? $this->parking->getDir());
+        $ciudad = trim($datos['ciudad'] ?? $this->parking->getCiudad());
+        $cp = trim($datos['cp'] ?? $this->parking->getCP());
+        $plazas = trim($datos['plazas'] ?? $this->parking->getNPlazas());
 
         $precio = filter_var($precio, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $dir = filter_var($dir, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -118,7 +104,7 @@ class modificarForm extends formBase
         }
 
         //Procesamiento de la imagen (campo opcional)
-        $img = $parking->getImg();
+        $img = $this->parking->getImg();
         if (isset($_FILES['img'])) {
             if($_FILES['img']['error'] === UPLOAD_ERR_OK){
                 $uploadDir = 'img/'; 
@@ -154,7 +140,7 @@ class modificarForm extends formBase
         }
 
         if (count($result) === 0) {
-            if(empty(SAParking::modificarParking($id,$_SESSION['dni'], $precio, $dir, $ciudad, $cp, $plazas, $img))){
+            if(empty(SAParking::modificarParking($id, $precio, $dir, $ciudad, $cp, $plazas, $img))){
                 $result[] = "Error al actualizar el parking en la base de datos";
             } else {
                 $result = "misParkings.php";

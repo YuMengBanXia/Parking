@@ -56,7 +56,7 @@ class ParkingDAO extends DAO {
     
         $stmt = $conn->prepare($query);
     
-        $stmt->bind_param("isssddis", $id, $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
+        $stmt->bind_param("sssddis",  $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
             
         $result=$stmt->execute();
 

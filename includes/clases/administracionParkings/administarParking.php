@@ -5,8 +5,11 @@ namespace es\ucm\fdi\aw\ePark;
 class administrarParking extends formBase
 {
 
-    public function __construct()
+    private $dni;
+
+    public function __construct($dni)
     {
+        $this->dni = $dni;
 
         parent::__construct('administrarParking');
     }
@@ -88,7 +91,7 @@ class administrarParking extends formBase
         $id = trim($datos['id'] ?? '');
         $id = filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $dni = trim($_SESSION['dni'] ?? '');
+        $dni = trim($this->dni ?? '');
         $dni = filter_var($dni, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if(empty($id)) {

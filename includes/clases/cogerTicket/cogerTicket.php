@@ -127,7 +127,8 @@ class cogerTicket extends formBase
 
                     $params = http_build_query([
                         'ticket' => $codigo,
-                        'matricula' => $matricula
+                        'matricula' => $matricula,
+                        'fecha' => $fecha
                     ]);
 
                     $result = 'ticketCogido.php?' . $params;

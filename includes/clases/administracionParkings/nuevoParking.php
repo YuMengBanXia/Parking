@@ -5,8 +5,11 @@ namespace es\ucm\fdi\aw\ePark;
 class nuevoParking extends formBase
 {
 
-    public function __construct()
+    private $dni;
+
+    public function __construct($dni)
     {
+        $this->dni = $dni;
 
         parent::__construct('nuevoParking');
     }
@@ -129,7 +132,7 @@ class nuevoParking extends formBase
         }
 
         if (count($result) === 0) {
-            if(empty(SAParking::registrarParking($_SESSION['dni'],$dir,$precio,$ciudad,$cp,$plazas,$img))){
+            if(empty(SAParking::registrarParking($this->dni,$dir,$precio,$ciudad,$cp,$plazas,$img))){
                 $result[] = "Error al insertar el parking a la base de datos";
             } else {
                 $result = "index.php";
