@@ -64,6 +64,10 @@ class userDAO extends DAO implements IUser
         $password = $userDTO->contrasenia();
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+        if($this->buscaUsuario($userName)){
+            return false;
+        }
+
         $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, b'1')";
         $stmt = $this->mysqli->prepare($query);
 
