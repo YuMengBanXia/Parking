@@ -14,7 +14,7 @@ CREATE TABLE `Usuario` (
   `dni` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
   `nomUsuario` varchar(99) COLLATE utf8mb4_general_ci NOT NULL UNIQUE,
   `contrasenia` varchar(99) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipoUsuario` bit(1) NOT NULL,
+  `tipoUsuario` ENUM('cliente', 'propietario', 'administrador') NOT NULL,
   PRIMARY KEY (`dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

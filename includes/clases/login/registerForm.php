@@ -6,97 +6,120 @@ class registerForm extends formBase
 {
     public function __construct()
     {
-        /* Contrucción del formulario donde 
-        formID = registerForm 
-        action = registerForm.php
-        */
+        // Contrucción del formulario 
+        // formID = registerForm
+        // action = registerForm.php
         parent::__construct('registerForm');
     }
 
     protected function CreateFields($datos)
     {
-        // Cookies de algunos campos de texto
+        // Valores iniciales de los campos
         $nombreUsuario = '';
         $dniUsuario = '';
+        $tipoUsuario = 'cliente';
+        $opcionCliente = '';
+        $opcionPropietario = '';
+        $opcionAdministrador = '';
+
+        // Recuperar valores enviados previamente (si existen)
         if ($datos) {
-            $nombreUsuario = isset($datos['nombreUsuario']) ? $datos['nombreUsuario'] : $nombreUsuario;
-            $dniUsuario = isset($datos['dni']) ? $datos['dni'] : $dniUsuario;
+            $nombreUsuario = $datos['nombreUsuario'] ?? $nombreUsuario;
+            $dniUsuario = $datos['dni'] ?? $dniUsuario;
+            $tipoUsuario = $datos['tipoUsuario'] ?? $tipoUsuario;
+
+            $opcionCliente = ($tipoUsuario === "cliente") ? "selected" : "";
+            $opcionPropietario = ($tipoUsuario === "propietario") ? "selected" : "";
+            $opcionAdministrador = ($tipoUsuario === "administrador") ? "selected" : "";
         }
 
-        // Formulario de registro
+        // Generar el formulario HTML
         $html = <<<EOF
         <fieldset>
-            <legend>Register</legend>
-            <p><label>DNI:</label> <input type="text" name="dni" value="$dniUsuario"/></p>
-            <p><label>Nombre de Usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario"/></p>
+            <legend>Registrar Usuario</legend>
+            <p><label>DNI:</label> <input type="text" name="dni" value="$dniUsuario" /></p>
+            <p><label>Nombre de Usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario" /></p>
             <p><label>Contraseña:</label> <input type="password" name="password" /></p>
-            <p><label>Repetición contraseña:</label> <input type="password" name="rePassword" /></p>
+            <p><label>Repetir Contraseña:</label> <input type="password" name="rePassword" /></p>
             <p>
-                <label>Tipo de usuario:</label>
+                <label>Tipo de Usuario:</label>
                 <select name="tipoUsuario">
-                    <option value="0">Cliente</option>
-                    <option value="1">Propietario</option>
+                    <option value="cliente" $opcionCliente>Cliente</option>
+                    <option value="propietario" $opcionPropietario>Propietario</option>
+                    <option value="administrador" $opcionAdministrador>Administrador</option>
                 </select>
             </p>
-            <button type="submit" name="login">Entrar</button>
+            <button type="submit" name="register">Registrar</button>
         </fieldset>
         EOF;
 
         return $html;
     }
 
-
     protected function Process($datos)
     {
-        $result = array();
+        $result = [];
 
+        // Validación del DNI
         $dniUsuario = trim($datos['dni'] ?? '');
         $dniUsuario = filter_var($dniUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (empty($dniUsuario)) {
-            $result[] = "El DNI no puede estar vacío";
+            $result[] = "El DNI no puede estar vacío.";
+        } elseif (strlen($dniUsuario) !== 9) {
+            $result[] = "El DNI debe tener exactamente 9 caracteres.";
         }
 
+        // Validación del nombre de usuario
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
         $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (empty($nombreUsuario)) {
-            $result[] = "El nombre de usuario no puede estar vacío";
+            $result[] = "El nombre de usuario no puede estar vacío.";
         }
 
+        // Validación de la contraseña
         $password = trim($datos['password'] ?? '');
         $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (empty($password)) {
-            $result[] = "El password no puede estar vacío.";
+            $result[] = "La contraseña no puede estar vacía.";
         }
 
+        // Validación de la repetición de la contraseña
         $rePassword = trim($datos['rePassword'] ?? '');
         $rePassword = filter_var($rePassword, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ($password !== $rePassword) {
-            $result[] = "El password no coincide.";
+            $result[] = "Las contraseñas introducidas no coinciden.";
         }
 
-        // Usuario tipo cliente por defecto
-        $tipoUsuario = $datos['tipoUsuario'] ?? 0;
+        // Validación del tipo de usuario
+        if (isset($datos['tipoUsuario'])) {
+            $tipoUsuario = filter_var($datos['tipoUsuario'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if (!in_array($tipoUsuario, ['cliente', 'propietario', 'administrador'])) {
+                $result[] = "El tipo de usuario seleccionado no es válido.";
+            }
+        } else {
+            $result[] = "El tipo de usuario no puede estar vacío.";
+        }
 
+        // Si no hay errores, procesar el registro
         if (count($result) === 0) {
-
-            $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario, null);
-
+            $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
             $userAppService = userAppService::GetSingleton();
+
             $createdUserDTO = $userAppService->create($userDTO);
 
-            if (! $createdUserDTO) {
-                $result[] = "Error en el proceso de creación del usuario";
+            if (!$createdUserDTO) {
+                $result[] = "Error en el proceso de creación del usuario.";
             } else {
-                $$userAppService->login($userDTO);
+                $userAppService->login($userDTO);
                 $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
                 $app = Aplicacion::getInstance();
-                $mensajes = ["Usuario $nombreUsuario registrado correctamente"];
+                $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
-                $result = 'index.php';
+                return 'index.php'; // Redirección en caso de éxito
             }
         }
 
-        return $result;
+        return $result; // Devolver errores si los hay
     }
 }

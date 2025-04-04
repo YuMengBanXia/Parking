@@ -5,12 +5,8 @@ namespace es\ucm\fdi\aw\ePark;
 class userAppService
 {
     private static $instance;
-    private static $daoUsuario;
 
-    public static function inicializar()
-    {
-        self::$daoUsuario = userDAO::getSingleton();
-    }
+    private function __construct() {}
 
     public static function GetSingleton()
     {
@@ -20,8 +16,6 @@ class userAppService
 
         return self::$instance;
     }
-
-    private function __construct() {}
 
     public static function login($userDTO)
     {
@@ -42,4 +36,6 @@ class userAppService
 
         return $createdUserDTO;
     }
+
+    
 }

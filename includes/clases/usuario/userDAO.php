@@ -2,23 +2,12 @@
 
 namespace es\ucm\fdi\aw\ePark;
 
-class userDAO extends DAO implements IUser
+class userDAO implements IUser
 {
-
     public $mysqli;
-    public static $instancia;
-
-    public static function getSingleton()
-    { //Patrón Singleton para única instancia de la clase
-        if (!self::$instancia instanceof self) {
-            self::$instancia = new self;
-        }
-        return self::$instancia;
-    }
 
     public function __construct()
     {
-        parent::__construct();
         $this->mysqli = Aplicacion::getInstance()->getConexionBd(); // Inicializa la conexión
     }
 
@@ -31,29 +20,32 @@ class userDAO extends DAO implements IUser
         }
 
         return false;
-    }
+    }  
 
     private function buscaUsuario($username)
     {
         $query = "SELECT dni, nomUsuario, contrasenia, tipoUsuario FROM Usuario WHERE nomUsuario = ?";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
+            error_log("Error en la preparación de la consulta: " . $this->mysqli->error);
+            return false;
         }
-        $stmt->bind_param("s", $username); // Vincula el valor de $username al marcador ?
-        $stmt->execute(); // Ejecuta la consulta
-        $result = $stmt->get_result(); // Obtiene los resultados
-
+        
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
         if ($fila = $result->fetch_assoc()) {
-            $user = new userDTO($fila['dni'], $fila['nomUsuario'], $fila['contrasenia'], null);
+            $user = new userDTO($fila['dni'], $fila['nomUsuario'], $fila['contrasenia'], $fila['tipoUsuario']);
             $result->free();
             $stmt->close();
             return $user;
         }
+    
         $result->free();
         $stmt->close();
         return false;
-    }
+    }  
 
     public function create($userDTO)
     {
@@ -63,26 +55,24 @@ class userDAO extends DAO implements IUser
         $userName = $userDTO->nomUsuario();
         $password = $userDTO->contrasenia();
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        /*
-        if($this->buscaUsuario($userName)){
-            return false;
-        }
-        */
-        $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, b'1')";
+        $tipoUsuario = $userDTO->tipoUsuario();
+        
+        $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
 
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
 
-        $stmt->bind_param("sss", $dniUser, $userName, $hashedPassword); // Vincula los valores a los marcadores ?
+        $stmt->bind_param("ssss", $dniUser, $userName, $hashedPassword, $tipoUsuario);
 
         if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
                 // Solo crear el objeto si la inserción fue exitosa
-                $createdUserDTO = new userDTO($dniUser, $userName, $password, b'1');
+                $createdUserDTO = new userDTO($dniUser, $userName, $password, $tipoUsuario);
             }
-        } else {
+        } 
+        else {
             error_log("Error en la ejecución de la consulta: " . $stmt->error);
         }
 

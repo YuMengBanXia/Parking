@@ -12,7 +12,7 @@ class userDTO
     // Contraseña del usuario varchar(99)
     private $contrasenia;
 
-    // Tipo de usuario bit(1) 0: Cliente, 1: Propietario
+    // Tipo de usuario
     private $tipoUsuario;
 
     public function __construct($dni, $nomUsuario, $contrasenia, $tipoUsuario)
