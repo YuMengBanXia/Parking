@@ -14,28 +14,33 @@ class FormContacto extends FormBase
         // Usa comillas <<<EOF y cierra correctamente la sintaxis del heredoc con EOF;
         $html = <<<EOF
         
+        <h1> Formulario de contacto</h1>
+        <fieldset>
         <p>Complete el formulario para enviarnos su consulta.</p>
-
+           
         
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" required>
-            <br><br>
-
-            <label for="email">Correo Electrónico:</label><br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br>
+            
+            <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
-            <br><br>
+          
 
             <div class="radio-group">
-                <label>Motivo de Contacto:</label><br>
+                <p>Motivo de Contacto:</p>
                 <label><input type="radio" name="motivo" value="Evaluación" required> Evaluación</label>
                 <label><input type="radio" name="motivo" value="Sugerencias"> Sugerencias</label>
                 <label><input type="radio" name="motivo" value="Críticas"> Críticas</label>
-            </div>
-            <br>
 
+            </div>
+
+
+            <br>
             <label for="mensaje">Mensaje:</label><br>
             <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
             <br><br>
+
+   
 
             <div class="checkbox-group">
                 <input type="checkbox" id="terminos" name="terminos" required>
@@ -45,12 +50,10 @@ class FormContacto extends FormBase
 
             <button type="submit">Enviar</button>
         
+        <a href="index.php" class="btn-link">Ir al inicio</a>
 
-        <br>
-        <a href="index.php">
-                <button type="button">Ir al inicio</button>
-            </a>
         
+        </fieldset>
         EOF;
 
         return $html;

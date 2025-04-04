@@ -60,7 +60,6 @@ textarea {
 
 }
 
-
 button {
     background: #4facfe;
     color: white;
@@ -69,7 +68,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    max-width: 100%;
+    width: 100%;
 }
 
 button:hover {
@@ -121,6 +120,8 @@ button:hover {
 ul {
     list-style: none;
     padding: 0;
+   
+  
 }
 
 ul li {
@@ -129,7 +130,9 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     max-width: 400px;
+    text-align: justify; /* 👈 Esto justifica el texto */
 }
+
 
 table {
     width: 90%;
@@ -138,7 +141,6 @@ table {
     border-collapse: collapse;
     background: #fff;
 }
-
 
 th {
     background-color: #333;
@@ -161,5 +163,3 @@ td {
     margin: 10px;
     left: 35%;
 }
-
-

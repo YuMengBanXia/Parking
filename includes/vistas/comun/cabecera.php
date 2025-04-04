@@ -14,8 +14,8 @@ function mostrarSaludo()
 ?>
 
 <header>
-    <!-- Navegador superior -->
-    <div class="navbar">
+     <!-- Navegador superior -->
+     <div class="navbar">
         <a href="index.php">Inicio</a>
         <a href="detalles.php">Detalles</a>
         <a href="contacto.php">Contacto</a>
@@ -23,9 +23,13 @@ function mostrarSaludo()
         <a href="ticket.php">Coger Ticket</a>
     </div>
 
+<div class="barra-superior">
+    <img src="img/logo.png" alt="Logo" class="logo">
+   
     <!-- Saludo al usuario-->
     <div class="saludo">
         <?php mostrarSaludo(); ?>
+    </div>
     </div>
 </header>
 

@@ -1,0 +1,295 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    background-color: #f4f4f4;
+    margin: 0px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+   
+    
+}
+
+h1,
+h2 {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+p {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 20px auto 20px;
+}
+
+div#container 
+{
+
+    flex:1%;
+	width: 100%;
+	margin: auto;
+	border: 1px solid black;
+	background-color: white;
+    padding-bottom: 40px; /*espacio interno debajo del contenido */
+    
+}
+
+
+header 
+{
+	padding: 30px;
+	height: 20%;
+	background-color: #303030;
+	color: white;
+}
+
+.navbar {
+    display:block;
+    justify-content: center; /* Distribuye enlaces horizontalmente */
+    
+    width: 100%;
+    
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+   
+}
+
+  
+
+.barra-superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #303030;
+  }
+  
+  .logo {
+    height: 100px; /* Ajusta según el tamaño que quieras */
+  }
+
+
+aside 
+{
+	flex-basis: 25%;
+	background-color: #dddddd;
+}
+
+main 
+{
+	flex-basis: 50%;
+	background-color: white;
+}
+
+.form {
+    position: absolute;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 10px;
+    left: 35%;
+}
+
+footer	 
+{
+	clear: both;
+	padding: 30px;
+	background-color: #303030;
+	color: white;
+	text-align: center;
+}
+
+
+header a, header a:visited 
+{
+	color: whitesmoke;
+	font-weight: bold;
+	text-decoration: none;
+} 
+
+header a:hover /*efecto al pasar el ratón por encima del enlace <a> de la cabecera*/
+{
+	color: grey;
+	font-weight: bold;
+	text-decoration:underline;
+    
+} 
+
+nav a, nav a:visited 
+{
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+    padding: 14px 20px;
+    display:inline-block;
+} 
+
+
+div.saludo 
+{
+	width: 100%;
+	text-align: right;
+   
+}
+
+fieldset 
+{
+	border: 1px solid black;
+	width: 70%;
+	margin: 0 auto;
+}
+
+legend 
+{
+	color: #fff;
+	background: #303030;
+	border: 1px solid black;
+	padding: 2px 6px;
+} 
+
+label {
+    
+    text-align: center;
+    margin: 0 auto 5px; /* top: 0, sides: auto (centra), bottom: 10px */
+    display: block;
+}
+
+
+
+textarea {
+    box-sizing: border-box; /*  evita que se desborde */
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centra horizontalmente todo el grupo */
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+.radio-group label {
+    display: flex;
+    font-weight: normal;
+    margin: 5px;
+    align-items:center;
+}
+
+input[type="radio"] {
+    margin: 0;
+   
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    justify-content: center;
+    padding: 5px;
+
+}
+
+.btn-link {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color:grey;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+button 
+{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px; /* 10px arriba/abajo, 40px a los lados */
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+} 
+
+
+
+.btn-link:hover {
+    background-color: #357ae8; /* color al pasar el ratón */
+}
+
+
+table {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;/*Dejar espacio en la parte arriba de la tabla con otro elemento*/
+    border-collapse: collapse;
+    background: #fff;
+ 
+    
+}
+
+.tabla-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: justify;
+}
+
+img {
+    display: block;         /* Hace que la imagen se comporte como bloque */
+    margin: 20px auto 0;    /* Auto en los lados => centra horizontalmente */
+    max-width: 80%;
+    height: auto;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+   
+  
+}
+
+ul li {
+    background: #fff;
+    margin: 5px auto;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 90%;
+    text-align: justify; /* 👈 Esto justifica el texto */
+}
+
+
+@media screen and (max-width: 768px) {
+    table {
+      font-size: 0.8em;
+    }
+  
+    th, td {
+      padding: 6px 8px;
+    }
+  }
+  

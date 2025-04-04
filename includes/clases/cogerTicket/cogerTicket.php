@@ -68,9 +68,7 @@ class cogerTicket extends formBase
         $html .= "</table>";
         $html .= '<button type="submit">Confirmar</button>';
         $htmlinicio = <<<EOF
-            <a href="index.php">
-                <button type="button">Ir al inicio</button>
-            </a>
+            <a href="index.php" class="btn-link">Ir al inicio</a>
         EOF;
 
 

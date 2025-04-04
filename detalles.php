@@ -2,8 +2,10 @@
 require_once __DIR__ . '/includes/config.php';
 
 $contenidoPrincipal = <<<EOS
+    
       <h1>Detalles</h1>
 
+   
     <section>
         <h2>Introducción</h2>
         <ul>
@@ -47,6 +49,7 @@ $contenidoPrincipal = <<<EOS
 
     <section>
         <h2>Funcionalidades</h2>
+        <div class="tabla-responsive">
         <table>
             <thead>
                 <tr>
@@ -105,6 +108,7 @@ $contenidoPrincipal = <<<EOS
 
         </table>
     </section>
+    </div>
 
 
 EOS;

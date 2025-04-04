@@ -10,21 +10,23 @@ $mensajes = mensajesPeticionAnterior();
     <meta charset="UTF-8">
     <title><?= $tituloPagina ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/default.css" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/estilo.css" />
+    
 </head>
 
 <body>
     <!-- Mensajes de la petición anterior -->
     <?= $mensajes ?>
 
+    <div id="container">
+
     <!-- Navegador superior -->
-    <div id="navbar">
+ 
         <?php require RAIZ_APP . "/vistas/comun/cabecera.php"; ?>
-    </div>
+   
 
     <!-- Contenido principal -->
-    <div class="container">
+    
         <main>
             <article>
                 <?= $contenidoPrincipal ?>
@@ -32,6 +34,7 @@ $mensajes = mensajesPeticionAnterior();
         </main>
     </div>
 
+    </div>
     <!-- Pie de página -->
     <?php require RAIZ_APP . "/vistas/comun/pie.php"; ?>
 </body>

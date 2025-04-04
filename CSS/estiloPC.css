@@ -1,0 +1,8 @@
+div#containerFlex
+{
+	display: flex;
+	flex-flow: row;
+	align-items: stretch;
+	min-height: 90%;
+
+}
