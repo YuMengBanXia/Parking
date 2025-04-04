@@ -118,10 +118,11 @@ function gestorExcepciones(Throwable $exception)
     $contenidoPrincipal = <<<EOS
     <h1>Oops</h1>
     <p> Parece que ha habido un fallo. Error en $mensajeError</p>
+    <a href="index.php" class="btn-link">Ir al inicio</a>
     
     EOS;
 
-    require("comun/plantilla.php");
+    require("includes/vistas/plantilla/plantilla.php");
 }
 
 set_exception_handler('gestorExcepciones');
