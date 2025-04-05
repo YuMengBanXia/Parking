@@ -68,7 +68,6 @@ class ParkingDAO extends DAO {
             { 
                 throw new parkingAlreadyExistsException("Ya existe el parking en la dirección '{$p->getDir()}' y ciudad {$p->getCiudad()}");
             }
-
             throw $e;
         }
         return $result;
