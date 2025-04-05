@@ -48,7 +48,7 @@ class administrarParking extends formBase
                 $nPlazas = htmlspecialchars($parking->getNPlazas());
 
                 $img = htmlspecialchars($parking->getImg());
-                $libres = htmlspecialchars(SATicket::plazasOcupadas($id));
+                $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
                 $cp = htmlspecialchars($parking->getCP());
 
                 $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/default.png";
@@ -62,7 +62,7 @@ class administrarParking extends formBase
                     <td>{$cp}</td>
                     <td>{$precio} €</td>
                     <td>{$nPlazas}</td>
-                    <td>{$libres}</td>
+                    <td>{$ocupadas}</td>
                     <td><button type="button" onclick="window.location.href='modificarParking.php?id={$id}'">Modificar</button></td>
                     <td><button type="submit" name="id" value="{$id}">Eliminar</button></td>
                 </tr>
