@@ -109,14 +109,14 @@ class administrarParking extends formBase
                 $parking = SAParking::obtenerParkingPorId($id);
                 $img = $parking->getImg();
                 if(!empty($img)){
-                    if(unlink($img)){
-                        SAParking::eliminarParking($id);
-                        $result = "misParkings.php";
-                    }
-                    else{
+                    if(!unlink($img)){
                         $result[] = "Error al eliminar la imagen";
+                        return $result;
                     }
                 }
+
+                SAParking::eliminarParking($id);
+                $result = "misParkings.php";
             }
         }
 
