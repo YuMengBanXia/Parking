@@ -99,7 +99,11 @@ class Aplicacion
 		if (!$this->inicializada) {
 			$this->bdDatosConexion = $bdDatosConexion;
 			$this->inicializada = true;
-			session_start();
+			if (session_status() === PHP_SESSION_NONE) {
+				session_start();
+				session_regenerate_id(true);
+			}
+
 			/* 
 			* Se inicializa los datos asociados a la petición en base a la sesión y se eliminan para que
 			* no estén disponibles después de la gestión de esta petición.

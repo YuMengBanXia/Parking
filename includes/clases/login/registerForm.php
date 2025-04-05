@@ -102,14 +102,12 @@ class registerForm extends formBase
 
         // Si no hay errores, procesar el registro
         if (count($result) === 0) {
-            $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
-            $userAppService = userAppService::GetSingleton();
+            try{
+                $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
+                $userAppService = userAppService::GetSingleton();
+    
+                $createdUserDTO = $userAppService->create($userDTO);
 
-            $createdUserDTO = $userAppService->create($userDTO);
-
-            if (!$createdUserDTO) {
-                $result[] = "Error en el proceso de creación del usuario.";
-            } else {
                 $userAppService->login($userDTO);
                 $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
@@ -119,6 +117,10 @@ class registerForm extends formBase
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
                 return 'index.php'; // Redirección en caso de éxito
+            }
+            catch(userAlreadyExistException $e)
+            {
+                $result[] = $e->getMessage();
             }
         }
 
