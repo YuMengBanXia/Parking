@@ -111,8 +111,8 @@ class registerForm extends formBase
                 $userAppService->login($userDTO);
                 $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
-                $_SESSION["dni"] = $dniUsuario();
-                $_SESSION["tipo"] = $tipoUsuario();
+                $_SESSION["dni"] = $dniUsuario;
+                $_SESSION["tipo"] = $tipoUsuario;
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
