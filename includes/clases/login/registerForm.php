@@ -116,9 +116,8 @@ class registerForm extends formBase
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
-                return 'index.php'; // Redirección en caso de éxito
             }
-            catch(userAlreadyExistException $e)
+            catch(UserAlreadyExistException $e)
             {
                 $result[] = $e->getMessage();
             }

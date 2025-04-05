@@ -92,6 +92,9 @@ spl_autoload_register(function ($class) {
             return;
         }
     }
+
+    // Agregar un registro si el archivo no se encuentra
+    error_log("Autoloader: No se pudo cargar la clase $class. Buscado en: $file");
 });
 
 // Inicializa la aplicación

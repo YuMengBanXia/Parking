@@ -1,4 +1,5 @@
 <?php
+
 namespace es\ucm\fdi\aw\ePark;
 
 class userDAO implements IUser
@@ -19,7 +20,7 @@ class userDAO implements IUser
         }
 
         return false;
-    }  
+    }
 
     private function buscaUsuario($username)
     {
@@ -29,22 +30,22 @@ class userDAO implements IUser
             error_log("Error en la preparación de la consulta: " . $this->mysqli->error);
             return false;
         }
-        
+
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-    
+
         if ($fila = $result->fetch_assoc()) {
             $user = new userDTO($fila['dni'], $fila['nomUsuario'], $fila['contrasenia'], $fila['tipoUsuario']);
             $result->free();
             $stmt->close();
             return $user;
         }
-    
+
         $result->free();
         $stmt->close();
         return false;
-    }  
+    }
 
     public function create($userDTO)
     {
@@ -60,7 +61,7 @@ class userDAO implements IUser
         $existingUser = $this->existeUsuario($dniUser, $userName);
         if ($existingUser) {
             error_log("El el DNI: " . $dniUser . " o el usuario" . $userName . " ya existe");
-            throw new userAlreadyExistException("El el DNI: " . $dniUser . " o el usuario" . $userName . " ya existe");
+            throw new UserAlreadyExistException("El el DNI: " . $dniUser . " o el usuario" . $userName . " ya existe");
         }
 
         $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, ?)";
@@ -77,8 +78,7 @@ class userDAO implements IUser
                 // Solo crear el objeto si la inserción fue exitosa
                 $createdUserDTO = new userDTO($dniUser, $userName, $password, $tipoUsuario);
             }
-        } 
-        else {
+        } else {
             error_log("Error en la ejecución de la consulta: " . $stmt->error);
         }
 
