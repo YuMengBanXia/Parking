@@ -87,7 +87,7 @@ class nuevoParking extends formBase
         $plazas = filter_var($plazas, FILTER_SANITIZE_NUMBER_INT);
 
         if(empty($precio) || empty($dir) || empty($ciudad) || empty($cp) || empty($plazas)){
-            $result[] = 'Es necesrio rellenar todos los campos requeridos';
+            $result[] = 'Es necesario rellenar todos los campos requeridos';
             return $result;
         }
 
@@ -138,13 +138,20 @@ class nuevoParking extends formBase
                 $result[] = "Error en la subida de la imagen";
             }
         }
-
-        if (count($result) === 0) {
-            if(empty(SAParking::registrarParking($this->dni,$dir,$precio,$ciudad,$cp,$plazas,$img))){
-                $result[] = "Error al insertar el parking a la base de datos";
-            } else {
-                $result = "misParkings.php";
+        try
+        {
+            if (count($result) === 0) {
+                if(empty(SAParking::registrarParking($this->dni,$dir,$precio,$ciudad,$cp,$plazas,$img))){
+                    $result[] = "Error al insertar el parking a la base de datos";
+                } else {
+                    $result = "misParkings.php";
+                }
+            
             }
+        }
+        catch(parkingAlreadyExistsException $e)
+        {
+            $result[] = $e->getMessage();
         }
 
         return $result;
