@@ -172,7 +172,7 @@ label {
 
 
 textarea {
-    box-sizing: border-box; /*  evita que se desborde */
+    box-sizing: border-box; 
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
