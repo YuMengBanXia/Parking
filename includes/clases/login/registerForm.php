@@ -106,7 +106,7 @@ class registerForm extends formBase
                 $userDTO = new \es\ucm\fdi\aw\ePark\userDTO($dniUsuario, $nombreUsuario, $password, $tipoUsuario);
                 $userAppService = userAppService::GetSingleton();
     
-                $createdUserDTO = $userAppService->create($userDTO);
+                $userAppService->create($userDTO);
 
                 $userAppService->login($userDTO);
                 $_SESSION["login"] = true;
