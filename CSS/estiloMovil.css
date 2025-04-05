@@ -1,8 +1,8 @@
 div#containerFlex
 {
 	display: flex;
-	flex-flow: row;
-	min-height: 90%;
+	flex-flow: column;
 	align-items: stretch;
+	min-height: 90%;
 
-} 
+}

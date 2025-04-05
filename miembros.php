@@ -4,6 +4,7 @@ require_once __DIR__ . '/includes/config.php';
 
 $contenidoPrincipal = <<<EOS
     <h1>MIEMBROS</h1>
+   <div class="tabla-responsive">
     <table>
         <tr>
             <th colspan="2">Mengxia Zhou</th>
@@ -91,6 +92,7 @@ $contenidoPrincipal = <<<EOS
             </td>
         </tr>
     </table>
+    </div>
 
 EOS;
 

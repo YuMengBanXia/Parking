@@ -22,7 +22,7 @@ class cogerTicket extends formBase
         <label for="matricula">Matrícula:</label>
         <input type="text" id="matricula" name="matricula" required pattern="\d{4}[A-Za-z]{3}" 
         title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
-
+        <div class="tabla-responsive">
         <table>
             <tr>
                 <th>ID</th>
@@ -66,6 +66,7 @@ class cogerTicket extends formBase
         }
 
         $html .= "</table>";
+        $html .="</div>";
         $html .= '<button type="submit">Confirmar</button>';
         $htmlinicio = <<<EOF
             <a href="index.php" class="btn-link">Ir al inicio</a>

@@ -21,9 +21,10 @@ class FormContacto extends FormBase
         
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br>
-            
+            <br>
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="text" id="email" name="email" required>
+            
           
 
             <div class="radio-group">
@@ -31,12 +32,13 @@ class FormContacto extends FormBase
                 <label><input type="radio" name="motivo" value="Evaluación" required> Evaluación</label>
                 <label><input type="radio" name="motivo" value="Sugerencias"> Sugerencias</label>
                 <label><input type="radio" name="motivo" value="Críticas"> Críticas</label>
+                
 
             </div>
 
 
             <br>
-            <label for="mensaje">Mensaje:</label><br>
+            <p>Mensaje:</p>
             <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
             <br><br>
 
@@ -63,6 +65,6 @@ class FormContacto extends FormBase
     {
         // Aquí podrías procesar los datos recibidos
         // Por ahora simplemente devuelve un mensaje de éxito
-        return 'Gracias por contactarnos. Te responderemos pronto.';
+        return $result='index.php';
     }
 }
