@@ -52,11 +52,11 @@ class ParkingDAO extends DAO {
         try{
         $conn = Aplicacion::getInstance()->getConexionBd();
     
-        $query = "INSERT INTO Parking (dni, dir, ciudad, CP, precio, nPlazas, img) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO Parking (dni, dir, ciudad, CP, precio, nPlazas, img) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
         $stmt = $conn->prepare($query);
     
-        $stmt->bind_param("sssddis",  $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
+        $stmt->bind_param("sssidis",  $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
             
         $result=$stmt->execute();
 
@@ -141,7 +141,7 @@ class ParkingDAO extends DAO {
 
         if ($stmt->fetch())
         {
-            $parking = new TOParking($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
+            $parking = new TOParking($id, $dni, $precio,$dir, $ciudad,$cp,$nPlazas, $img);
         }
 
         $stmt->close();
@@ -172,7 +172,7 @@ class ParkingDAO extends DAO {
                 $row['precio'] ?? null,
                 $row['dir'] ?? null,
                 $row['ciudad'] ?? null,
-                $row['cp'] ?? null,
+                $row['CP'] ?? null,
                 $row['nPlazas'] ?? null,
                 $row['img'] ?? null
             );

@@ -7,10 +7,12 @@ class modificarForm extends formBase
 
     private $parking;
 
-    public function __construct($parking)
-    {   
+    private $dni;
 
+    public function __construct($parking, $dni)
+    {   
         $this->parking = $parking;
+        $this->dni = $dni;
 
         parent::__construct('modificarParking');
     }
@@ -36,6 +38,7 @@ class modificarForm extends formBase
         $precio = htmlspecialchars($this->parking->getPrecio());
         $nPlazas = htmlspecialchars($this->parking->getNPlazas());
         $cp = htmlspecialchars($this->parking->getCP());
+        $id = htmlspecialchars($this->parking->getId());
 
         $html = <<<EOF
         <div>
@@ -62,9 +65,9 @@ class modificarForm extends formBase
             <label for="img">Imagen:</label>
             <input type="file" id="img" name="img">
         </div>
+        <button type="submit" name="id" value="{$id}">Actualizar</button>
         EOF;
 
-        $html .= '<button type="submit">Actualizar</button>';
         $htmlinicio = <<<EOF
             <a href="index.php">
                 <button type="button">Ir al inicio</button>
@@ -80,14 +83,17 @@ class modificarForm extends formBase
     {
         $result = array();
 
-        $id =  htmlspecialchars($this->parking->getId());
-
         //Recoger y sanitizar datos
-        $precio = trim($datos['precio'] ?? $this->parking->getPrecio());
-        $dir = trim($datos['dir'] ?? $this->parking->getDir());
-        $ciudad = trim($datos['ciudad'] ?? $this->parking->getCiudad());
-        $cp = trim($datos['cp'] ?? $this->parking->getCP());
-        $plazas = trim($datos['plazas'] ?? $this->parking->getNPlazas());
+        $id =  trim($datos['id'] ?? '');
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
+        $parking = SAParking::obtenerParkingPorId($id);
+
+        $precio = trim($datos['precio'] ?? $parking->getPrecio());
+        $dir = trim($datos['dir'] ?? $parking->getDir());
+        $ciudad = trim($datos['ciudad'] ?? $parking->getCiudad());
+        $cp = trim($datos['cp'] ?? $parking->getCP());
+        $plazas = trim($datos['plazas'] ?? $parking->getNPlazas());
 
         $precio = filter_var($precio, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $dir = filter_var($dir, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -104,7 +110,7 @@ class modificarForm extends formBase
         }
 
         //Procesamiento de la imagen (campo opcional)
-        $img = $this->parking->getImg();
+        $img = $parking->getImg();
         if (isset($_FILES['img'])) {
             if($_FILES['img']['error'] === UPLOAD_ERR_OK){
                 $uploadDir = 'img/'; 
@@ -114,27 +120,42 @@ class modificarForm extends formBase
                 // Validar que el archivo sea una imagen
                 $check = getimagesize($_FILES['img']['tmp_name']);
                 if ($check === false) {
+                    unset($_FILES['img']);
                     $result[] = "El archivo subido no es una imagen válida";
                     return $result;
                 }
 
                 // Validar tamaño y extensión a 2MB
                 if ($_FILES['img']['size'] > 2 * 1024 * 1024) {
+                    unset($_FILES['img']);
                     $result[] = "El archivo es demasiado grande. El límite es 2MB";
                     return $result;
                 }
 
                 // Mover el archivo a la carpeta destino
                 if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
-                    if (unlink($img)) {
-                        $img = $targetFile;
-                    } else {
-                        $result[] = "Error al eliminar la imagen.";
+                    if(!empty($img)){
+                        if (unlink($img)) {
+                            $img = $targetFile;
+                        } else {
+                            unset($_FILES['img']);
+                            $result[] = "Error al eliminar la antigua imagen.";
+                        }
                     }
+                    else{
+                        $img = $targetFile;
+                    }
+                    
                 } else {
+                    unset($_FILES['img']);
                     $result[] = "Error al mover el archivo";
                 }
-            } else {
+            } 
+            elseif($_FILES['img']['error'] === UPLOAD_ERR_NO_FILE){
+                //No pasa nada porque significa que no se ha subido un archivo
+            }
+            else {
+                unset($_FILES['img']);
                 $result[] = "Error en la subida de la imagen";
             }
         }

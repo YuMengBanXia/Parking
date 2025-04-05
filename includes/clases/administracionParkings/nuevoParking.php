@@ -55,9 +55,9 @@ class nuevoParking extends formBase
             <label for="img">Imagen (opcional):</label>
             <input type="file" id="img" name="img">
         </div>
+        <button type="submit">Crear</button>
         EOF;
 
-        $html .= '<button type="submit">Crear</button>';
         $htmlinicio = <<<EOF
             <a href="index.php">
                 <button type="button">Ir al inicio</button>
@@ -110,12 +110,14 @@ class nuevoParking extends formBase
                 // Validar que el archivo sea una imagen
                 $check = getimagesize($_FILES['img']['tmp_name']);
                 if ($check === false) {
+                    unset($_FILES['img']);
                     $result[] = "El archivo subido no es una imagen válida";
                     return $result;
                 }
 
                 // Validar tamaño y extensión a 2MB
                 if ($_FILES['img']['size'] > 2 * 1024 * 1024) {
+                    unset($_FILES['img']);
                     $result[] = "El archivo es demasiado grande. El límite es 2MB";
                     return $result;
                 }
@@ -124,9 +126,15 @@ class nuevoParking extends formBase
                 if (move_uploaded_file($_FILES['img']['tmp_name'], $targetFile)) {
                     $img = $targetFile;
                 } else {
+                    unset($_FILES['img']);
                     $result[] = "Error al mover el archivo";
                 }
-            } else {
+            } 
+            elseif($_FILES['img']['error'] === UPLOAD_ERR_NO_FILE){
+                //No pasa nada porque significa que no se ha subido un archivo
+            }
+            else {
+                unset($_FILES['img']);
                 $result[] = "Error en la subida de la imagen";
             }
         }
@@ -135,7 +143,7 @@ class nuevoParking extends formBase
             if(empty(SAParking::registrarParking($this->dni,$dir,$precio,$ciudad,$cp,$plazas,$img))){
                 $result[] = "Error al insertar el parking a la base de datos";
             } else {
-                $result = "index.php";
+                $result = "misParkings.php";
             }
         }
 

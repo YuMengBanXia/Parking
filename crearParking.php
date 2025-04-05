@@ -11,7 +11,7 @@ if(empty($_SESSION["login"])){
 }
 else{
    if(isset($_SESSION["tipo"])){
-      if($_SESSION["tipo"] === 2 || $_SESSION["tipo"] === 3){
+      if($_SESSION["tipo"] === 'propietario' || $_SESSION["tipo"] === 'administrador'){
          $dni= $_SESSION['dni'];
          $form = new \es\ucm\fdi\aw\ePark\nuevoParking($dni);
          $html = $form->Manage();

@@ -65,7 +65,7 @@ class loginForm extends formBase
                 $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
                 $_SESSION["dni"] = $foundedUserDTO->dni();
-                $_SESSION["tipoUsuario"] = $foundedUserDTO->tipoUsuario();
+                $_SESSION["tipo"] = $foundedUserDTO->tipoUsuario();
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Bienvenido $nombreUsuario"];
                 $app->putAtributoPeticion('mensajes', $mensajes);

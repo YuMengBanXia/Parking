@@ -16,7 +16,7 @@ class administrarParking extends formBase
 
     protected function CreateFields($datos)
     {
-        $parkings = self::getParkings();
+        $parkings = $this->getParkings($this->dni);
 
         if(empty($parkings)) {
             $html = <<<EOF
@@ -31,7 +31,7 @@ class administrarParking extends formBase
                     <th>ID</th>
                     <th>Dirección</th>
                     <th>Ciudad</th>
-                    <th>CP<th>
+                    <th>CP</th>
                     <th>Precio</th>
                     <th>Plazas</th>
                     <th>Ocupadas</th>
@@ -51,7 +51,7 @@ class administrarParking extends formBase
                 $libres = htmlspecialchars(SATicket::plazasOcupadas($id));
                 $cp = htmlspecialchars($parking->getCP());
 
-                $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/mengxia.jpg";
+                $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/default.png";
 
                 $html .= <<<EOF
                 <tr>
@@ -70,7 +70,6 @@ class administrarParking extends formBase
             }
 
             $html .= "</table>";
-            $html .= '<button type="submit">Confirmar</button>';
         }
 
         $htmlinicio = <<<EOF
@@ -107,14 +106,24 @@ class administrarParking extends formBase
                 $result[] = "El usuario no tiene permisos para eliminar este parking";
             }
             else{
-                $result = "misParkings.php";
+                $parking = SAParking::obtenerParkingPorId($id);
+                $img = $parking->getImg();
+                if(!empty($img)){
+                    if(unlink($img)){
+                        SAParking::eliminarParking($id);
+                        $result = "misParkings.php";
+                    }
+                    else{
+                        $result[] = "Error al eliminar la imagen";
+                    }
+                }
             }
         }
 
         return $result;
     }
 
-    protected function getParkings(){//función a sobreescribir
+    protected function getParkings($dni){//función a sobreescribir
         return null;
     }
 }

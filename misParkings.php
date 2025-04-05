@@ -12,28 +12,31 @@ if(empty($_SESSION['login'])){
 else{
     if(isset($_SESSION['tipo'])){
         switch($_SESSION['tipo']){
-            case '1': //Usuario normal
+            case 'cliente': //Usuario normal
                 $html = <<<EOF
-                <p>Funcionalidad restringida a propietarios. El usuario no tiene permisos</p>
+                <p>Funcionalidad restringida. El usuario no tiene permisos</p>
                 EOF;
                 break;
-            case '2': //Propietario
+            case 'propietario': //Propietario
+                $dni = $_SESSION['dni'];
                 $form = new \es\ucm\fdi\aw\ePark\gestionProp($dni);
                 $html = $form->Manage();
                 break;
-            case '3': //Admin
+            case 'administrador': //Admin
+                $dni = $_SESSION['dni'];
                 $form = new \es\ucm\fdi\aw\ePark\gestionAdmin($dni);
                 $html = $form->Manage();
                 break;
-            default: //Pruebas
-                $form = new \es\ucm\fdi\aw\ePark\gestionAdmin($dni);
-                $html = $form->Manage();
+            default: //Error
+                $html = <<<EOF
+                <p>Ha habido un error al procesar el tipo de usuario</p>
+                EOF;
                 break;
         }
     }
     else{
         $html = <<<EOF
-        <p>Ha habido un error al procesar el tipo de usuario</p>
+        <p>Tipo de usuario no especificado</p>
         EOF;
     }
 }
