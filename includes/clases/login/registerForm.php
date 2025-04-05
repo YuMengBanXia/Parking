@@ -117,7 +117,7 @@ class registerForm extends formBase
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
             }
-            catch(UserAlreadyExistException $e)
+            catch(UserAlreadyExistsException $e)
             {
                 $result[] = $e->getMessage();
             }

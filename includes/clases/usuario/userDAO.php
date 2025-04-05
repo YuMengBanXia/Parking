@@ -60,8 +60,8 @@ class userDAO implements IUser
         // Verificar si el usuario ya existe
         $existingUser = $this->existeUsuario($dniUser, $userName);
         if ($existingUser) {
-            error_log("El el DNI: " . $dniUser . " o el usuario" . $userName . " ya existe");
-            throw new UserAlreadyExistException("El el DNI: " . $dniUser . " o el usuario" . $userName . " ya existe");
+            error_log("El el DNI: " . $dniUser . " o el usuario " . $userName . " ya existe");
+            throw new UserAlreadyExistsException("El el DNI: " . $dniUser . " o el usuario " . $userName . " ya existe");
         }
 
         $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, ?)";
