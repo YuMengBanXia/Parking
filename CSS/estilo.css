@@ -292,7 +292,7 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     max-width: 90%;
-    text-align: justify; /* 👈 Esto justifica el texto */
+    text-align: justify; /* Esto justifica el texto */
 }
 
 input[type="text"] {
