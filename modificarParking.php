@@ -18,16 +18,23 @@ if(empty($_SESSION["login"])){
          elseif(isset($_POST['id'])){
             $id = $_POST['id'];
          }
-
-         if(empty(\es\ucm\fdi\aw\ePark\SAParking::comprobarDni($id,$dni)) && $_SESSION["tipo"] === 'propietario') {
+         else{
             $html = <<<EOF
-               <p>El parking seleccionado no pertenece a este usuario</p>
+               No se ha seleccionado ningún parking
             EOF;
          }
-         else{
-            $parking = \es\ucm\fdi\aw\ePark\SAParking::obtenerParkingPorId($id);
-            $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking);
-            $html = $form->Manage();
+
+         if(!empty($id)){
+            if(empty(\es\ucm\fdi\aw\ePark\SAParking::comprobarDni($id,$dni)) && $_SESSION["tipo"] === 'propietario') {
+               $html = <<<EOF
+                  <p>El parking seleccionado no pertenece a este usuario</p>
+               EOF;
+            }
+            else{
+               $parking = \es\ucm\fdi\aw\ePark\SAParking::obtenerParkingPorId($id);
+               $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking);
+               $html = $form->Manage();
+            }
          }
        }
        else{
