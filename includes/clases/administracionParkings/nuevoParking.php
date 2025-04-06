@@ -105,7 +105,9 @@ class nuevoParking extends formBase
             if($_FILES['img']['error'] === UPLOAD_ERR_OK){
                 $uploadDir = 'img/'; 
                 $imgName = basename($_FILES['img']['name']);
-                $targetFile = $uploadDir . $imgName;
+                $extension = pathinfo($imgName, PATHINFO_EXTENSION);
+                $uniqueName = uniqid('img_', true) . '.' . $extension;
+                $targetFile = $uploadDir . $uniqueName;
 
                 // Validar que el archivo sea una imagen
                 $check = getimagesize($_FILES['img']['tmp_name']);
