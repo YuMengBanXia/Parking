@@ -90,34 +90,22 @@ class administrarParking extends formBase
         $id = trim($datos['id'] ?? '');
         $id = filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $dni = trim($this->dni ?? '');
-        $dni = filter_var($dni, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
         if(empty($id)) {
             $result[] = "No se ha seleccionado un id de parking";
         }
 
-        if(empty($dni)){
-            $result[] = "DNI del usuario no encontrado";
-        }
-
         if(count($result) == 0) {
-            if(empty(SAParking::comprobarDni($id,$dni))) {
-                $result[] = "El usuario no tiene permisos para eliminar este parking";
-            }
-            else{
-                $parking = SAParking::obtenerParkingPorId($id);
-                $img = $parking->getImg();
-                if(!empty($img)){
-                    if(!unlink($img)){
-                        $result[] = "Error al eliminar la imagen";
-                        return $result;
-                    }
+            $parking = SAParking::obtenerParkingPorId($id);
+            $img = $parking->getImg();
+            if(!empty($img)){
+                if(!unlink($img)){
+                    $result[] = "Error al eliminar la imagen";
+                    return $result;
                 }
-
-                SAParking::eliminarParking($id);
-                $result = "misParkings.php";
             }
+
+            SAParking::eliminarParking($id);
+            $result = "misParkings.php";
         }
 
         return $result;
