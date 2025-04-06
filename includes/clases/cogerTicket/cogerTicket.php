@@ -25,6 +25,7 @@ class cogerTicket extends formBase
         <div class="tabla-responsive">
         <table>
             <tr>
+                <th>Imagen</th>
                 <th>ID</th>
                 <th>Dirección</th>
                 <th>Ciudad</th>
@@ -51,8 +52,12 @@ class cogerTicket extends formBase
 
             $checked = ($idSeleccionado == $id) ? 'checked' : '';
 
+            $img = htmlspecialchars($parking->getImg());
+            $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/default.png";
+
             $html .= <<<EOF
             <tr>
+                <td><img src="{$imgPath}" alt="Imagen del parking"></td>
                 <td>{$id}</td>
                 <td>{$dir}</td>
                 <td>{$ciudad}</td>
