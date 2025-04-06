@@ -7,12 +7,9 @@ class modificarForm extends formBase
 
     private $parking;
 
-    private $dni;
-
-    public function __construct($parking, $dni)
+    public function __construct($parking)
     {   
         $this->parking = $parking;
-        $this->dni = $dni;
 
         parent::__construct('modificarParking');
     }

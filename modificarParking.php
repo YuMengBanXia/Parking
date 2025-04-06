@@ -26,7 +26,7 @@ if(empty($_SESSION["login"])){
          }
          else{
             $parking = \es\ucm\fdi\aw\ePark\SAParking::obtenerParkingPorId($id);
-            $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking, $dni);
+            $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking);
             $html = $form->Manage();
          }
        }
