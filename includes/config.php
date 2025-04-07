@@ -6,19 +6,19 @@
 /**
  * Parámetros de conexión a la BD
  */
-/*
+
 define('BD_HOST', 'vm009.db.swarm.test'); //Si falla sustituir por 127.0.0.1
 define('BD_NAME', 'ePark');
 define('BD_USER', 'ePark');
 define('BD_PASS', 'aw2025');
-*/
 
+/*
  //* Temporal, para la base de datos local hasta que se arregle el servidor
  define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
  define('BD_NAME', 'ePark');
  define('BD_USER', 'adminDB');
  define('BD_PASS', 'adminDBPassword');
- 
+ */
 
  /**
  * Validación de configuración de base de datos
@@ -34,7 +34,7 @@ if (!defined('BD_HOST') || !defined('BD_NAME') || !defined('BD_USER') || !define
  * @const RUTA_APP: Ruta hasta la aplicación (directorio Parking)
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/GitHub/Parking');
+define('RUTA_APP', '');
 define('RUTA_IMGS', RUTA_APP . '/img');
 define('RUTA_CSS', RUTA_APP . '/CSS');
 define('RUTA_JS', RUTA_APP . '/js');
