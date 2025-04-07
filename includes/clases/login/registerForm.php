@@ -46,7 +46,7 @@ class registerForm extends formBase
                 <select name="tipoUsuario">
                     <option value="cliente" $opcionCliente>Cliente</option>
                     <option value="propietario" $opcionPropietario>Propietario</option>
-                    <option value="administrador" $opcionAdministrador>Administrador</option>
+                    <!-- <option value="administrador" $opcionAdministrador>Administrador</option> -->
                 </select>
             </p>
             <button type="submit" name="register">Registrar</button>
@@ -116,6 +116,7 @@ class registerForm extends formBase
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
+                $result = 'index.php';
             }
             catch(UserAlreadyExistsException $e)
             {
