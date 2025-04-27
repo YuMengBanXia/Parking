@@ -55,7 +55,7 @@ CREATE TABLE `Reserva` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `Ticket` (
-  `codigo` int(10) NOT NULL,
+  `codigo` int(10) NOT NULL AUTO_INCREMENT,
   `idParking` int(11) NOT NULL,
   `fecha_ini` datetime NOT NULL,
   `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,

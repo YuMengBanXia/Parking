@@ -37,17 +37,16 @@ class SATicket{
         $plazas = $parking->getNPlazas();
         $libre = self::libre($id,$plazas);
         if($libre){
-            $codigo = $daoTicket->lastCodigo($id);
-            $codigo = $codigo + 1;
-            $ticket = new TOTicket($codigo,$id,$matricula);
-            $fecha=$ticket->get_fecha();
-            if(empty($daoTicket->insert($ticket))){
+            if(empty($daoTicket->insert($id, $matricula))){
                 return 3; //Error al insertar el ticket en la base de datos
             }
             
         }
         else return 1; //Error, el usuario solo puede seleccionar parkings libres
 
+        $ticket = $daoTicket->searchMatricula($matricula);
+        $codigo = $ticket->get_codigo();
+        $fecha = $ticket->get_fecha();
         $datos = [
             'codigo' => $codigo,
             'fecha' => $fecha
@@ -64,6 +63,11 @@ class SATicket{
     public static function plazasOcupadas($id){
         $daoTicket = TicketDAO::getSingleton();
         return $daoTicket->ocupacion($id);
+    }
+
+    public static function buscarCodigo($codigo){
+        $daoTicket = TicketDAO::getSingleton();
+        return $daoTicket->searchCodigo($codigo);
     }
 }
 ?>

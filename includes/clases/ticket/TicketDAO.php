@@ -41,20 +41,16 @@ class TicketDAO extends DAO{
     
     
     //Modificado
-    public function insert(TOTicket $ticket){
-
-        $cod = $ticket->get_codigo();
-        $id = $ticket->get_id();
-        $matricula = $ticket->get_matricula();
-        $fecha = $ticket->get_fecha()->format('Y-m-d H:i:s');
+    public function insert($id, $matricula){
+        $fecha = new \DateTime()->format('Y-m-d H:i:s');
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query="INSERT INTO Ticket (codigo,idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
+        $query="INSERT INTO Ticket (idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
 
         $stmt = $conn->prepare($query);
 
-        $stmt->bind_param("iiss", $cod, $id, $matricula, $fecha);
+        $stmt->bind_param("iss", $id, $matricula, $fecha);
 
         $resultado=$stmt->execute();
 
@@ -111,6 +107,34 @@ class TicketDAO extends DAO{
         $stmt = $conn->prepare($query);
 
         $stmt->bind_param("s", $matricula);
+
+        $stmt->execute();
+    
+        // Declaras las variables donde se guardará el resultado
+        $stmt->bind_result($codigo, $id, $mat, $fecha);
+    
+        if ($stmt->fetch()) {
+
+            $stmt->close();
+            
+            return new TOTicket($codigo, $id, $mat, new \DateTime($fecha));
+
+        } else {
+
+            $stmt->close();
+
+            return null; // No se encontró nada
+        }
+    }
+
+    public function searchCodigo($codigo){
+        $conn = Aplicacion::getInstance()->getConexionBd();
+    
+        $query = "SELECT codigo, idParking, matricula, fecha_ini FROM Ticket WHERE codigo = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $codigo);
 
         $stmt->execute();
     
