@@ -2,99 +2,69 @@
 
 namespace es\ucm\fdi\aw\ePark;
 
-class ParkingDAO extends DAO {
+class PagoDao extends DAO {
 
     public static $instancia;
-    public $mysqli; 
+    
+    private function __construct(){}
 
     public static function getSingleton() { //Patrón Singleton para única instancia de la clase
+
         if ( !self::$instancia instanceof self) { 
             self::$instancia = new self; 
         } 
-        return self::$instancia;
+        return self::$instancia; 
     }
+    
 
-    //Modificado
-    protected function lastId(){
+    //No hace falta insertar con el campo id porque este es auto_increment por lo que se asigna automáticamente
+    public function insert(TOPago $p): bool
+    {
+        $dni       = $p->getDni();
+        $importe   = $p->getImporte();
+        $fechaPago = $p->getFechaPago();
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query="SELECT max(id) as num FROM Parking";
+        $sql  = 'INSERT INTO Pago (dni, importe, fechaPago) VALUES (?, ?, ?)';
 
-        $stmt = $conn->prepare($query);
-
-        $stmt->execute();
-
-        $stmt->bind_result($numero);
-
-        if($stmt->fetch()){
-
-            $stmt->close();
-
-            return $numero;
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            throw new \mysqli_sql_exception($conn->error, $conn->errno);
         }
 
-        return 0;
-    }
+        $stmt->bind_param('sds', $dni, $importe, $fechaPago);
 
-    
-    //No hace falta insertar con el campo id porque este es auto_increment por lo que se asigna automáticamente
-    public function insert(TOParking $p) {
-        $dir = $p->getDir();
-        $ciudad = $p->getCiudad();
-        $cp = $p->getCP();
-        $precio = $p->getPrecio();
-        $nPlazas = $p->getNPlazas();
-
-        $dni = $p->getDni();
-        $img = $p->getImg() ?? '';
-        
-        try{
-        $conn = Aplicacion::getInstance()->getConexionBd();
-    
-        $query = "INSERT INTO Parking (dni, dir, ciudad, CP, precio, nPlazas, img) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    
-        $stmt = $conn->prepare($query);
-    
-        $stmt->bind_param("sssidis",  $dni, $dir, $ciudad, $cp, $precio, $nPlazas, $img);
-            
-        $result=$stmt->execute();
+        $result = $stmt->execute();
 
         $stmt->close();
 
-        }
-        catch(\mysqli_sql_exception $e){
-            if ($conn->sqlstate == 23000) 
-            { 
-                throw new parkingAlreadyExistsException("Ya existe el parking en la dirección '{$p->getDir()}' y ciudad {$p->getCiudad()}");
-            }
-            
-            throw $e;
-        }
         return $result;
     }
     
 
+
     //Modificado
-    public function update(TOParking $p) {
+    public function update(TOPago $p) {
 
         // Variables intermedias
-        $dir = $p->getDir();
-        $ciudad = $p->getCiudad();
-        $cp = $p->getCP();
-        $precio = $p->getPrecio();
-        $nPlazas = $p->getNPlazas();
-        $id = $p->getId();
+        $id        = $p->getId();
+        $dni       = $p->getDni();
+        $importe   = $p->getImporte();
+        $fechaPago = $p->getFechaPago();
 
-        $img = $p->getImg() ?? '';
         
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "UPDATE Parking SET dir = ?, ciudad = ?, CP = ?, precio = ?, nPlazas = ?, img = ? WHERE id = ?";
+        $sql  = 'UPDATE Pago SET dni = ?, importe = ?, fechaPago = ? WHERE id = ?';
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($sql);
 
-        $stmt->bind_param("ssddisi", $dir, $ciudad, $cp, $precio, $nPlazas, $img, $id);
+        if (!$stmt) {
+            throw new \mysqli_sql_exception($conn->error, $conn->errno);
+        }
+
+        $stmt->bind_param("sdsi", $dni, $importe, $fechaPago, $id);
 
         $resultado = $stmt->execute();
 

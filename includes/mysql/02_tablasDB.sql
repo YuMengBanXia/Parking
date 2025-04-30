@@ -73,3 +73,14 @@ CREATE TABLE `Abonado` (
   CONSTRAINT `abonoUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `plazaAbonado` FOREIGN KEY (`numPlaza`, `idParking`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `Pago` (
+  `id`         INT           NOT NULL AUTO_INCREMENT,
+  `dni`        VARCHAR(9)    NOT NULL,
+  `importe`    DECIMAL(10,2) NOT NULL,
+  `fechaPago`  DATETIME      NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`dni`) REFERENCES `Usuario`(`dni`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
