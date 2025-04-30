@@ -13,11 +13,20 @@
 	$terminal="1";
 	$moneda="978";
 	$trans="0";
-	$url="";
-	$urlOK="http://localhost/GitHub/Parking/index.php";//esto hay que cambiarlo para el VPS
-    $urlKO="http://localhost/GitHub/Parking/contacto.php";
-	$id=time();
-	$importe = floatval($_POST['cantidad']??12.5); // Por defecto valor 12.5 porque el 0 da error por RedSys
+	$urlOK="http://localhost/GitHub/Parking/returnPago.php";//esto hay que cambiarlo para el VPS
+    $urlKO="http://localhost/GitHub/Parking/returnPago.php";
+	$urlNotify = "http://localhost/GitHub/Parking/notifyPago.php";
+
+	$app = Aplicacion::getInstance();
+	$app->putAtributoPeticion('pago.cantidad',  $total);
+	$app->putAtributoPeticion('pago.ticketId', $ticket->getId());
+
+	if ($cantidad === null || $ticketId === null) {
+		header('Location: index.php?error=acceso_denegado');
+		exit;
+	}
+	$id=$ticketId;
+	$importe = floatval($total??12.5); // Por defecto valor 12.5 porque el 0 da error por RedSys
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 
 	
@@ -28,9 +37,9 @@
 	$miObj->setParameter("DS_MERCHANT_CURRENCY",$moneda);
 	$miObj->setParameter("DS_MERCHANT_TRANSACTIONTYPE",$trans);
 	$miObj->setParameter("DS_MERCHANT_TERMINAL",$terminal);
-	$miObj->setParameter("DS_MERCHANT_MERCHANTURL",$url);
 	$miObj->setParameter("DS_MERCHANT_URLOK",$urlOK);
 	$miObj->setParameter("DS_MERCHANT_URLKO",$urlKO);
+	$miObj->setParameter("DS_MERCHANT_MERCHANTURL",   $urlNotify);
 
 	//Datos de configuración
 	$version="HMAC_SHA256_V1";
