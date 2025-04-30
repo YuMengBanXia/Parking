@@ -64,7 +64,7 @@ class userDAO implements IUser
             throw new UserAlreadyExistsException("El el DNI: " . $dniUser . " o el usuario " . $userName . " ya existe");
         }
 
-        $query = "INSERT INTO usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO Usuario (dni, nomUsuario, contrasenia, tipoUsuario) VALUES (?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($query);
 
         if (!$stmt) {
@@ -88,7 +88,7 @@ class userDAO implements IUser
 
     private function existeUsuario($dniUser, $userName)
     {
-        $query = "SELECT * FROM usuario WHERE dni = ? OR nomUsuario = ?";
+        $query = "SELECT * FROM Usuario WHERE dni = ? OR nomUsuario = ?";
         $stmt = $this->mysqli->prepare($query);
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
