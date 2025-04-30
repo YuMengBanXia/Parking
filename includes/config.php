@@ -13,7 +13,8 @@ define('BD_USER', 'ePark');
 define('BD_PASS', 'aw2025');
 
 
-  /*//emporal, para la base de datos local hasta que se arregle el servidor
+/*
+// Temporal, para la base de datos local hasta que se arregle el servidor
  define('BD_HOST', 'localhost'); //Si falla sustituir por 127.0.0.1
  define('BD_NAME', 'ePark');
  define('BD_USER', 'adminDB');
@@ -35,6 +36,7 @@ if (!defined('BD_HOST') || !defined('BD_NAME') || !defined('BD_USER') || !define
  */
 define('RAIZ_APP', __DIR__);
 define('RUTA_APP', '');
+//define('RUTA_APP', '/GitHub/Parking');
 define('RUTA_IMGS', RUTA_APP . '/img');
 define('RUTA_CSS', RUTA_APP . '/CSS');
 define('RUTA_JS', RUTA_APP . '/js');
