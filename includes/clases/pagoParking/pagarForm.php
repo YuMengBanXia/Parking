@@ -68,7 +68,7 @@ class pagarForm extends formBase {
         }
 
         if (count($result) === 0) {
-            $id = $ticket->get_fecha();
+            $id = $ticket->get_id();
             $parking = SAParking::obtenerParkingPorId($id);
             if(empty($parking)){
                 $result[] = "Ha habido un error de sistema. El parking no ha sido encontrado";
@@ -78,11 +78,27 @@ class pagarForm extends formBase {
                 $fecha = $ticket->get_fecha();
                 $fecha_actual = new DateTime();
                 $res = $fecha_actual->diff($fecha);
-                $dias = floatval($res->days);
-                $horas = floatval($res->h);
-                $minutos = floatval($res->i);
+                $dias    = $res->days;
+                $horas   = $res->h;
+                $minutos = $res->i;
 
-                $precio = number_format($precio*($dias*24*60+$horas*60+$minutos),2);
+                // Total de minutos de la estancia
+                $minutosTotales = $dias * 24 * 60
+                                + $horas * 60
+                                + $minutos;
+
+                // Cálculo del precio total
+                $total = $precio * $minutosTotales;
+
+                // Formatear para mostrar (string)
+                $total = number_format($total, 2);
+                
+                //Se pasan los datos por aplicacion.php
+                $app = Aplicacion::getInstance();
+                $app->putAtributoPeticion('pago.cantidad',  $total);
+                $app->putAtributoPeticion('pago.ticketId', $id);
+
+                $result = "pago.php";
             }
         }
 

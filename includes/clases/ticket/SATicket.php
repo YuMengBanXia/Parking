@@ -69,5 +69,10 @@ class SATicket{
         $daoTicket = TicketDAO::getSingleton();
         return $daoTicket->searchCodigo($codigo);
     }
+
+    public static function eliminarTicket($codigo){
+        $daoTicket = TicketDAO::getSingleton();
+        return $daoTicket->delete($codigo);
+    }
 }
 ?>
