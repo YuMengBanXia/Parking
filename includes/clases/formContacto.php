@@ -6,7 +6,7 @@ class FormContacto extends FormBase
 {
     public function __construct()
     {
-        parent::__construct('Contacto',array('action' => 'mailto:correo@ejemplo.com') );
+        parent::__construct('Contacto');
     }
 
     protected function createFields($datos)

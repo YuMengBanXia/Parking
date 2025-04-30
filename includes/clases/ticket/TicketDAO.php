@@ -11,7 +11,7 @@ class TicketDAO extends DAO{
         } 
         return self::$instancia; 
     }
-
+    
     
     //Modificado
     public function lastCodigo($id) {
