@@ -47,7 +47,7 @@ class TicketDAO extends DAO{
         $conn = Aplicacion::getInstance()->getConexionBd();
 
         $query="INSERT INTO Ticket (idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
-
+        
         $stmt = $conn->prepare($query);
 
         $stmt->bind_param("iss", $id, $matricula, $fecha);
