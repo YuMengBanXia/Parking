@@ -8,7 +8,8 @@ $signature= $_POST["Ds_Signature"]           ?? '';
 $kc       = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7';
 
 $params   = $miObj->decodeMerchantParameters($encoded);
-if (!$miObj->verifyMerchantSignature($kc, $encoded, $signature)) {
+$expectedSignature = $miObj->createMerchantSignatureNotif($kc, $encoded);
+if ($signature !== $expectedSignature) {
     http_response_code(400);
     exit("Firma inválida");
 }

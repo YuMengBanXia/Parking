@@ -81,14 +81,14 @@ class TicketDAO extends DAO{
         return $num;
     }
 
-    public function delete($codigo,$id){
-        $query = "DELETE FROM Ticket WHERE id=? AND codigo=?";
+    public function delete($codigo){
+        $query = "DELETE FROM Ticket WHERE codigo=?";
         $stmt = $this->mysqli->prepare($query);
         
         if (!$stmt) {
             die("Error en la preparación de la consulta: " . $this->mysqli->error);
         }
-        $stmt->bind_param("ii",$id,$codigo);
+        $stmt->bind_param("i",$codigo);
         $stmt->execute();
         $affected = $stmt->affected_rows;
         $stmt->close();

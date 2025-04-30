@@ -59,7 +59,7 @@ CREATE TABLE `Ticket` (
   `idParking` int(11) NOT NULL,
   `fecha_ini` datetime NOT NULL,
   `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`codigo`, `idParking`),
+  PRIMARY KEY (`codigo`),
   CONSTRAINT `ticketParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
