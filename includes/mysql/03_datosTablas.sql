@@ -16,6 +16,13 @@ INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`) 
 (1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 1.23, 3),
 (2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 1.15, 50);
 
+INSERT INTO 'Pago' ('dni', 'importe', 'fechaPago')
+VALUES
+  ('12345678A',  25.00, '2025-04-20'),
+  ('87654321B',  40.50, '2025-04-22'),
+  ('12345678A', 100.75, '2025-05-01');
+
+
 
 
 
