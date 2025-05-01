@@ -77,13 +77,15 @@ class PagoDao extends DAO {
     //Modificado
     public function delete($id) {
 
-        $query = "DELETE FROM Parking WHERE id = ?";
-
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $stmt = $conn->prepare($query);
+        $sql = "DELETE FROM Pago WHERE id = ?";
 
-        $id = (int) $id;
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            throw new \mysqli_sql_exception($conn->error, $conn->errno);
+        }   
 
         $stmt->bind_param("i", $id);
 
@@ -99,58 +101,53 @@ class PagoDao extends DAO {
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "SELECT * FROM Parking WHERE id = ?";
+        $sql  = "SELECT id, dni, importe, DATE(fechaPago) AS fechaPago FROM Pago WHERE id = ?";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            throw new \mysqli_sql_exception($conn->error, $conn->errno);
+        }
 
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
 
-        $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
+        $stmt->bind_result($rowId, $dni, $importe, $fechaPago);
 
-        if ($stmt->fetch())
-        {
-            $parking = new TOParking($id, $dni, $precio,$dir, $ciudad,$cp,$nPlazas, $img);
+        $pago = null;
+
+        if ($stmt->fetch()) {
+            $pago = new TOPago($rowId, $dni, (float)$importe, $fechaPago);
         }
-
         $stmt->close();
+
+        return $pago;
         
-        return $parking; // Devuelve un array vacío si no hay parkings disponibles
     }
 
     
-    //Modificado
     public function getAll() {
-
-        $parkings = [];
     
         $conn = Aplicacion::getInstance()->getConexionBd();
     
-        $query = "SELECT * FROM Parking";
+        $sql  = "SELECT id, dni, importe, DATE(fechaPago) AS fechaPago FROM Pago";
     
-        $result = $conn->query($query);
+        $result = $conn->query($sql);
     
-        if ($result === false) {
-            die("Error en la consulta: " . $conn->error);
+        $pagos = [];
+    
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $pagos[] = new TOPago(
+                    (int)$row['id'], 
+                    $row['dni'], 
+                    (float)$row['importe'], 
+                    $row['fechaPago']
+                );
+            }
+            $result->free();
         }
-    
-        while ($row = $result->fetch_assoc()) {
-            $parkings[] = new TOParking(
-                $row['id'] ?? null,
-                $row['dni'] ?? null,
-                $row['precio'] ?? null,
-                $row['dir'] ?? null,
-                $row['ciudad'] ?? null,
-                $row['CP'] ?? null,
-                $row['nPlazas'] ?? null,
-                $row['img'] ?? null
-            );
-        }
-        
-        $result->close();
-        
-        return $parkings; // Devuelve un array vacío si no hay parkings disponibles
+        return $pagos;// Devuelve un array vacío si no hay parkings disponibles
         
     }
 
@@ -187,54 +184,39 @@ class PagoDao extends DAO {
     }
     */
     
-    public function getByDni($dni){
-        $parkings=[];
+    public function listarPorRangoFechas(string $inicio, string $fin){
 
-        $conn = Aplicacion::getInstance()->getConexionBd();
+        $conn = Aplication::getInstance()->getConexionBd();
 
-        $query = "SELECT * FROM Parking WHERE dni = ?";
+        $sql = "SELECT id, dni, importe, DATE(fechaPago) AS fechaPago
+                 FROM Pago
+                 WHERE fechaPago BETWEEN ? AND ?
+                 ORDER BY fechaPago ASC";
 
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($sql);
 
-        $stmt->bind_param("s", $dni);
-
-        $stmt->execute();
-
-        $stmt->bind_result($id, $dni, $dir, $ciudad,$cp,$precio,$nPlazas, $img);
-
-        while ($stmt->fetch())
-        {
-            $parkings[] = new TOParking($id, $dni, $precio, $dir, $ciudad,$cp,$nPlazas, $img);
+        if (!$stmt) {
+            throw new \mysqli_sql_exception($conn->error, $conn->errno);
         }
 
-        $stmt->close();
+        $desde = $inicio . ' 00:00:00';
+        $hasta = $fin    . ' 23:59:59';
+
+        $stmt->bind_param('ss', $desde, $hasta);
         
-        return $parkings;
-    }
-
-    public function getDni($id){
-        $result = null;
-        
-        $conn = Aplicacion::getInstance()->getConexionBd();
-
-        $query = "SELECT dni FROM Parking WHERE id = ?";
-
-        $stmt = $conn->prepare($query);
-
-        $stmt->bind_param("i", $id);
-
         $stmt->execute();
 
-        $stmt->bind_result($dni);
+        $stmt->bind_result($rowId, $dni, $importe, $fechaPago);
+        $pagos = [];
 
-        if($stmt->fetch()){
-
-            $result = $dni;
+        while ($stmt->fetch()) {
+            $pagos[] = new TOPago($rowId, $dni, (float)$importe, $fechaPago);
         }
 
         $stmt->close();
 
-        return $result;
+        return $pagos;
+
     }
 }
 
