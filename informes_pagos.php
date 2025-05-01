@@ -49,7 +49,7 @@
     spinner.style.display = 'inline';
     resultado.innerHTML = '';
 
-    fetch(`ajax_informe_pagos.php?fechaInicio=${desde}&fechaFin=${hasta}`)
+    fetch(`ajax_informe_pago.php?fechaInicio=${desde}&fechaFin=${hasta}`)
       .then(res => res.json())
       .then(json => {
 

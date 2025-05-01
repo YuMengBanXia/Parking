@@ -24,7 +24,7 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $desde)
 
 try{
 
-    $data = SAPago::listarPorRangoFechas($desde, $hasta);
+    $data = SAPago::listarPorRangoFecha($desde, $hasta);
 
     echo json_encode([
         'status' => 'success',

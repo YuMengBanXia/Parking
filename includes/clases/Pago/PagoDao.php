@@ -184,7 +184,7 @@ class PagoDao extends DAO {
     }
     */
     
-    public function listarPorRangoFechas(string $inicio, string $fin){
+    public function listarPorRangoFecha(string $inicio, string $fin){
 
         $conn = Aplication::getInstance()->getConexionBd();
 
