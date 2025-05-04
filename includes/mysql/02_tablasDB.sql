@@ -63,17 +63,6 @@ CREATE TABLE `Ticket` (
   CONSTRAINT `ticketParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `Abonado` (
-  `dni` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
-  `numPlaza` int(11) NOT NULL,
-  `idParking` int(11) NOT NULL,
-  `IBAN` varchar(99) COLLATE utf8mb4_general_ci NOT NULL,
-  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`dni`, `numPlaza`, `idParking`),
-  CONSTRAINT `abonoUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `plazaAbonado` FOREIGN KEY (`numPlaza`, `idParking`) REFERENCES `Plaza` (`num`, `idParking`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `Pago` (
   `id`         INT           NOT NULL AUTO_INCREMENT,
   `dni`        VARCHAR(9)    NOT NULL,

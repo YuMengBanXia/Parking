@@ -95,8 +95,8 @@ class pagarForm extends formBase {
                 
                 //Se pasan los datos por aplicacion.php
                 $app = Aplicacion::getInstance();
-                $app->putAtributoPeticion('pago.cantidad',  $total);
-                $app->putAtributoPeticion('pago.ticketId', $id);
+                $app->putAtributoPeticion('pago_cantidad',  $total);
+                $app->putAtributoPeticion('pago_ticketId', $id);
 
                 $result = "pago.php";
             }

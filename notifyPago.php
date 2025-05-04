@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/includes/config.php';
 require_once 'redsys/apiRedsys.php';
 
@@ -18,8 +19,12 @@ $response = $params["Ds_Response"];
 $order    = intval($params["Ds_Order"]); 
 
 if ($response === "0000") {
+    $centimos = intval($params["Ds_Amount"]);
+    $euros = $amountCents / 100.0;
+    $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($id);
     // Éxito: eliminamos o marcamos como pagado
     \es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($order);
+    \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,new DateTime());
     echo "OK";  // Redsys requiere este “OK”
 } else {
     // Fracaso: no tocamos la BD

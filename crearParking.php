@@ -1,15 +1,12 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 
-if(empty($_SESSION["login"])){
-   $html = <<<EOF
-   <p>Inicia sesión o regístrate como propietario para empezar a crear tus parkings</p>
-   EOF;
-}
-else{
-   if(isset($_SESSION["tipo"])){
-      if($_SESSION["tipo"] === 'propietario' || $_SESSION["tipo"] === 'administrador'){
-         $dni= $_SESSION['dni'];
+$app = Aplicacion::getInstance();
+if($app->isCurrentUserLogged()){
+   $tipo = $app->getAtributoPeticion('tipo');
+   $dni = $app->getAtributoPeticion('dni');
+   if(!empty($tipo)){
+      if($tipo === 'propietario' || $tipo === 'administrador'){
          $form = new \es\ucm\fdi\aw\ePark\nuevoParking($dni);
          $html = $form->Manage();
       }
@@ -23,6 +20,11 @@ else{
         <p>Ha habido un error al procesar el tipo de usuario</p>
       EOF;
    }
+}
+else{
+   $html = <<<EOF
+   <p>Inicia sesión o regístrate como propietario para empezar a crear tus parkings</p>
+   EOF;
 }
 
 

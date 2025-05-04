@@ -50,6 +50,11 @@ class SAParking{
         $daoParking = ParkingDAO::getSingleton();
         return $daoParking->getDni($id) === $dni;
     }
+
+    public static function getDni($id){
+        $daoParking = ParkingDAO::getSingleton();
+        return $daoParking->getDni($id);
+    }
 }
 
 ?>

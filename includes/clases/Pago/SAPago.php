@@ -2,8 +2,6 @@
 namespace es\ucm\fdi\aw\ePark;
 
 class SAPago{
-    
-    */
     public static function mostrarPagos() {
         $daoPago = PagoDao::getSingleton();
         return $daoPago->getAll();

@@ -32,6 +32,8 @@ class Aplicacion
 	 */
 	private $mensajePeticion;
 
+	private $userLogged = false;
+
 	/**
 	 * Evita que se pueda instanciar la clase directamente.
 	 */
@@ -183,5 +185,13 @@ class Aplicacion
 			$result = $_SESSION[self::MENSAJE_PETICION][$clave] ?? null;
 		}
 		return $result;
+	}
+
+	public function userIsLogged(){
+		$this->userLogged = true;
+	}
+
+	public function isCurrentUserLogged(){
+		return $this->userLogged;
 	}
 }

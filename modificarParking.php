@@ -2,16 +2,13 @@
 
 require_once __DIR__ . '/includes/config.php';
 
-if(empty($_SESSION["login"])){
-    $html = <<<EOF
-    <p>Por favor vuelve a iniciar sesión para acceder a la funcionalidad</p>
-    EOF;
- }
- else{
-    if(isset($_SESSION["tipo"])){
-      if($_SESSION["tipo"] === 'propietario' || $_SESSION["tipo"] === 'administrador'){
+$app = Aplicacion::getInstance();
+if($app->isCurrentUserLogged()){
+   $tipo = $app->getAtributoPeticion('tipo');
+   $dni = $app->getAtributoPeticion('dni');
+   if(!empty($tipo)){
+      if($tipo === 'propietario' || $tipo === 'administrador'){
          $parking = '';
-         $dni = $_SESSION['dni'];
          if(isset($_GET['id'])){
             $id = $_GET['id'];
          }
@@ -25,7 +22,7 @@ if(empty($_SESSION["login"])){
          }
 
          if(!empty($id)){
-            if(empty(\es\ucm\fdi\aw\ePark\SAParking::comprobarDni($id,$dni)) && $_SESSION["tipo"] === 'propietario') {
+            if(empty(\es\ucm\fdi\aw\ePark\SAParking::comprobarDni($id,$dni)) && $tipo === 'propietario') {
                $html = <<<EOF
                   <p>El parking seleccionado no pertenece a este usuario</p>
                EOF;
@@ -36,18 +33,23 @@ if(empty($_SESSION["login"])){
                $html = $form->Manage();
             }
          }
-       }
-       else{
-          $html = <<<EOF
-          <p>El usuario no tiene acceso a esta funcionalidad</p>
-          EOF;
-       }
-    } else {
-       $html = <<<EOF
+         }
+         else{
+            $html = <<<EOF
+            <p>El usuario no tiene acceso a esta funcionalidad</p>
+            EOF;
+         }
+      } else {
+         $html = <<<EOF
          <p>Ha habido un error al procesar el tipo de usuario</p>
-       EOF;
-    }
- }
+         EOF;
+      }
+}
+else{
+$html = <<<EOF
+<p>Por favor vuelve a iniciar sesión para acceder a la funcionalidad</p>
+EOF;
+}
 
 
 

@@ -18,8 +18,8 @@
 	$urlNotify = "http://localhost/GitHub/Parking/notifyPago.php";
 
 	$app = Aplicacion::getInstance();
-	$app->putAtributoPeticion('pago.cantidad',  $total);
-	$app->putAtributoPeticion('pago.ticketId', $ticket->getId());
+	$total = $app->getAtributoPeticion('pago_cantidad');
+	$ticket->getId() = $app->getAtributoPeticion('pago_ticketId');
 
 	if ($cantidad === null || $ticketId === null) {
 		header('Location: index.php?error=acceso_denegado');
