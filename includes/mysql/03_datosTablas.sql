@@ -13,8 +13,8 @@ INSERT INTO `Usuario` (`dni`, `nomUsuario`, `contrasenia`, `tipoUsuario`) VALUES
 ('00000000x', 'prop2', '$2y$10$ZkCmuXYwfyXft.kuktWBJuN0BHHzsH1XR80AzNVIZsCRUK3o70gdS', 'propietario');
 
 INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`) VALUES
-(1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 1.23, 3),
-(2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 1.15, 50);
+(1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 0.02, 3),
+(2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 0.02, 50);
 
 INSERT INTO `Pago` (`id`, `dni`, `importe`, `fechaPago`) VALUES
 (1, '12345678A', 25.00, '2025-04-20'),

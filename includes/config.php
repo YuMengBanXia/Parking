@@ -71,6 +71,7 @@ spl_autoload_register(function ($class) {
         __DIR__ . '/clases/usuario/',
         __DIR__ . '/clases/cogerTicket/',
         __DIR__ . '/clases/administracionParkings/',
+        __DIR__ . '/clases/pagoTicket/',
         __DIR__ . '/utils/',
         __DIR__ . '/vistas/comun/'
     ];

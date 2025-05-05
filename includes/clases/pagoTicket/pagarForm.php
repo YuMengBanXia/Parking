@@ -1,8 +1,6 @@
 <?php
 namespace es\ucm\fdi\aw\ePark;
 
-use DateTime;
-
 class pagarForm extends formBase {
     public function __construct()
     {   
@@ -76,7 +74,7 @@ class pagarForm extends formBase {
             else{
                 $precio = $parking->getPrecio();
                 $fecha = $ticket->get_fecha();
-                $fecha_actual = new DateTime();
+                $fecha_actual = new \DateTime();
                 $res = $fecha_actual->diff($fecha);
                 $dias    = $res->days;
                 $horas   = $res->h;
@@ -90,13 +88,12 @@ class pagarForm extends formBase {
                 // Cálculo del precio total
                 $total = $precio * $minutosTotales;
 
-                // Formatear para mostrar (string)
+                // Formatear para mostrar
                 $total = number_format($total, 2);
                 
                 //Se pasan los datos por aplicacion.php
-                $app = Aplicacion::getInstance();
-                $app->putAtributoPeticion('pago_cantidad',  $total);
-                $app->putAtributoPeticion('pago_ticketId', $id);
+                $_SESSION['pago_cantidad'] = $total;
+                $_SESSION['pago_id'] = $id;
 
                 $result = "pago.php";
             }

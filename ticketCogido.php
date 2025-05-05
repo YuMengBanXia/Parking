@@ -15,7 +15,7 @@ $html =<<<EOF
    ID del ticket: $ticket <br>
    Matrícula: $matricula<br>
    Fecha entrada: $fecha <br>
-       <a href="pago.php" class="btn-link">Ir a pagar</a>
+       <a href="pagoVista.php" class="btn-link">Ir a pagar</a>
 EOF;
 }
      

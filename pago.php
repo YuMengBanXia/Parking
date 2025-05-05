@@ -1,7 +1,6 @@
-//Tarjeta VISA para pruebas:4548810000000003 12/49 123
-//Tarjeta Mastercard para pruebas: 5576441563045037 12/49 123
-
 <?php
+	//Tarjeta VISA para pruebas:4548810000000003 12/49 123
+	//Tarjeta Mastercard para pruebas: 5576441563045037 12/49 123
     require_once __DIR__ . '/includes/config.php';
     require_once 'redsys/apiRedsys.php';
 
@@ -17,16 +16,15 @@
     $urlKO="http://localhost/GitHub/Parking/returnPago.php";
 	$urlNotify = "http://localhost/GitHub/Parking/notifyPago.php";
 
-	$app = Aplicacion::getInstance();
-	$total = $app->getAtributoPeticion('pago_cantidad');
-	$ticket->getId() = $app->getAtributoPeticion('pago_ticketId');
+	$total = $_SESSION['pago_cantidad'];
+	$id = $_SESSION['pago_id'];
+	$ticket = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($id);
 
-	if ($cantidad === null || $ticketId === null) {
+	if ($total === null || $id === null || empty($ticket)) {
 		header('Location: index.php?error=acceso_denegado');
 		exit;
 	}
-	$id=$ticketId;
-	$importe = floatval($total??1.0); // Por defecto valor 1.0 porque el 0 da error por RedSys
+	$importe = floatval($total ?? 1.0); // Por defecto valor 1.0 porque el 0 da error por RedSys
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 
 	
