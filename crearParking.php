@@ -1,12 +1,15 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 
-$app = Aplicacion::getInstance();
-if($app->isCurrentUserLogged()){
-   $tipo = $app->getAtributoPeticion('tipo');
-   $dni = $app->getAtributoPeticion('dni');
-   if(!empty($tipo)){
-      if($tipo === 'propietario' || $tipo === 'administrador'){
+if(empty($_SESSION["login"])){
+   $html = <<<EOF
+   <p>Inicia sesión o regístrate como propietario para empezar a crear tus parkings</p>
+   EOF;
+}
+else{
+   if(isset($_SESSION["tipo"])){
+      if($_SESSION["tipo"] === 'propietario' || $_SESSION["tipo"] === 'administrador'){
+         $dni= $_SESSION['dni'];
          $form = new \es\ucm\fdi\aw\ePark\nuevoParking($dni);
          $html = $form->Manage();
       }
@@ -21,18 +24,13 @@ if($app->isCurrentUserLogged()){
       EOF;
    }
 }
-else{
-   $html = <<<EOF
-   <p>Inicia sesión o regístrate como propietario para empezar a crear tus parkings</p>
-   EOF;
-}
 
 
 
 $contenidoPrincipal = <<<EOS
    <h3>Crear Parking</h3>
    $html
-   
+   <script src="JS/imgPreview.js"></script>
 EOS;
 
 

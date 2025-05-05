@@ -47,15 +47,17 @@ class administrarParking extends formBase
                 $precio = htmlspecialchars($parking->getPrecio());
                 $nPlazas = htmlspecialchars($parking->getNPlazas());
 
-                $img = htmlspecialchars($parking->getImg());
+                $imgPath = (!empty($parking->getImg()) && file_exists($parking->getImg())) ? $parking->getImg() : "img/default.png";
+                $img = htmlspecialchars($imgPath);
+                
                 $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
                 $cp = htmlspecialchars($parking->getCP());
 
-                $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/default.png";
+                
 
                 $html .= <<<EOF
                 <tr>
-                    <td><img src="{$imgPath}" alt="Imagen del parking"></td>
+                    <td><img src="{$img}" alt="Imagen del parking"></td>
                     <td>{$id}</td>
                     <td>{$dir}</td>
                     <td>{$ciudad}</td>

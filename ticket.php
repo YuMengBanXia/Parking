@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/config.php';
 
 
@@ -9,11 +8,10 @@ $form = new \es\ucm\fdi\aw\ePark\cogerTicket();
 $htmlFormCoger = $form->Manage();
 
 
+
 $contenidoPrincipal = <<<EOS
    <h3>Coger Ticket</h3>
-   $htmlFormCoger
-   
-  
+   $htmlFormCoger 
 EOS;
 
 

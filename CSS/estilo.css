@@ -299,6 +299,7 @@ input[type="text"] {
     width: margin 0;
   
   }
+      
   
 
 /*Tabla*/
@@ -342,10 +343,20 @@ input[type="text"] {
     }
   }
 
+/* Oculta por defecto los dos elementos */
+.imgPreview {
+    display: none;
+    max-width: 200px;
+    margin-top: 0.5em;
+}
 
-
-
- 
- 
+.imgError {
+    display: none;
+    color: red;
+    margin-top: 0.5em;
+}
+  
 
   
+
+ 

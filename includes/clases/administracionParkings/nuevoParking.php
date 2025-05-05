@@ -52,8 +52,10 @@ class nuevoParking extends formBase
             <input type="number" id="plazas" name="plazas" min="1" step="1" required>
         </div>
         <div>
-            <label for="img">Imagen (opcional):</label>
-            <input type="file" id="img" name="img">
+            <label for="imgInput">Imagen (opcional):</label>
+            <input type="file" id="imgInput" name="img" accept="image/*">
+            <img class="imgPreview" alt="Vista previa de la imagen">
+            <div class="imgError"></div>
         </div>
         <button type="submit">Crear</button>
         EOF;

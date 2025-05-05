@@ -109,14 +109,13 @@ class registerForm extends formBase
                 $userAppService->create($userDTO);
 
                 $userAppService->login($userDTO);
+                $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
+                $_SESSION["dni"] = $dniUsuario;
+                $_SESSION["tipo"] = $tipoUsuario;
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Usuario $nombreUsuario registrado correctamente."];
                 $app->putAtributoPeticion('mensajes', $mensajes);
-
-                $app->userIsLogged();
-                $app->putAtributoPeticion('dni', $dniUsuario);
-                $app->putAtributoPeticion('tipo', $tipoUsuario);
                 $result = 'index.php';
             }
             catch(UserAlreadyExistsException $e)

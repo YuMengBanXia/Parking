@@ -42,11 +42,11 @@ class TicketDAO extends DAO{
     
     //Modificado
     public function insert($id, $matricula){
-        $fecha = new \DateTime()->format('Y-m-d H:i:s');
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query="INSERT INTO Ticket (idParking,matricula,fecha_ini) VALUES (?,?,?,?)";
+        $query="INSERT INTO Ticket (idParking,matricula,fecha_ini) VALUES (?,?,?)";
         
         $stmt = $conn->prepare($query);
 
@@ -82,12 +82,9 @@ class TicketDAO extends DAO{
     }
 
     public function delete($codigo){
+        $conn = Aplicacion::getInstance()->getConexionBd();
         $query = "DELETE FROM Ticket WHERE codigo=?";
         $stmt = $this->mysqli->prepare($query);
-        
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->mysqli->error);
-        }
         $stmt->bind_param("i",$codigo);
         $stmt->execute();
         $affected = $stmt->affected_rows;

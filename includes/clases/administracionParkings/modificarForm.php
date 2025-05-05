@@ -59,8 +59,10 @@ class modificarForm extends formBase
             <input type="number" id="plazas" name="plazas" min="1" step="1" value="{$nPlazas}" required>
         </div>
         <div>
-            <label for="img">Imagen:</label>
-            <input type="file" id="img" name="img">
+            <label for="imgInput">Imagen:</label>
+            <input type="file" id="imgInput" name="img" accept="image/*">
+            <img class="imgPreview" alt="Vista previa de la imagen">
+            <div class="imgError"></div>
         </div>
         <button type="submit" name="id" value="{$id}">Actualizar</button>
         EOF;

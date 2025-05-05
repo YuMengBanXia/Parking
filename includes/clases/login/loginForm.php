@@ -62,14 +62,13 @@ class loginForm extends formBase
                 $result[] = "El usuario o el password no coinciden";
             } 
             else {
+                $_SESSION["login"] = true;
                 $_SESSION["nombre"] = $nombreUsuario;
+                $_SESSION["dni"] = $foundedUserDTO->dni();
+                $_SESSION["tipo"] = $foundedUserDTO->tipoUsuario();
                 $app = Aplicacion::getInstance();
                 $mensajes = ["Bienvenido $nombreUsuario"];
                 $app->putAtributoPeticion('mensajes', $mensajes);
-
-                $app->userIsLogged();
-                $app->putAtributoPeticion('dni', $foundedUserDTO->dni());
-                $app->putAtributoPeticion('tipo', $foundedUserDTO->tipoUsuario());
                 $result = 'index.php';
             }
         }

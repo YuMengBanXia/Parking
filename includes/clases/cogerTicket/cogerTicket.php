@@ -52,12 +52,12 @@ class cogerTicket extends formBase
 
             $checked = ($idSeleccionado == $id) ? 'checked' : '';
 
-            $img = htmlspecialchars($parking->getImg());
-            $imgPath = (!empty($img) && file_exists($img)) ? $img : "img/default.png";
+            $imgPath = (!empty($parking->getImg()) && file_exists($parking->getImg())) ? $parking->getImg() : "img/default.png";
+            $img = htmlspecialchars($imgPath);
 
             $html .= <<<EOF
             <tr>
-                <td><img src="{$imgPath}" alt="Imagen del parking"></td>
+                <td><img src="{$img}" alt="Imagen del parking"></td>
                 <td>{$id}</td>
                 <td>{$dir}</td>
                 <td>{$ciudad}</td>

@@ -1,22 +1,27 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 
-$app = Aplicacion::getInstance();
-if($app->isCurrentUserLogged()){
-    $tipo = $app->getAtributoPeticion('tipo');
-    $dni = $app->getAtributoPeticion('dni');
-    if(!empty($tipo)){
-        switch($tipo){
+
+if(empty($_SESSION['login'])){
+    $html = <<<EOF
+    <p>Por favor inicia sesión para acceder a la funcionalidad</p>
+    EOF;
+}
+else{
+    if(isset($_SESSION['tipo'])){
+        switch($_SESSION['tipo']){
             case 'cliente': //Usuario normal
                 $html = <<<EOF
                 <p>Funcionalidad restringida. El usuario no tiene permisos</p>
                 EOF;
                 break;
             case 'propietario': //Propietario
+                $dni = $_SESSION['dni'];
                 $form = new \es\ucm\fdi\aw\ePark\gestionProp($dni);
                 $html = $form->Manage();
                 break;
             case 'administrador': //Admin
+                $dni = $_SESSION['dni'];
                 $form = new \es\ucm\fdi\aw\ePark\gestionAdmin($dni);
                 $html = $form->Manage();
                 break;
@@ -32,11 +37,6 @@ if($app->isCurrentUserLogged()){
         <p>Tipo de usuario no especificado</p>
         EOF;
     }
-}
-else{
-    $html = <<<EOF
-    <p>Por favor inicia sesión para acceder a la funcionalidad</p>
-    EOF;
 }
 
 

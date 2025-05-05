@@ -26,7 +26,7 @@
 		exit;
 	}
 	$id=$ticketId;
-	$importe = floatval($total??12.5); // Por defecto valor 12.5 porque el 0 da error por RedSys
+	$importe = floatval($total??1.0); // Por defecto valor 1.0 porque el 0 da error por RedSys
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 
 	
