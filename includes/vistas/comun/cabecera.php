@@ -23,6 +23,7 @@ function mostrarSaludo()
         <a href="ticket.php">Coger Ticket</a>
         <a href="misParkings.php">Mis Parkings</a>
         <a href="crearParking.php">Crear Parking</a>
+        <a href="pagoVista.php">Salida Parking</a>
     </div>
 
 <div class="barra-superior">

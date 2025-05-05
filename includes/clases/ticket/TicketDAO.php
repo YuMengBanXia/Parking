@@ -83,15 +83,18 @@ class TicketDAO extends DAO{
 
     public function delete($codigo){
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = "DELETE FROM Ticket WHERE codigo=?";
-        $stmt = $this->mysqli->prepare($query);
-        $stmt->bind_param("i",$codigo);
-        $stmt->execute();
-        $affected = $stmt->affected_rows;
-        $stmt->close();
 
-        return $affected > 0;
-        
+        $query = "DELETE FROM Ticket WHERE codigo=?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i",$codigo);
+
+        $resultado = $stmt->execute();
+
+        $stmt->close();
+  
+        return $resultado;
     }
 
     //Modificado
