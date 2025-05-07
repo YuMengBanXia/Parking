@@ -9,7 +9,7 @@ $encoded = $_REQUEST["Ds_MerchantParameters"] ?? '';
 $signature = $_REQUEST["Ds_Signature"] ?? '';
 $kc = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7';
 
-if (!$encoded || !$signature) {
+if (empty($encoded) || empty($signature)) {
     http_response_code(400);
     exit('Faltan parámetros Redsys');
 }
@@ -39,3 +39,4 @@ if ($response === "0000") {
     // Fracaso: no tocamos la BD
     echo "KO";
 }
+?>

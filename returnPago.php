@@ -23,12 +23,13 @@ $response = $miObj->getParameter("Ds_Response");
 $id = $_SESSION['pago_id']; 
 
 if ($response === "0000") {
-    $centimos = intval($miObj->getParameter("Ds_Amount"));
+    /*$centimos = intval($miObj->getParameter("Ds_Amount"));
     $euros = $centimos / 100.0;
     $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($id);
     // Éxito: eliminamos o marcamos como pagado
     \es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($id);
     \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,new \DateTime());
+    */
     $html = <<<EOF
     <p>Pago exitoso para el ticket #{$id}</p>
     EOF;
