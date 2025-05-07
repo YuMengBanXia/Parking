@@ -14,7 +14,7 @@
 	$trans="0";
 	$urlOK="http://localhost/Parking/returnPago.php";//esto hay que cambiarlo para el VPS
     $urlKO="http://localhost/Parking/returnPago.php";
-	$urlNotify = ""; //En vps se puede probar con http://localhost/Parking/notifyPago.php pero en local no funciona
+	$urlNotify = "http://localhost/Parking/notifyPago.php"; //En vps se puede probar con http://localhost/Parking/notifyPago.php pero en local no funciona
 
 	$total = $_SESSION['pago_cantidad'];
 	$id = $_SESSION['pago_id'];

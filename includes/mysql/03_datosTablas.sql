@@ -21,6 +21,11 @@ INSERT INTO `Pago` (`id`, `dni`, `importe`, `fechaPago`) VALUES
 (2, '12345678C', 40.50, '2025-04-22'),
 (3, '12345678P', 100.75, '2025-05-01');
 
+INSERT INTO `ticket` (`codigo`, `idParking`, `fecha_ini`, `matricula`) VALUES 
+(NULL, '1', '2025-05-06 11:28:35', '1111AAA'), 
+(NULL, '1', '2025-05-06 21:28:35', '2222BBB'), 
+(NULL, '2', '2025-05-05 13:18:00', '3333CCC');
+
 
 
 

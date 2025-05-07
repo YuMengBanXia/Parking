@@ -30,11 +30,14 @@ CREATE TABLE `Parking` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `Reserva` (
+  `id` INT AUTO_INCREMENT,
   `dni` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
   `idParking` int(10) NOT NULL,
-  `fecha` datetime NOT NULL,
+  `fecha_ini` datetime NOT NULL,
+  `fecha_fin` datetime NOT NULL,
   `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`dni`, `matricula`, `idParking`),
+  `estado` ENUM('PENDIENTE','ACTIVA','CANCELADA','COMPLETADA') NOT NULL DEFAULT 'PENDIENTE',
+  PRIMARY KEY (`id`),
   CONSTRAINT `reservaUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reservaParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -43,7 +46,7 @@ CREATE TABLE `Ticket` (
   `codigo` int(10) NOT NULL AUTO_INCREMENT,
   `idParking` int(11) NOT NULL,
   `fecha_ini` datetime NOT NULL,
-  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
+  `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL UNIQUE,
   PRIMARY KEY (`codigo`),
   CONSTRAINT `ticketParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
