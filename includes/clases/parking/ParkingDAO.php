@@ -141,7 +141,15 @@ class ParkingDAO extends DAO {
 
         if ($stmt->fetch())
         {
-            $parking = new TOParking($id, $dni, $precio,$dir, $ciudad,$cp,$nPlazas, $img);
+            $parking = new TOParking(
+                $id,
+                $dni,
+                $precio,
+                $dir,
+                $ciudad,
+                $cp,
+                $nPlazas,
+                $img);
         }
 
         $stmt->close();
@@ -234,7 +242,15 @@ class ParkingDAO extends DAO {
 
         while ($stmt->fetch())
         {
-            $parkings[] = new TOParking($id, $dni, $precio, $dir, $ciudad,$cp,$nPlazas, $img);
+            $parkings[] = new TOParking(
+                $id,
+                $dni,
+                $precio,
+                $dir,
+                $ciudad,
+                $cp,
+                $nPlazas,
+                $img);
         }
 
         $stmt->close();

@@ -141,7 +141,16 @@ class ReservaDAO extends DAO{
         $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
 
         while ($stmt->fetch()) {
-            $reservas[] = new TOReserva($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+            $reservas[] = new TOReserva(
+                $codigo,
+                $dni,
+                $id,
+                $fecha_ini,
+                $fecha_fin,
+                $matricula,
+                $importe,
+                $estado
+            );
         }
 
         $stmt->close();
