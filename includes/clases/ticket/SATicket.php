@@ -74,5 +74,32 @@ class SATicket{
         $daoTicket = TicketDAO::getSingleton();
         return $daoTicket->delete($codigo);
     }
+
+    public static function calcularImporte($ticket){
+        $id = $ticket->get_id();
+        $parking = SAParking::obtenerParkingPorId($id);
+        if(empty($parking)){
+            return 0;
+        }
+        $precio = $parking->getPrecio();
+        $fecha = $ticket->get_fecha();
+        $fecha_actual = new \DateTime();
+        $res = $fecha_actual->diff($fecha);
+        $dias    = $res->days;
+        $horas   = $res->h;
+        $minutos = $res->i;
+
+        // Total de minutos de la estancia
+        $minutosTotales = $dias * 24 * 60
+                        + $horas * 60
+                        + $minutos;
+
+        // Cálculo del precio total
+        $importe = $precio * $minutosTotales;
+
+        // Formatear para mostrar
+        $importe = number_format($importe, 2);
+        return $importe;
+    }
 }
 ?>

@@ -22,14 +22,14 @@ if ($signature !== $expectedSignature) {
 }
 
 $response = $miObj->getParameter("Ds_Response");   
-$id = $_SESSION['pago_id']; 
+$codigo = $_SESSION['pago_id']; 
 
 if ($response === "0000") {
     $centimos = intval($miObj->getParameter("Ds_Amount"));
     $euros = $centimos / 100.0;
-    $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($id);
+    $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($codigo);
     // Éxito: eliminamos o marcamos como pagado
-    if(empty(\es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($id))){
+    if(empty(\es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($codigo))){
         http_response_code(400);
         exit("Error en la eliminacion");
     }

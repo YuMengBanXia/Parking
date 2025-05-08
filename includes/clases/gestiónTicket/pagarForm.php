@@ -66,34 +66,14 @@ class pagarForm extends formBase {
         }
 
         if (count($result) === 0) {
-            $id = $ticket->get_id();
-            $parking = SAParking::obtenerParkingPorId($id);
-            if(empty($parking)){
-                $result[] = "Ha habido un error de sistema. El parking no ha sido encontrado";
+            $importe = SATicket::calcularImporte($ticket);
+            if(empty($importe)){
+                $result[] = "Ha habido un error de sistema.";
             }
             else{
-                $precio = $parking->getPrecio();
-                $fecha = $ticket->get_fecha();
-                $fecha_actual = new \DateTime();
-                $res = $fecha_actual->diff($fecha);
-                $dias    = $res->days;
-                $horas   = $res->h;
-                $minutos = $res->i;
-
-                // Total de minutos de la estancia
-                $minutosTotales = $dias * 24 * 60
-                                + $horas * 60
-                                + $minutos;
-
-                // Cálculo del precio total
-                $total = $precio * $minutosTotales;
-
-                // Formatear para mostrar
-                $total = number_format($total, 2);
-                
-                //Se pasan los datos por aplicacion.php
-                $_SESSION['pago_cantidad'] = $total;
-                $_SESSION['pago_id'] = $id;
+                $_SESSION['pago_cantidad'] = $importe;
+                $codigo = $ticket->get_codigo();
+                $_SESSION['pago_id'] = $codigo;
 
                 $result = "pago.php";
             }

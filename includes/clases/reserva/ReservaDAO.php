@@ -157,5 +157,70 @@ class ReservaDAO extends DAO{
         
         return $reservas;
     }
+
+    public function getById($id){
+        $reservas = [];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT * FROM Reserva WHERE id = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $id);
+
+        $stmt->execute();
+
+        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+
+        while ($stmt->fetch()) {
+            $reservas[] = new TOReserva(
+                $codigo,
+                $dni,
+                $id,
+                $fecha_ini,
+                $fecha_fin,
+                $matricula,
+                $importe,
+                $estado
+            );
+        }
+
+        $stmt->close();
+        
+        return $reservas;
+    }
+
+    public function getReserva($codigo){
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query = "SELECT * FROM Reserva WHERE codigo = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $codigo);
+
+        $stmt->execute();
+
+        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+
+        if ($stmt->fetch())
+        {
+            $reserva = new TOReserva(
+                $codigo,
+                $dni,
+                $id,
+                $fecha_ini,
+                $fecha_fin,
+                $matricula,
+                $importe,
+                $estado
+            );
+        }
+
+        $stmt->close();
+        
+        return $reserva;
+    }
 }
 ?>

@@ -17,10 +17,10 @@
 	$urlNotify = "http://localhost/Parking/redsys/notifyPago.php"; //Funcionalidad capada -> memoria
 
 	$total = $_SESSION['pago_cantidad'];
-	$id = $_SESSION['pago_id'];
-	$ticket = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($id);
+	$codigo = $_SESSION['pago_id'];
+	$ticket = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($codigo);
 
-	if ($total === null || $id === null || empty($ticket)) {
+	if ($total === null || empty($ticket)) {
 		header('Location: index.php?error=acceso_denegado');
 		exit;
 	}

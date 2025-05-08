@@ -20,7 +20,7 @@ if ($signature !== $expectedSignature) {
 }
 
 $response = $miObj->getParameter("Ds_Response");
-$id = $_SESSION['pago_id']; 
+$codigo = $_SESSION['pago_id']; 
 
 if ($response === "0000") {
     /*$centimos = intval($miObj->getParameter("Ds_Amount"));
@@ -31,7 +31,7 @@ if ($response === "0000") {
     \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,new \DateTime());
     */
     $html = <<<EOF
-    <p>Pago exitoso para el ticket #{$id}</p>
+    <p>Pago exitoso para el ticket #{$codigo}</p>
     EOF;
 } else {
     $html = <<<EOF
