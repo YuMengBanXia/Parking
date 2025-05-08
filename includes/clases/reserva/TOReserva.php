@@ -30,5 +30,6 @@ class TOReserva{
     public function get_fecha_fin(){return $this->fecha_fin;}
     public function get_matricula(){return $this->matricula;}
     public function get_estado(){return $this->estado;}
+    public function get_importe() {return $this->importe;}
 }
 ?>

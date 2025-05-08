@@ -57,6 +57,8 @@ class SAReserva{
 
         $estado = strtolower($estado);
         switch($estado){
+            case 'pagada':
+                return $daoReserva->pagar($codigo);
             case 'activa':
                 return $daoReserva->activar($codigo);
             case 'cancelada':
@@ -86,6 +88,11 @@ class SAReserva{
     public static function getReserva($codigo){
         $daoReserva = ReservaDAO::getSingleton();
         return $daoReserva->getReserva($codigo);
+    }
+
+    public static function comprobarDni($dni, $codigo){
+        $reserva = self::getReserva($codigo);
+        return $reserva->get_dni() === $dni;
     }
 }
 ?>

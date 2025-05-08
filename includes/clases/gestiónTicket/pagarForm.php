@@ -74,6 +74,7 @@ class pagarForm extends formBase {
                 $_SESSION['pago_cantidad'] = $importe;
                 $codigo = $ticket->get_codigo();
                 $_SESSION['pago_id'] = $codigo;
+                $_SESSION['pago_tipo'] = 'ticket';
 
                 $result = "pago.php";
             }

@@ -96,6 +96,22 @@ class ReservaDAO extends DAO{
         return $resultado;
     }
 
+    public function pagar($codigo){
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="UPDATE Reserva SET `estado`='PAGADA' WHERE `codigo`=?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("i", $codigo);
+
+        $resultado=$stmt->execute();
+
+        $stmt->close();
+  
+        return $resultado;
+    }
+
     public function getAll() {
 
         $reservas = [];

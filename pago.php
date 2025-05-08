@@ -17,13 +17,29 @@
 	$urlNotify = "http://localhost/Parking/redsys/notifyPago.php"; //Funcionalidad capada -> memoria
 
 	$total = $_SESSION['pago_cantidad'];
+	unset($_SESSION['pago_cantidad']);
+	$tipo = $_SESSION['pago_tipo'];
 	$codigo = $_SESSION['pago_id'];
-	$ticket = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($codigo);
 
-	if ($total === null || empty($ticket)) {
+	switch($tipo){
+		case 'ticket':
+			$obj = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($codigo);
+			break;
+		case 'reserva':
+			$trans = $_SESSION['tipo_transaccion'] ?? '0';
+			unset($_SESSION['tipo_transaccion']);
+			$obj = \es\ucm\fdi\aw\ePark\SAReserva::getReserva($codigo);
+			break;
+		default:
+			$obj = null;
+			break;
+	}
+
+	if ($total === null || empty($obj)) {
 		header('Location: index.php?error=acceso_denegado');
 		exit;
 	}
+
 	$importe = floatval($total ?? 1.0); // Por defecto valor 1.0 porque el 0 da error por RedSys
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 

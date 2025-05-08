@@ -90,7 +90,7 @@ class administrarParking extends formBase
         $result = array();
 
         $id = trim($datos['id'] ?? '');
-        $id = filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         if(empty($id)) {
             $result[] = "No se ha seleccionado un id de parking";
