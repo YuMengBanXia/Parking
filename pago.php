@@ -15,7 +15,11 @@
 	$urlOK="http://localhost/Parking/returnPago.php";//esto hay que cambiarlo para el VPS
     $urlKO="http://localhost/Parking/returnPago.php";
 	$urlNotify = "http://localhost/Parking/redsys/notifyPago.php"; //Funcionalidad capada -> memoria
-
+	/* Para cuando se lance al servidor
+	$urlOK=	"https://vm009.containers.fdi.ucm.es/returnPago.php";
+	$urlKO= "https://vm009.containers.fdi.ucm.es/returnPago.php";
+	$urlNotify = "https://vm009.containers.fdi.ucm.es/notifyPago.php";
+	*/
 	$total = $_SESSION['pago_cantidad'];
 	unset($_SESSION['pago_cantidad']);
 	$tipo = $_SESSION['pago_tipo'];
