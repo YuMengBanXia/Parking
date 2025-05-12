@@ -28,9 +28,13 @@ else{
             EOF;
         }
         else{
-            /*$parking = \es\ucm\fdi\aw\ePark\SAParking::obtenerParkingPorId($id);
-            $form = new \es\ucm\fdi\aw\ePark\modificarForm($parking);
-            $html = $form->Manage();*/
+            $reserva = \es\ucm\fdi\aw\ePark\SAReserva::getReserva($codigo);
+            $html = <<<EOF
+                <p>Detalles reserva:</p>
+            EOF;
+            
+            $form = new \es\ucm\fdi\aw\ePark\cancelarForm($reserva);
+            $html .= $form->Manage();
         }
     }
 }

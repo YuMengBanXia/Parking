@@ -52,6 +52,7 @@ if ($response === "0000") {
                 case '2':
                     //En este caso de devuelve una reserva, por lo que se procede a cancelarla
                     \es\ucm\fdi\aw\ePark\SAReserva::cambiarEstado($codigo,'cancelada');
+                    \es\ucm\fdi\aw\ePark\SAReserva::setNuevoImporte($codigo);
                     $html = <<<EOF
                         <p>Devolución tramitada correctamente. Reserva cancelada</p>
                     EOF;

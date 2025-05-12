@@ -94,5 +94,44 @@ class SAReserva{
         $reserva = self::getReserva($codigo);
         return $reserva->get_dni() === $dni;
     }
+
+    public static function calcularDevolucion($reserva){
+        $base = $reserva->get_importe();
+        $fecha_ini_seg = $reserva->get_fecha_ini()->getTimestamp();
+        $fecha_seg = (new \DateTime())->getTimestamp();
+
+        $diff = $fecha_ini_seg - $fecha_seg;
+
+        //Calculamos la cantidad de segundos en un día (24h * 3600seg/h)
+        $dia_en_seg = 24 * 3600;
+
+        //Calculamos la cantidad de segundos en 5 horas (devolucion parcial)
+        $parcial_en_seg = 5 * 3600;
+
+        if($diff >= $dia_en_seg){
+            //En caso de no haber superado un dia se devuelve todo el importe
+            return $base;
+        }
+        elseif($diff >= $parcial_en_seg){
+            //En caso de estar entre el intervalo de un día y 5 horas antes se devuelve el 50%
+            return $base*0.5;
+        }
+
+        return 0;
+    }
+
+    public static function setNuevoImporte($codigo){
+        $daoReserva = ReservaDAO::getSingleton();
+
+        $reserva = self::getReserva($codigo);
+
+        $importe_inicial = $reserva->get_importe();
+
+        $devuelto = self::calcularDevolucion($reserva);
+
+        $importe_final = $importe_inicial - $devuelto;
+
+        return $daoReserva->setImporte($reserva->get_codigo(),$importe_final);
+    }
 }
 ?>

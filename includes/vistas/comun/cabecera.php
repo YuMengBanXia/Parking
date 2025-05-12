@@ -24,6 +24,8 @@ function mostrarSaludo()
         <a href="misParkings.php">Mis Parkings</a>
         <a href="crearParking.php">Crear Parking</a>
         <a href="pagoVista.php">Salida Parking</a>
+        <a href="crearReserva.php">Crear Reserva</a>
+        <a href="misReservas.php">Mis Reservas</a>
     </div>
 
 <div class="barra-superior">

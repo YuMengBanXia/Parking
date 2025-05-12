@@ -238,5 +238,21 @@ class ReservaDAO extends DAO{
         
         return $reserva;
     }
+
+    public function setImporte($codigo, $importe){
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="UPDATE Reserva SET `importe`=? WHERE `codigo`=?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("di", $importe, $codigo);
+
+        $resultado=$stmt->execute();
+
+        $stmt->close();
+  
+        return $resultado;
+    }
 }
 ?>

@@ -20,7 +20,7 @@ class administrarReservas extends formBase
 
         if(empty($reservas)) {
             $html = <<<EOF
-                <p>El usuario no ha hecho ninguna reserva</p>
+                <p>El usuario no tiene ninguna reserva pendiente</p>
             EOF;
         }
         else {
@@ -38,14 +38,20 @@ class administrarReservas extends formBase
             EOF;
 
             foreach ($reservas as $reserva) {
+                $estado = htmlspecialchars($reserva->get_estado());
+                $estado = strtolower($estado);
+
+                if($estado === 'completada' || $estado === 'cancelada'){
+                    continue;
+                }
+
                 $codigo = htmlspecialchars($reserva->get_codigo());
                 $id = htmlspecialchars($reserva->get_id());
                 $fecha_ini = htmlspecialchars($reserva->get_fecha_ini());
                 $fecha_fin = htmlspecialchars($reserva->get_fecha_fin());
                 $matricula = htmlspecialchars($reserva->get_matricula());
                 $importe = htmlspecialchars($reserva->get_importe());
-                $estado = htmlspecialchars($reserva->get_estado());
-                $estado = strtolower($estado);
+                
 
                 $html .= <<<EOF
                 <tr>
@@ -78,7 +84,7 @@ class administrarReservas extends formBase
                         break;
                     default:
                         $html .=<<<EOF
-                            <td colspan=2><p>No se puede hacer ninguna acción sobre esta reserva</p></td>
+                            <td colspan=2><p>No posible</p></td>
                         </tr>
                         EOF;
                         break;
