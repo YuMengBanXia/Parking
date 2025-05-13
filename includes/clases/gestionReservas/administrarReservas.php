@@ -25,9 +25,10 @@ class administrarReservas extends formBase
         }
         else {
             $html = <<<EOF
+            <div class="tabla-responsive">
             <table>
                 <tr>
-                    <th>ID</th>
+                    <th>ID Parking</th>
                     <th>Fecha incio</th>
                     <th>Fecha fin</th>
                     <th>Matricula</th>
@@ -92,6 +93,7 @@ class administrarReservas extends formBase
             }
 
             $html .= "</table>";
+            $html .= "</div>";
         }
 
         $htmlinicio = <<<EOF
@@ -112,7 +114,7 @@ class administrarReservas extends formBase
         $codigo = trim($datos['codigo'] ?? '');
         $codigo = filter_var($codigo, FILTER_SANITIZE_NUMBER_INT);
 
-        if(empty($id)) {
+        if(empty($codigo)) {
             $result[] = "No se ha seleccionado una reserva";
         }
 
@@ -131,7 +133,6 @@ class administrarReservas extends formBase
                 $_SESSION['pago_cantidad'] = $importe;
                 $_SESSION['pago_id'] = $codigo;
                 $_SESSION['pago_tipo'] = 'reserva';
-                $_SESSION['tipo_transaccion'] = '0';
 
                 $result = "pago.php";
             }
@@ -140,3 +141,4 @@ class administrarReservas extends formBase
         return $result;
     }
 }
+?>

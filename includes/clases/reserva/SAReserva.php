@@ -28,15 +28,12 @@ class SAReserva{
         }
 
         $precio = $parking->getPrecio();
-        $res = $fecha_fin->diff($fecha_ini);
-        $dias    = $res->days;
-        $horas   = $res->h;
-        $minutos = $res->i;
 
-        // Total de minutos de la estancia
-        $minutosTotales = $dias * 24 * 60
-                        + $horas * 60
-                        + $minutos;
+        $segInicio = $fecha_ini->getTimestamp();
+        $segFin    = $fecha_fin->getTimestamp();
+        $res = $segFin - $segInicio;
+
+        $minutosTotales = intdiv($res, 60);
 
         // Cálculo del precio total
         $importe = $precio * $minutosTotales;
@@ -62,6 +59,7 @@ class SAReserva{
             case 'activa':
                 return $daoReserva->activar($codigo);
             case 'cancelada':
+                self::setNuevoImporte($codigo);
                 return $daoReserva->cancelar($codigo);
             case 'completada':
                 return $daoReserva->completar($codigo);
@@ -97,7 +95,8 @@ class SAReserva{
 
     public static function calcularDevolucion($reserva){
         $base = $reserva->get_importe();
-        $fecha_ini_seg = $reserva->get_fecha_ini()->getTimestamp();
+        $fecha_ini = new \DateTime($reserva->get_fecha_ini());
+        $fecha_ini_seg = $fecha_ini->getTimestamp();
         $fecha_seg = (new \DateTime())->getTimestamp();
 
         $diff = $fecha_ini_seg - $fecha_seg;
@@ -125,6 +124,13 @@ class SAReserva{
 
         $reserva = self::getReserva($codigo);
 
+        $estado = $reserva->get_estado();
+        $estado = strtolower($estado);
+
+        if($estado === 'pendiente'){
+            return $daoReserva->setImporte($reserva->get_codigo(),0);
+        }
+
         $importe_inicial = $reserva->get_importe();
 
         $devuelto = self::calcularDevolucion($reserva);
@@ -132,6 +138,26 @@ class SAReserva{
         $importe_final = $importe_inicial - $devuelto;
 
         return $daoReserva->setImporte($reserva->get_codigo(),$importe_final);
+    }
+
+    public static function setNumOrden($codigo,$num){
+        $daoReserva = ReservaDAO::getSingleton();
+        return $daoReserva->setNumOrden($codigo,$num);
+    }
+
+    public static function registrarPago($codigo){
+        $reserva = self::getReserva($codigo);
+
+        if(empty($reserva)){
+            return 0;
+        }
+
+        $id = $reserva->get_id();
+        $dni = SAParking::getDni($id);
+        $importe = $reserva->get_importe();
+        $fecha = new \DateTime();
+
+        return SAPago::registrarPago($dni, $importe, $fecha);
     }
 }
 ?>

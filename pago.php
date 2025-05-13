@@ -37,8 +37,6 @@
 			$obj = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($codigo);
 			break;
 		case 'reserva':
-			$trans = $_SESSION['tipo_transaccion'] ?? '0';
-			unset($_SESSION['tipo_transaccion']);
 			$obj = \es\ucm\fdi\aw\ePark\SAReserva::getReserva($codigo);
 			break;
 		default:
@@ -51,7 +49,7 @@
 		exit;
 	}
 
-	$importe = floatval($total ?? 1.0); // Por defecto valor 1.0 porque el 0 da error por RedSys
+	$importe = floatval($total); // Por defecto valor 1.0 porque el 0 da error por RedSys
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 
 	//Como se pide un numero de 4 a 12

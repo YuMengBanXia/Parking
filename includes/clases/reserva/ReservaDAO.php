@@ -23,9 +23,19 @@ class ReservaDAO extends DAO{
 
         $resultado=$stmt->execute();
 
+        //error en el insert
+        if(!$resultado){
+            $stmt->close();
+
+            return false;
+        }
+    
+        //recuperamos el codigo insertado y lo devolvemos
+        $codigo = $conn->insert_id;
+
         $stmt->close();
   
-        return $resultado;
+        return $codigo;
     }
 
     public function ocupacion($id){
@@ -131,7 +141,8 @@ class ReservaDAO extends DAO{
                 $row['fecha_fin'] ?? null,
                 $row['matricula'] ?? null,
                 $row['importe'] ?? null,
-                $row['estado'] ?? null
+                $row['estado'] ?? null,
+                $row['num_orden'] ?? null
             );
         }
         
@@ -146,7 +157,7 @@ class ReservaDAO extends DAO{
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "SELECT * FROM Reserva WHERE dni = ?";
+        $query = "SELECT * FROM Reserva WHERE `dni`=?";
 
         $stmt = $conn->prepare($query);
 
@@ -154,7 +165,7 @@ class ReservaDAO extends DAO{
 
         $stmt->execute();
 
-        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado, $num_orden);
 
         while ($stmt->fetch()) {
             $reservas[] = new TOReserva(
@@ -165,7 +176,8 @@ class ReservaDAO extends DAO{
                 $fecha_fin,
                 $matricula,
                 $importe,
-                $estado
+                $estado,
+                $num_orden
             );
         }
 
@@ -179,7 +191,7 @@ class ReservaDAO extends DAO{
 
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "SELECT * FROM Reserva WHERE id = ?";
+        $query = "SELECT * FROM Reserva WHERE `id`=?";
 
         $stmt = $conn->prepare($query);
 
@@ -187,7 +199,7 @@ class ReservaDAO extends DAO{
 
         $stmt->execute();
 
-        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado, $num_orden);
 
         while ($stmt->fetch()) {
             $reservas[] = new TOReserva(
@@ -198,7 +210,8 @@ class ReservaDAO extends DAO{
                 $fecha_fin,
                 $matricula,
                 $importe,
-                $estado
+                $estado,
+                $num_orden
             );
         }
 
@@ -210,7 +223,7 @@ class ReservaDAO extends DAO{
     public function getReserva($codigo){
         $conn = Aplicacion::getInstance()->getConexionBd();
 
-        $query = "SELECT * FROM Reserva WHERE codigo = ?";
+        $query = "SELECT * FROM Reserva WHERE `codigo`=?";
 
         $stmt = $conn->prepare($query);
 
@@ -218,7 +231,7 @@ class ReservaDAO extends DAO{
 
         $stmt->execute();
 
-        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado);
+        $stmt->bind_result($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado, $num_orden);
 
         if ($stmt->fetch())
         {
@@ -230,7 +243,8 @@ class ReservaDAO extends DAO{
                 $fecha_fin,
                 $matricula,
                 $importe,
-                $estado
+                $estado, 
+                $num_orden
             );
         }
 
@@ -247,6 +261,22 @@ class ReservaDAO extends DAO{
         $stmt = $conn->prepare($query);
 
         $stmt->bind_param("di", $importe, $codigo);
+
+        $resultado=$stmt->execute();
+
+        $stmt->close();
+  
+        return $resultado;
+    }
+
+    public function setNumOrden($codigo, $num){
+        $conn = Aplicacion::getInstance()->getConexionBd();
+
+        $query="UPDATE Reserva SET `num_orden`=? WHERE `codigo`=?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("si", $num, $codigo);
 
         $resultado=$stmt->execute();
 

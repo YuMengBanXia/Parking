@@ -22,7 +22,7 @@ class cancelarForm extends formBase{
             $html = <<<EOF
                 <table>
                     <tr>
-                        <th>ID</th>
+                        <th>ID Parking</th>
                         <th>Fecha incio</th>
                         <th>Fecha fin</th>
                         <th>Matricula</th>
@@ -56,8 +56,8 @@ class cancelarForm extends formBase{
                 case 'pagada':
                     $html .=<<<EOF
                         <p>Está seguro de que quiere cancelar la reserva?<p>
-                        <p>El importe devuelto se calculará en según la <a href='politicaCancelacion.php' target="_blank">Política de Cancelación</a></p>
-                        <button type="submit">Confirmar cancelacion</button>
+                        <p>El importe devuelto se calculará según la <a href='politicaCancelacion.php' target="_blank">Política de Cancelación</a></p>
+                        <button type="submit" name="codigo" value="{$codigo}">Confirmar cancelacion</button>
                     EOF;
                     break;
                 case 'completada':
@@ -74,13 +74,13 @@ class cancelarForm extends formBase{
                     $html .=<<<EOF
                         <p>Está seguro de que quiere cancelar la reserva?<p>
                         <p>No se devolvera el importe pagado como esta descrito en la <a href='politicaCancelacion.php' target="_blank">Política de Cancelación</a></p>
-                        <button type="submit">Confirmar cancelacion</button>
+                        <button type="submit" name="codigo" value="{$codigo}">Confirmar cancelacion</button>
                     EOF;
                     break;
                 default:
                     $html .=<<<EOF
                         <p>Está seguro de que quiere cancelar la reserva?<p>
-                        <button type="submit">Confirmar cancelacion</button>
+                        <button type="submit" name="codigo" value="{$codigo}">Confirmar cancelacion</button>
                     EOF;
                     break;
             }
@@ -103,7 +103,7 @@ class cancelarForm extends formBase{
         $estado = htmlspecialchars($this->reserva->get_estado());
         $estado = strtolower($estado);
 
-        if(empty($reserva)){
+        if(empty($this->reserva)){
             $result[] = "Ha sucedido un error con la reserva seleccionada";
         }
 
@@ -112,42 +112,47 @@ class cancelarForm extends formBase{
             $id = htmlspecialchars($this->reserva->get_id());
             $fecha_ini = htmlspecialchars($this->reserva->get_fecha_ini());
             $matricula = htmlspecialchars($this->reserva->get_matricula());
+            $importe = SAReserva::calcularDevolucion($this->reserva);
 
             $params = http_build_query([
                 'codigo' => $codigo,
                 'id' => $id,
                 'matricula' => $matricula,
-                'fecha_ini' => $fecha_ini
+                'fecha_ini' => $fecha_ini,
+                'importe' => $importe
             ]);
 
             switch($estado){
                 case 'pagada':
-                    $importe = SAReserva::calcularDevolucion($this->reserva);
-                    $dni = SAParking::getDni($id);
-
                     //Se ha sobrepasado las 5 horas de antelacion
                     if($importe === 0){
                         SAReserva::cambiarEstado($codigo, 'cancelada');
-                        SAReserva::setNuevoImporte($codigo);
-
-                        $result = 'reservaCancelada.php' . $params;
+                        SAReserva::registrarPago($codigo);
+                        $result = 'reservaCancelada.php?' . $params;
                     }
                     else{
-                        $_SESSION['pago_cantidad'] = $importe;
-                        $_SESSION['pago_id'] = $codigo;
-                        $_SESSION['pago_tipo'] = 'reserva';
-                        //Codigo devolucion
-                        $_SESSION['tipo_transaccion'] = '3';
+                        $num_orden = $this->reserva->get_num_orden();
+                        if(empty($num_orden)){
+                            $result[] = "Numero de orden no encontrada";
+                        }
+                        else{
+                            $_SESSION['pago_cantidad'] = $importe;
+                            $_SESSION['pago_id'] = $codigo;
+                            $_SESSION['num_orden'] = $num_orden;
 
-                        $result = "pago.php";
+                            $result = "devolucion.php";
+                        }
                     }
                     break;
                 case 'pendiente':
                     SAReserva::cambiarEstado($codigo, 'cancelada');
-                    $result = 'reservaCancelada.php' . $params;
+                    $result = 'reservaCancelada.php?' . $params;
+                    break;
                 case 'activa':
                     SAReserva::cambiarEstado($codigo, 'cancelada');
-                    $result = 'reservaCancelada.php' . $params;
+                    SAReserva::registrarPago($codigo);
+                    $result = 'reservaCancelada.php?' . $params;
+                    break;
                 default:
                     $result[] = "La reserva no puede ser cancelada";
                     break;

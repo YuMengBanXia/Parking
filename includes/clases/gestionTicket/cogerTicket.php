@@ -12,7 +12,7 @@ class cogerTicket extends formBase
     }
 
     protected function CreateFields($datos)
-{
+    {
     $matricula = htmlspecialchars($datos['matricula'] ?? ($_GET['matricula'] ?? ''));
     $idSeleccionado = $datos['parking_id'] ?? ($_GET['parking_id'] ?? '');
 

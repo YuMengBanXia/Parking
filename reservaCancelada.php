@@ -9,26 +9,30 @@ $codigo = $_GET['codigo'] ?? null;
 $id = $_GET['id'] ?? null;
 $matricula = $_GET['matricula'] ?? null;
 $fecha_ini = $_GET['fecha_ini'] ?? null;
+$importe = $_GET['importe'] ?? null;
 
 $html='';
-if($codigo != null && $matricula != null && $fecha_ini != null && $id != null){
-    $html =<<<EOF
-        Se ha completado la cancelacion de la reserva:
+if($codigo != null && $matricula != null && $fecha_ini != null && $id != null && $importe != null){
+    $html = <<<EOF
+        Se ha completado la cancelacion de la reserva: <br>
             Codigo: $codigo <br>
-            Parking: $id
+            Parking: $id <br>
             Matrícula: $matricula<br>
             Fecha inicio: $fecha_ini <br>
-        <a href="misReservas.php">
-            <button type="button">Volver a mis reservas</button>
-        </a>
+            Importe devuelto: $importe <br>
     EOF;
 }
+
+$html .= <<<EOF
+    <a href="misReservas.php">
+        <button type="button">Volver a mis reservas</button>
+    </a>
+EOF;
      
 
 $contenidoPrincipal = <<<EOS
    <h3>DATOS DE LA RESERVA</h3>
    $html
-
 EOS;
 
 require_once __DIR__ .'/includes/vistas/plantilla/plantilla.php';

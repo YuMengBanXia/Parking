@@ -41,28 +41,13 @@ if ($response === "0000") {
             EOF;
             break;
         case 'reserva':
-            switch($miObj->getParameter('Ds_TransactionType')){
-                case '0':
-                    //En caso de pagar una reserva, como el usuario puede llegar a cancelar la reserva no se puede todavía registrar el pago
-                    \es\ucm\fdi\aw\ePark\SAReserva::cambiarEstado($codigo,'pagada');
-                    $html = <<<EOF
-                        <p>Reserva pagada exitosamente</p>
-                    EOF;
-                    break;
-                case '2':
-                    //En este caso de devuelve una reserva, por lo que se procede a cancelarla
-                    \es\ucm\fdi\aw\ePark\SAReserva::cambiarEstado($codigo,'cancelada');
-                    \es\ucm\fdi\aw\ePark\SAReserva::setNuevoImporte($codigo);
-                    $html = <<<EOF
-                        <p>Devolución tramitada correctamente. Reserva cancelada</p>
-                    EOF;
-                    break;
-                default:
-                $html = <<<EOF
-                    <p>Error en el tratamiento del tipo de transacción</p>
-                EOF;
-                break;
-            }
+            $num_orden = $miObj->getParameter('Ds_Order');
+            \es\ucm\fdi\aw\ePark\SAReserva::setNumOrden($codigo,$num_orden);
+            //En caso de pagar una reserva, como el usuario puede llegar a cancelar la reserva no se puede todavía registrar el pago
+            \es\ucm\fdi\aw\ePark\SAReserva::cambiarEstado($codigo,'pagada');
+            $html = <<<EOF
+                <p>Reserva pagada exitosamente</p>
+            EOF;
             break;
         default:
             $html = <<<EOF

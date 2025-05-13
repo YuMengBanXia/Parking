@@ -11,8 +11,9 @@ class TOReserva{
     private $matricula;
     private $importe;
     private $estado;
+    private $num_orden;
 
-    public function __construct($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado = null){
+    public function __construct($codigo, $dni, $id, $fecha_ini, $fecha_fin, $matricula, $importe, $estado = null, $num_orden = null){
         $this->codigo = $codigo;
         $this->dni = $dni;
         $this->id = $id;
@@ -21,6 +22,7 @@ class TOReserva{
         $this->matricula = $matricula;
         $this->importe = $importe;
         $this->estado = $estado ?? 'PENDIENTE';
+        $this->num_orden = $num_orden;
     }
 
     public function get_codigo(){return $this->codigo;}
@@ -31,5 +33,6 @@ class TOReserva{
     public function get_matricula(){return $this->matricula;}
     public function get_estado(){return $this->estado;}
     public function get_importe() {return $this->importe;}
+    public function get_num_orden(){return $this->num_orden;}
 }
 ?>
