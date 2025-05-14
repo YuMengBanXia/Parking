@@ -16,8 +16,8 @@ INSERT INTO `Usuario` (`dni`, `nomUsuario`, `contrasenia`, `tipoUsuario`) VALUES
 INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, `img`) VALUES
 (1, '00000000x', 'Puerta del Sol', 'Madrid', 28013, 0.04, 20, NULL),
 (2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 0.02, 50, NULL),
-(3, '12345678P', 'Calle Principe Pio', 'Madrid', 28009, 0.02, 20, NULL),
-(4, '12345678A', 'Calle carpetana', 'Madrid', 28099, 0.02, 10, NULL),
+(3, '12345678C', 'Calle de Vallehermoso', 'Madrid', 28015, 0.03, 30, NULL),
+(4, '12345678A', 'Calle de la Via Carpetana', 'Madrid', 28099, 0.02, 10, NULL),
 (5, '12345678P', 'Calle de Velazquez 128', 'Madrid', 28006, 0.0010, 20, 'img/img_6824e65c004fa4.18363440.jpg'),
 (6, '12345678P', 'Calle de la Oca', 'Madrid', 28025, 0.03, 60, NULL),
 (7, '12345678P', 'Calle de Sinesio Delgado', 'Madrid', 28035, 0.03, 20, NULL),
