@@ -24,10 +24,10 @@ INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, 
 (8, '00000000x', 'Calle de Caspe', 'Madrid', 28022, 0.05, 10, NULL),
 (9, '00000000x', 'Avenida de Manzanares', 'Madrid', 28026, 0.03, 30, NULL);
 
-INSERT INTO `Pago` (`id`, `dni`, `importe`, `fechaPago`) VALUES
-(1, '12345678A', 25.00, '2025-04-20'),
-(2, '12345678C', 40.50, '2025-04-22'),
-(3, '12345678P', 100.75, '2025-05-01');
+INSERT INTO `Pago` (`id`, `dni`, 'idParking'`importe`, `fechaPago`) VALUES
+(1, '12345678A', 2,25.00, '2025-04-20'),
+(2, '12345678C', 3,40.50, '2025-04-22'),
+(3, '12345678P',5 ,100.75, '2025-05-01');
 
 INSERT INTO `Ticket` (`codigo`, `idParking`, `fecha_ini`, `matricula`) VALUES 
 (NULL, '1', '2025-05-14 11:28:35', '1111AAA'), 
