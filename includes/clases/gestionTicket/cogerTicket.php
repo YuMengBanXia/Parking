@@ -1,6 +1,6 @@
 <?php
-namespace es\ucm\fdi\aw\ePark;
 
+namespace es\ucm\fdi\aw\ePark;
 
 class cogerTicket extends formBase
 {
@@ -13,85 +13,73 @@ class cogerTicket extends formBase
 
     protected function CreateFields($datos)
     {
-    $matricula = htmlspecialchars($datos['matricula'] ?? ($_GET['matricula'] ?? ''));
-    $idSeleccionado = $datos['parking_id'] ?? ($_GET['parking_id'] ?? '');
+        $matricula = htmlspecialchars($datos['matricula'] ?? '');
+        $idSeleccionado = $datos['parking_id'] ?? '';
+        $parkings = SAParking::mostrarParkings();
 
-    // Paginación
-    $paginaActual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
-    $porPagina = 5;
-    $offset = ($paginaActual - 1) * $porPagina;
 
-    // Obtener todos los parkings y contar
-    $todosParkings = SAParking::mostrarParkings();
-    $totalParkings = count($todosParkings);
-
-    // Aplicar paginación manualmente (si no hay LIMIT en SAParking)
-    $parkingsPagina = array_slice($todosParkings, $offset, $porPagina);
-
-    $html = <<<EOF
-    <label for="matricula">Matrícula:</label>
-    <input type="text" id="matricula" name="matricula" required pattern="\\d{4}[A-Za-z]{3}"
-    title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
-    <input type="hidden" name="pagina" value="{$paginaActual}">
-    <div class="tabla-responsive">
-    <table>
-        <tr>
-            <th>Imagen</th>
-            <th>ID</th>
-            <th>Dirección</th>
-            <th>Ciudad</th>
-            <th>Precio</th>
-            <th>Plazas Disponibles</th>
-            <th>Escoger</th>
-        </tr>
-    EOF;
-
-    foreach ($parkingsPagina as $parking) {
-        $id = htmlspecialchars($parking->getId());
-        $nPlazas = htmlspecialchars($parking->getNPlazas());
-
-        if (empty(SATicket::libre($id, $nPlazas))) continue;
-
-        $dir = htmlspecialchars($parking->getDir());
-        $ciudad = htmlspecialchars($parking->getCiudad());
-        $precio = htmlspecialchars($parking->getPrecio());
-        $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
-        $libres = $nPlazas - $ocupadas;
-        $checked = ($idSeleccionado == $id) ? 'checked' : '';
-        $imgPath = (!empty($parking->getImg()) && file_exists($parking->getImg())) ? $parking->getImg() : "img/default.png";
-        $img = htmlspecialchars($imgPath);
-
-        $html .= <<<EOF
-        <tr>
-            <td><img src="{$img}" alt="Imagen del parking"></td>
-            <td>{$id}</td>
-            <td>{$dir}</td>
-            <td>{$ciudad}</td>
-            <td>{$precio} €</td>
-            <td>{$libres}</td>
-            <td>
-                <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
-            </td>
-        </tr>
+        $html = <<<EOF
+        <label for="matricula">Matrícula:</label>
+        <input type="text" id="matricula" name="matricula" required pattern="\d{4}[A-Za-z]{3}" 
+        title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
+        <div class="tabla-responsive">
+        <table id=tablaParkings>
+            <thead><tr>
+                <th>Imagen</th>
+                <th>ID</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Precio €</th>
+                <th>Plazas Disponibles</th>
+                <th>Escoger</th>
+            </thead></tr>
         EOF;
+
+        foreach ($parkings as $parking) {
+            $id = htmlspecialchars($parking->getId());
+            $nPlazas = htmlspecialchars($parking->getNPlazas());
+
+            //Comprobamos si tiene plazas libres
+            if(empty(SATicket::libre($id, $nPlazas))) {
+                continue;
+            }
+
+            $dir = htmlspecialchars($parking->getDir());
+            $ciudad = htmlspecialchars($parking->getCiudad());
+            $precio = htmlspecialchars($parking->getPrecio());
+            $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
+            $libres = $nPlazas - $ocupadas;
+
+            $checked = ($idSeleccionado == $id) ? 'checked' : '';
+
+            $imgPath = (!empty($parking->getImg()) && file_exists($parking->getImg())) ? $parking->getImg() : "img/default.png";
+            $img = htmlspecialchars($imgPath);
+
+            $html .= <<<EOF
+            <tr>
+                <td><img src="{$img}" alt="Imagen del parking"></td>
+                <td>{$id}</td>
+                <td>{$dir}</td>
+                <td>{$ciudad}</td>
+                <td>{$precio}</td>
+                <td>{$libres}</td>
+                <td>
+                    <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
+                </td>
+            </tr>
+            EOF;
+        }
+
+        $html .= "</table>";
+        $html .="</div>";
+        $html .= '<button type="submit">Confirmar</button>';
+        $htmlinicio = <<<EOF
+            <a href="index.php" class="btn-link">Ir al inicio</a>
+        EOF;
+
+
+        return $html .= $htmlinicio;
     }
-
-    $html .= "</table></div><button type='submit'>Confirmar</button>";
-
-    // Paginación
-    $totalPaginas = ceil($totalParkings / $porPagina);
-    $html .= '<div class="paginacion">';
-    for ($i = 1; $i <= $totalPaginas; $i++) {
-        $actual = ($i === $paginaActual) ? " class='actual'" : "";
-        $html .= "<a href='?pagina={$i}&matricula={$matricula}&parking_id={$idSeleccionado}'{$actual}>{$i}</a> ";
-    }
-    $html .= '</div>';
-
-    $html .= '<a href="index.php" class="btn-link">Ir al inicio</a>';
-    return $html;
-}
-
-
 
 
     protected function Process($datos)
@@ -114,7 +102,6 @@ class cogerTicket extends formBase
 
         if (count($result) === 0) {
             $respuesta = SATicket::nuevoTicket($id, $matricula);
-
             if (is_array($respuesta)) {
                 // Éxito: el código es $resultado[0] (que será 4) 
                 // y $resultado[1] contiene los datos del ticket.
