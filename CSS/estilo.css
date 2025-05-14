@@ -426,3 +426,23 @@ input[type="text"] {
 .leaflet-container {
     background: #f8f9fa !important;
 }
+
+.btn-sort {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.btn-sort:hover {
+    background-color: #45a049;
+}
+
+#tablaParkings tbody {
+    display: contents;
+    /* Permite mejor ordenación */
+}

@@ -1,7 +1,6 @@
-import ParkingController from 'ParkingController.js';
+import ParkingController from './ParkingController.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar compatibilidad
     if (!navigator.geolocation) {
         document.querySelectorAll('.distancia').forEach(el => {
             el.textContent = 'Geolocalización no soportada';
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Inicializar aplicación
     const app = new ParkingController();
     app.init();
 });
