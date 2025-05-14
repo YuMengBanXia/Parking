@@ -12,17 +12,18 @@
 	$terminal="1";
 	$moneda="978";
 	$trans="0";
-
+	/*
 	//Alternativa local
 	$urlOK="http://localhost/Parking/returnPago.php";//esto hay que cambiarlo para el VPS
     $urlKO="http://localhost/Parking/returnPago.php";
 	$urlNotify = "http://localhost/Parking/redsys/notifyPago.php"; //Funcionalidad capada -> memoria
-	/* Alternativa para el servidor
+	*/
+		
 	$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
 	$baseUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 	$urlOK = $baseUrl . "/returnPago.php";
 	$urlKO= $baseUrl . "/returnPago.php";
-
+	/*
 	//$urlOK=	"https://vm009.containers.fdi.ucm.es/returnPago.php";
 	//$urlKO= "https://vm009.containers.fdi.ucm.es/returnPago.php";
 	//$urlNotify = "https://vm009.containers.fdi.ucm.es/notifyPago.php";
@@ -49,7 +50,12 @@
 		exit;
 	}
 
-	$importe = floatval($total); // Por defecto valor 1.0 porque el 0 da error por RedSys
+	
+	$importe = floatval($total);
+		if ($importe <= 0) {
+    		$importe = 0.01; // Valor mínimo a cobrar por entrar
+	}
+
     $amount = intval($importe * 100); // Redsys requiere el importe en céntimos, sin punto decimal
 
 	//Como se pide un numero de 4 a 12
