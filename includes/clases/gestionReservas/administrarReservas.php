@@ -82,7 +82,7 @@ class administrarReservas extends formBase
                         break;
                     case 'activa':
                         $html .=<<<EOF
-                            <td colspan=2><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
                             <td>Ya pagada</td>
                         </tr>
                         EOF;

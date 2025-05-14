@@ -38,8 +38,8 @@ class crearForm extends formBase
         <div class="tabla-responsive">
         <table id="tablaParkings">
             <thead><tr>
-                <th>Imagen</th>
                 <th>ID</th>
+                <th>Imagen</th>
                 <th>Dirección</th>
                 <th>Ciudad</th>
                 <th>Precio</th>
@@ -62,8 +62,8 @@ class crearForm extends formBase
 
             $html .= <<<EOF
             <tr>
-                <td><img src="{$img}" alt="Imagen del parking"></td>
                 <td>{$id}</td>
+                <td><img src="{$img}" alt="Imagen del parking"></td>
                 <td>{$dir}</td>
                 <td>{$ciudad}</td>
                 <td>{$precio} €</td>

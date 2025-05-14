@@ -55,6 +55,13 @@ class SAParking{
         $daoParking = ParkingDAO::getSingleton();
         return $daoParking->getDni($id);
     }
+
+    public static function ocupacion($id){
+        $num_tickets = SATicket::plazasOcupadas($id);
+        $num_reservas = SAReserva::ocupacion($id);
+        return $num_tickets + $num_reservas;
+    }
+
 }
 
 ?>

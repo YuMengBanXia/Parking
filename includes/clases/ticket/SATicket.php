@@ -34,9 +34,12 @@ class SATicket{
         if(!empty($ticket)){
             return 2; //Ya hay un coche en el parking con esta matricula
         }
-        $plazas = $parking->getNPlazas();
-        $libre = self::libre($id,$plazas);
-        if($libre){
+
+        $nPlazas = $parking->getNPlazas();
+        $ocupadas = htmlspecialchars(SAParking::ocupacion($id));
+        $libres = $nPlazas - $ocupadas;
+
+        if($libres > 0){
             if(empty($daoTicket->insert($id, $matricula))){
                 return 3; //Error al insertar el ticket en la base de datos
             }
@@ -52,12 +55,6 @@ class SATicket{
             'fecha' => $fecha
         ];
         return [4, $datos];
-    }
-
-    public static function libre($id, $plazas){
-        $daoTicket = TicketDAO::getSingleton();
-        $num = $daoTicket->ocupacion($id);
-        return $num < $plazas;
     }
 
     public static function plazasOcupadas($id){

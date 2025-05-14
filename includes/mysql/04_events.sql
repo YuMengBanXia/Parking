@@ -1,10 +1,10 @@
--- Activa el scheduler si aún no lo está
+-- Activa el scheduler si aún no lo está, importante consultarlo
 SET GLOBAL event_scheduler = ON;
 
 DELIMITER $$
 -- Cuando una reserva esta pagada y quedan 5 horas para que inicie la reserva, marcarla como activa lo que resta una plaza libre del garaje
 CREATE EVENT IF NOT EXISTS ev_activar_reservas
-  ON SCHEDULE EVERY 30 MINUTE
+  ON SCHEDULE EVERY 15 MINUTE
   DO
     UPDATE Reserva
     SET estado = 'ACTIVA'

@@ -25,10 +25,10 @@ class administrarParking extends formBase
         }
         else {
             $html = <<<EOF
-            <table>
-                <tr>
-                    <th>Imagen</th>
+            <table id="tablaParkings">
+                <thead><tr>
                     <th>ID</th>
+                    <th>Imagen</th>
                     <th>Dirección</th>
                     <th>Ciudad</th>
                     <th>CP</th>
@@ -37,7 +37,8 @@ class administrarParking extends formBase
                     <th>Ocupadas</th>
                     <th>Actualizar</th>
                     <th>Eliminar</th>
-                </tr>
+                </tr></thead>
+                <tbody>
             EOF;
 
             foreach ($parkings as $parking) {
@@ -50,15 +51,15 @@ class administrarParking extends formBase
                 $imgPath = (!empty($parking->getImg()) && file_exists($parking->getImg())) ? $parking->getImg() : "img/default.png";
                 $img = htmlspecialchars($imgPath);
                 
-                $ocupadas = htmlspecialchars(SATicket::plazasOcupadas($id));
+                $ocupadas = htmlspecialchars(SAParking::ocupacion($id));
                 $cp = htmlspecialchars($parking->getCP());
 
                 
 
                 $html .= <<<EOF
                 <tr>
-                    <td><img src="{$img}" alt="Imagen del parking"></td>
                     <td>{$id}</td>
+                    <td><img src="{$img}" alt="Imagen del parking"></td>
                     <td>{$dir}</td>
                     <td>{$ciudad}</td>
                     <td>{$cp}</td>
@@ -71,6 +72,7 @@ class administrarParking extends formBase
                 EOF;
             }
 
+            $html .= "</tbody>";
             $html .= "</table>";
         }
 
