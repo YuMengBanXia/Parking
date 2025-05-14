@@ -5,8 +5,33 @@ class ParkingView {
             error: 'Error',
             geolocationError: 'Activa la geolocalización'
         };
+        this.initSortButton();
     }
 
+     initSortButton() {
+        const sortBtn = document.createElement('button');
+        sortBtn.id = 'sortButton';
+        sortBtn.className = 'btn-sort';
+        sortBtn.textContent = 'Mostrar parking más cercano';
+        sortBtn.addEventListener('click', () => this.triggerSortEvent());
+        
+        const tableContainer = document.querySelector('.tabla-responsive');
+        tableContainer?.insertAdjacentElement('beforebegin', sortBtn);
+    }
+
+    triggerSortEvent() {
+        const event = new CustomEvent('sortParkings', { 
+            detail: { sortBy: 'distance' } 
+        });
+        document.dispatchEvent(event);
+    }
+
+    renderSortedRows(rows) {
+        const tbody = document.querySelector('#tablaParkings tbody');
+        tbody.innerHTML = '';
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    
     getParkingRows() {
         return Array.from(document.querySelectorAll('#tablaParkings tr[data-direccion]'));
     }

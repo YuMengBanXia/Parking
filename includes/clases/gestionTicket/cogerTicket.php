@@ -78,7 +78,7 @@ class cogerTicket extends formBase
         $html .= <<<EOF
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script src="{$rutaJS}/geolocalizacion/calculoDistancias.js" defer></script>
+        <script type="module" src="{$rutaJS}/geolocalizacion/appGeolocalizacion.js" defer></script>
         EOF;
 
         return $html;
