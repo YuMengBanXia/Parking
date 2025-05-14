@@ -30,7 +30,7 @@ require_once __DIR__ . '/includes/vistas/plantilla/plantilla.php';
 
 <script>
     initDataTable('#tablaParkings', {
-        pageLength: 100,
+        pageLength: 200,
         order: [
             [1, 'asc']
         ]

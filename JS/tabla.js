@@ -20,16 +20,19 @@ function initDataTable(tableSelector, options = {}) {
         responsive: true       // adaptativo a móviles
     };
     // Fusionar opciones por defecto con las pasadas
-    
     const cfg = Object.assign({}, defaults, options);
+    
     // Inicializar DataTable
     $(document).ready(() => {
         const $tbl = $(tableSelector);
-        if (!$tbl.length) {
-        console.warn(`No existe ningún elemento con selector "${tableSelector}".`);
-        return;
-        }
-        $tbl.DataTable(cfg);
+        if (!$tbl.length) return;
+
+        const dataTable = $tbl.DataTable(cfg);
+        
+        // Forzar actualización inicial
+        dataTable.on('draw', () => {
+            $(document).trigger('draw.dt');
+        });
     });
     }
   
