@@ -105,9 +105,12 @@ class cogerTicket extends formBase
         if (count($result) === 0) {
             $respuesta = SATicket::nuevoTicket($id, $matricula);
             if (is_array($respuesta)) {
+                // Éxito: el código es $resultado[0] (que será 4) 
+                // y $resultado[1] contiene los datos del ticket.
                 $num = $respuesta[0];
                 $datos = $respuesta[1];
             } else {
+                // Error: $resultado es numérico (0,1,2,3) y representa el código de error.
                 $num = $respuesta;
             }
 
@@ -115,16 +118,16 @@ class cogerTicket extends formBase
                 case 0:
                     $result[] = "Faltan datos por seleccionar";
                     break;
-                case 1:
+                case 1: //Errores con el dato id
                     $result[] = 'Algo ha salido mal, por favor vuelva a seleccionar un parking disponible';
                     break;
-                case 2:
+                case 2: //Matrícula ya encontrada dentro de un parking
                     $result[] = 'La matrícula introducida ha sido encontrada en otro parking';
                     break;
-                case 3:
+                case 3: //Error base de datos
                     $result[] = 'Ha habido un error en la base de datos';
                     break;
-                case 4:
+                case 4: //Éxito
                     $codigo = $datos['codigo'];
                     $fecha = $datos['fecha']->format('d-m-Y H:i:s');
 
@@ -136,7 +139,7 @@ class cogerTicket extends formBase
 
                     $result = 'ticketCogido.php?' . $params;
                     break;
-                default:
+                default: //caso 0 (faltan datos) o error inesperado
                     $result[] = 'Ha habido un error inesperado vuelva a intentarlo';
                     break;
             }
