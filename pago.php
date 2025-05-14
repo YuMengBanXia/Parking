@@ -23,6 +23,8 @@
 	$baseUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 	$urlOK = $baseUrl . "/returnPago.php";
 	$urlKO= $baseUrl . "/returnPago.php";
+	$urlNotify= $baseUrl . "/notifyPago.php";
+	
 	/*
 	//$urlOK=	"https://vm009.containers.fdi.ucm.es/returnPago.php";
 	//$urlKO= "https://vm009.containers.fdi.ucm.es/returnPago.php";
