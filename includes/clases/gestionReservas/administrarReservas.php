@@ -54,7 +54,10 @@ class administrarReservas extends formBase
                 $fecha_fin = htmlspecialchars($reserva->get_fecha_fin());
                 $matricula = htmlspecialchars($reserva->get_matricula());
                 $importe = htmlspecialchars($reserva->get_importe());
-                
+
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
+	            $baseUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+                $dir = $baseUrl . "/cancelarReserva.php"
 
                 $html .= <<<EOF
                 <tr>
@@ -68,21 +71,21 @@ class administrarReservas extends formBase
                 switch($estado){
                     case 'pendiente':
                         $html .=<<<EOF
-                            <td><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td><button type="button" onclick="window.location.href='$dir?codigo={$codigo}'">Cancelar</button></td>
                             <td><button type="submit" name="codigo" value="{$codigo}">Pagar</button></td>
                         </tr>
                         EOF;
                         break;
                     case 'pagada':
                         $html .=<<<EOF
-                            <td><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td><button type="button" onclick="window.location.href='$dir?codigo={$codigo}'">Cancelar</button></td>
                             <td>Ya pagada</td>
                         </tr>
                         EOF;
                         break;
                     case 'activa':
                         $html .=<<<EOF
-                            <td><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td><button type="button" onclick="window.location.href='$dir?codigo={$codigo}'">Cancelar</button></td>
                             <td>Ya pagada</td>
                         </tr>
                         EOF;
