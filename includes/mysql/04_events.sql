@@ -27,12 +27,13 @@ CREATE EVENT IF NOT EXISTS ev_completar_y_facturar_reservas
   ON SCHEDULE EVERY 30 MINUTE
   DO
 BEGIN
-  -- 1) Insertar en Pago usando el DNI del propietario del parking
-  INSERT INTO Pago (dni, importe, fechaPago)
+  -- 1) Insertar en Pago (dni, idParking, importe, fechaPago)
+  INSERT INTO Pago (dni, idParking, importe, fechaPago)
   SELECT
-    park.dni        AS dni_propietario,
-    r.importe       AS importe,
-    NOW()           AS fechaPago
+    park.dni      AS dni_propietario,
+    r.id          AS idParking,
+    r.importe     AS importe,
+    NOW()         AS fechaPago
   FROM Reserva AS r
   JOIN Parking AS park
     ON r.id = park.id

@@ -1,5 +1,5 @@
 <?php
-
+/* Funcionalidad capada posible uso en el futuro
 require_once __DIR__.'/includes/config.php';
 require_once 'redsys/apiRedsys.php';
 
@@ -39,4 +39,5 @@ if ($response === "0000") {
     // Fracaso: no tocamos la BD
     echo "KO";
 }
+*/
 ?>
