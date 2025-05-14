@@ -35,7 +35,8 @@ if ($response === "0000") {
             $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($id);
             // Éxito: eliminamos ticket y registramos el pago
             \es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($codigo);
-            \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,new \DateTime());
+            $fecha = new \DateTime();
+            \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,$fecha->format('Y-m-d H:i:s'));
             $html = <<<EOF
                 <p>Pago exitoso para el ticket #{$codigo}</p>
             EOF;
