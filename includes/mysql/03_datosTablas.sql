@@ -12,11 +12,11 @@ INSERT INTO `Usuario` (`dni`, `nomUsuario`, `contrasenia`, `tipoUsuario`) VALUES
 ('12345678P', 'prop', '$$2y$10$s9.jlcAgmCqbsIsZPZrb.OF1LhuIGW8B/Jronb5cg2jI7jcQ37g0u', 'propietario'),
 ('00000000x', 'prop2', '$2y$10$ZkCmuXYwfyXft.kuktWBJuN0BHHzsH1XR80AzNVIZsCRUK3o70gdS', 'propietario');
 
-INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`) VALUES
-(1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 0.02, 3),
-(2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 0.02, 50),
-(3, '12345678P', 'Calle Principe pio', 'Madrid', 28009, 0.02, 20),
-(4, '12345678A', 'Calle carpetana', 'Madrid', 28099, 0.02, 10);
+INSERT INTO `parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, `img`) VALUES
+(1, '12345678A', 'Calle Princesa', 'Madrid', 28008, 0.02, 3, NULL),
+(2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 0.02, 50, NULL),
+(3, '12345678P', 'Calle Principe pio', 'Madrid', 28009, 0.02, 20, NULL),
+(4, '12345678A', 'Calle carpetana', 'Madrid', 28099, 0.02, 10, NULL);
 (5, '12345678P', 'Calle de Velazquez, 128', 'Madrid', 28006, 0.0010, 20, 'img/img_6824e65c004fa4.18363440.jpg');
 
 
