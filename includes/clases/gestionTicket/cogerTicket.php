@@ -16,22 +16,23 @@ class cogerTicket extends formBase
         $parkings = SAParking::mostrarParkings();
 
         $html = <<<EOF
-        <label for="matricula">Matrícula:</label>
-        <input type="text" id="matricula" name="matricula" required pattern="\d{4}[A-Za-z]{3}" 
-        title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
-        <div class="tabla-responsive">
-        <table id="tablaParkings">
-            <thead><tr>
-                <th>ID</th>
-                <th>Imagen</th>
-                <th>Dirección</th>
-                <th>Ciudad</th>
-                <th>Precio €</th>
-                <th>Plazas Disponibles</th>
-                <th>Distancia</th>
-                <th>Escoger</th>
-            </thead></tr>
-        EOF;
+    <label for="matricula">Matrícula:</label>
+    <input type="text" id="matricula" name="matricula" required pattern="\d{4}[A-Za-z]{3}" 
+    title="Introduce una matrícula válida: 4 dígitos seguidos de 3 letras (ej. 1234ABC)" value="{$matricula}">
+    <div class="tabla-responsive">
+    <table id="tablaParkings">
+        <thead><tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Precio €</th>
+            <th>Plazas</th>
+            <th>Distancia</th>
+            <th>Mapa</th>
+            <th>Escoger</th>
+        </thead></tr>
+    EOF;
 
         foreach ($parkings as $parking) {
             $id = htmlspecialchars($parking->getId());
@@ -39,7 +40,7 @@ class cogerTicket extends formBase
             $ocupadas = htmlspecialchars(SAParking::ocupacion($id));
             $libres = $nPlazas - $ocupadas;
 
-            if($libres <= 0) continue;
+            if ($libres <= 0) continue;
 
             $dir = htmlspecialchars($parking->getDir());
             $ciudad = htmlspecialchars($parking->getCiudad());
@@ -51,19 +52,20 @@ class cogerTicket extends formBase
             $img = htmlspecialchars($imgPath);
 
             $html .= <<<EOF
-            <tr data-direccion="{$direccionCompleta}">
-                <td>{$id}</td>
-                <td><img src="{$img}" alt="Imagen del parking" style="max-width: 100px;"></td>
-                <td>{$dir}</td>
-                <td>{$ciudad}</td>
-                <td>{$precio}</td>
-                <td>{$libres}</td>
-                <td class="distancia">Calculando...</td>
-                <td>
-                    <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
-                </td>
-            </tr>
-            EOF;
+        <tr data-direccion="{$direccionCompleta}">
+            <td>{$id}</td>
+            <td><img src="{$img}" alt="Imagen del parking" style="max-width: 100px;"></td>
+            <td>{$dir}</td>
+            <td>{$ciudad}</td>
+            <td>{$precio}</td>
+            <td>{$libres}</td>
+            <td class="distancia">Calculando...</td>
+            <td class="mini-mapa" style="width: 200px; height: 150px;"></td>
+            <td>
+                <label><input type="radio" name="parking_id" value="{$id}" {$checked}></label>
+            </td>
+        </tr>
+        EOF;
         }
 
         $html .= "</table></div>";
@@ -74,10 +76,9 @@ class cogerTicket extends formBase
 
         $rutaJS = RUTA_JS;
         $html .= <<<EOF
-        <script src="{$rutaJS}/calculoDistancias.js" defer></script>
-        <footer class="osm-attribution">
-             <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a>
-        </footer>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="{$rutaJS}/geolocalizacion/calculoDistancias.js" defer></script>
         EOF;
 
         return $html;
