@@ -157,7 +157,7 @@ class SAReserva{
         $importe = $reserva->get_importe();
         $fecha = new \DateTime();
 
-        return SAPago::registrarPago($dni, $importe, $fecha->format('Y-m-d H:i:s'));
+        return SAPago::registrarPago($dni, $id, $importe, $fecha->format('Y-m-d H:i:s'));
     }
 }
 ?>
