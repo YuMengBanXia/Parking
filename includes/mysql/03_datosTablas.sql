@@ -12,7 +12,7 @@ INSERT INTO `Usuario` (`dni`, `nomUsuario`, `contrasenia`, `tipoUsuario`) VALUES
 ('12345678P', 'prop', '$$2y$10$s9.jlcAgmCqbsIsZPZrb.OF1LhuIGW8B/Jronb5cg2jI7jcQ37g0u', 'propietario'),
 ('00000000x', 'prop2', '$2y$10$ZkCmuXYwfyXft.kuktWBJuN0BHHzsH1XR80AzNVIZsCRUK3o70gdS', 'propietario');
 
-INSERT INTO `parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, `img`) VALUES
+INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, `img`) VALUES
 (1, '00000000x', 'Puerta del sol', 'Madrid', 28013, 0.04, 20,NULL);
 (2, '12345678A', 'Avenida Valvanera', 'Madrid', 28047, 0.02, 50, NULL),
 (3, '12345678P', 'Calle Principe pio', 'Madrid', 28009, 0.02, 20, NULL),
