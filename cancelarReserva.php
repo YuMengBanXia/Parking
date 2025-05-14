@@ -9,17 +9,7 @@ if(empty($_SESSION["login"])){
 }
 else{
     $dni = $_SESSION['dni'];
-    if(isset($_GET['codigo'])){
-        $codigo = $_GET['codigo'];
-    }
-    elseif(isset($_POST['codigo'])){
-        $codigo = $_POST['codigo'];
-    }
-    else{
-        $html = <<<EOF
-            <p>No se ha seleccionado ninguna reserva</p>
-        EOF;
-    }
+    $codigo = $_REQUEST['codigo'];
     
     if(!empty($codigo)){
         if(empty(\es\ucm\fdi\aw\ePark\SAReserva::comprobarDni($dni, $codigo))) {
@@ -36,6 +26,11 @@ else{
             $form = new \es\ucm\fdi\aw\ePark\cancelarForm($reserva);
             $html .= $form->Manage();
         }
+    }
+    else{
+        $html = <<<EOF
+            <p>No se ha seleccionado ninguna reserva</p>
+        EOF;
     }
 }
 

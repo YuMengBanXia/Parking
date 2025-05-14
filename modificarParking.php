@@ -3,26 +3,16 @@
 require_once __DIR__ . '/includes/config.php';
 
 if(empty($_SESSION["login"])){
-    $html = <<<EOF
-    <p>Por favor vuelve a iniciar sesión para acceder a la funcionalidad</p>
-    EOF;
- }
- else{
-    if(isset($_SESSION["tipo"])){
+   $html = <<<EOF
+   <p>Por favor vuelve a iniciar sesión para acceder a la funcionalidad</p>
+   EOF;
+}
+else{
+   if(isset($_SESSION["tipo"])){
       if($_SESSION["tipo"] === 'propietario' || $_SESSION["tipo"] === 'administrador'){
          $parking = '';
          $dni = $_SESSION['dni'];
-         if(isset($_GET['id'])){
-            $id = $_GET['id'];
-         }
-         elseif(isset($_POST['id'])){
-            $id = $_POST['id'];
-         }
-         else{
-            $html = <<<EOF
-               No se ha seleccionado ningún parking
-            EOF;
-         }
+         $id = $_REQUEST['id'];
 
          if(!empty($id)){
             if(empty(\es\ucm\fdi\aw\ePark\SAParking::comprobarDni($id,$dni)) && $_SESSION["tipo"] === 'propietario') {
@@ -36,18 +26,23 @@ if(empty($_SESSION["login"])){
                $html = $form->Manage();
             }
          }
-       }
-       else{
-          $html = <<<EOF
-          <p>El usuario no tiene acceso a esta funcionalidad</p>
-          EOF;
-       }
-    } else {
-       $html = <<<EOF
-         <p>Ha habido un error al procesar el tipo de usuario</p>
-       EOF;
-    }
- }
+         else{
+            $html = <<<EOF
+               No se ha seleccionado ningún parking
+            EOF;
+         }
+      }
+      else{
+         $html = <<<EOF
+         <p>El usuario no tiene acceso a esta funcionalidad</p>
+         EOF;
+      }
+   } else {
+      $html = <<<EOF
+      <p>Ha habido un error al procesar el tipo de usuario</p>
+      EOF;
+   }
+}
 
 
 
