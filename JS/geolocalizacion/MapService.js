@@ -6,8 +6,9 @@ class MapService {
 
     initMiniMap(rowElement, userCoords, parkingCoords) {
         const container = rowElement.querySelector('.mini-mapa');
-        container.innerHTML = '';
-        
+        if (!container || container._leaflet_map) return; // Evitar duplicados
+
+        container.innerHTML = ''; // Limpiar contenedor
         const map = L.map(container, {
             zoomControl: false,
             dragging: false,
