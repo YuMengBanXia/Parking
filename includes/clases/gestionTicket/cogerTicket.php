@@ -71,10 +71,12 @@ class cogerTicket extends formBase
         $html .= '<a href="index.php" class="btn-link">Ir al inicio</a>';
 
         // Inclusión del archivo JS externo con atribución a OpenStreetMap
+
+        $rutaJS = RUTA_JS;
         $html .= <<<EOF
-        <script src=RUTA_JS . "calculoDistancias.js" defer></script>
+        <script src="{$rutaJS}/calculoDistancias.js" defer></script>
         <footer class="osm-attribution">
-            © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+             <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a>
         </footer>
         EOF;
 
