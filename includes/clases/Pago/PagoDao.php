@@ -186,7 +186,7 @@ class PagoDao extends DAO {
     
     public function listarPorRangoFecha(string $inicio, string $fin){
 
-        $conn = Aplication::getInstance()->getConexionBd();
+        $conn = Aplicacion::getInstance()->getConexionBd();
 
         $sql = "SELECT id, dni, importe, DATE(fechaPago) AS fechaPago
                  FROM Pago

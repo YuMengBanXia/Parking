@@ -50,7 +50,7 @@ class SAPago{
         $resultados = [];
 
         foreach ($objetos as $pago) {
-            $resultado[] = [
+            $resultados[] = [
                 'id'        => $pago->getId(),
                 'dni'       => $pago->getDni(),
                 'importe'   => $pago->getImporte(),
