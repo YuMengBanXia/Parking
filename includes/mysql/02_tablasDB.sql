@@ -5,7 +5,9 @@ DROP TABLE IF EXISTS `Ticket`;
 DROP TABLE IF EXISTS `Reserva`;
 DROP TABLE IF EXISTS `Plaza`;
 DROP TABLE IF EXISTS `Parking`;
+DROP TABLE IF EXISTS `Pago`;
 DROP TABLE IF EXISTS `Usuario`;
+DROP TABLE IF EXISTS mysql.events;
 
 CREATE TABLE `Usuario` (
   `dni` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
@@ -63,3 +65,28 @@ CREATE TABLE `Pago` (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE mysql.events (
+  db CHAR(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  name CHAR(64) NOT NULL DEFAULT '',
+  body longblob NOT NULL,
+  definer CHAR(93) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  execute_at datetime DEFAULT NULL,
+  interval_value int(11) DEFAULT NULL,
+  interval_field enum('YEAR','QUARTER','MONTH','DAY','HOUR','MINUTE','WEEK','SECOND','MICROSECOND','YEAR_MONTH','DAY_HOUR','DAY_MINUTE','DAY_SECOND','HOUR_MINUTE','HOUR_SECOND','MINUTE_SECOND','DAY_MICROSECOND','HOUR_MICROSECOND','MINUTE_MICROSECOND','SECOND_MICROSECOND') DEFAULT NULL,
+  starts datetime DEFAULT NULL,
+  ends datetime DEFAULT NULL,
+  status enum('ENABLED','DISABLED','SLAVESIDE_DISABLED') NOT NULL DEFAULT 'ENABLED',
+  on_completion enum('DROP','PRESERVE') NOT NULL DEFAULT 'DROP',
+  created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  modified timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  last_executed datetime DEFAULT NULL,
+  comment CHAR(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  originator int(10) unsigned NOT NULL,
+  time_zone char(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'SYSTEM',
+  character_set_client char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  collation_connection char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  db_collation char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  body_utf8 longblob DEFAULT NULL,
+  PRIMARY KEY (db,name)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Events';

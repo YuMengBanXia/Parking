@@ -38,8 +38,8 @@ if (!defined('BD_HOST') || !defined('BD_NAME') || !defined('BD_USER') || !define
  * @const RUTA_APP: Ruta hasta la aplicación (directorio Parking)
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/Parking');
-//define('RUTA_APP', '/GitHub/Parking');
+//define('RUTA_APP', '/Parking');
+define('RUTA_APP', '/GitHub/Parking');
 define('RUTA_IMGS', RUTA_APP . '/img');
 define('RUTA_CSS', RUTA_APP . '/CSS');
 define('RUTA_JS', RUTA_APP . '/JS');
