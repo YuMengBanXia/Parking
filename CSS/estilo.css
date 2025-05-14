@@ -280,7 +280,7 @@ td {
 img {
     display: block;         /* Hace que la imagen se comporte como bloque */
     margin: 20px auto 0;    /* Auto en los lados => centra horizontalmente */
-    max-width: 150px;
+    max-width: 80%;
     height: auto;
 }
 
@@ -304,7 +304,6 @@ input[type="text"] {
     width: margin 0;
   
   }
-      
 
 
 /*Tabla*/
