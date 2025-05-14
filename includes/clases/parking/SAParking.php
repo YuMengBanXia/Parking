@@ -2,14 +2,7 @@
 namespace es\ucm\fdi\aw\ePark;
 
 class SAParking{
-    
    
-    /*Obsoleto
-    public static function mostrarParkingsLibres(){ //mostrar parkings con plazas disponibles 
-        $daoParking = ParkingDAO::getSingleton();
-        return $daoParking->showAvailables();
-    }
-    */
     public static function mostrarParkings() {
         $daoParking = ParkingDAO::getSingleton();
         return $daoParking->getAll();
