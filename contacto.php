@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/includes/config.php';
-$form = new \es\ucm\fdi\aw\ePark\formContacto();
+$form = new \es\ucm\fdi\aw\ePark\FormContacto();
 
 $htmlFormContacto = $form->Manage();
 
