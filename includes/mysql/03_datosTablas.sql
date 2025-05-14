@@ -18,7 +18,7 @@ INSERT INTO `Parking` (`id`, `dni`, `dir`, `ciudad`, `CP`, `precio`, `nPlazas`, 
 (3, '12345678P', 'Calle Principe pio', 'Madrid', 28009, 0.02, 20, NULL),
 (4, '12345678A', 'Calle carpetana', 'Madrid', 28099, 0.02, 10, NULL),
 (5, '12345678P', 'Calle de Velazquez, 128', 'Madrid', 28006, 0.0010, 20, 'img/img_6824e65c004fa4.18363440.jpg');
-(6, '12345678P', 'Calle de la oca', 'Madrid', 28025, 0.03, 60),NULL,
+(6, '12345678P', 'Calle de la oca', 'Madrid', 28025, 0.03, 60,NULL),
 (7, '12345678P', 'Calle de sinesio delgado', 'Madrid', 28035, 0.03, 20,NULL),
 (8, '00000000x', 'Calle de caspe', 'Madrid', 28022, 0.05, 10,NULL),
 (9, '00000000x', 'Avenida de manzanares', 'Madrid', 28026, 0.03, 30,NULL);
