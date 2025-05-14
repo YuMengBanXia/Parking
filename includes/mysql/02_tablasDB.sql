@@ -40,7 +40,7 @@ CREATE TABLE `Reserva` (
   `matricula` varchar(7) COLLATE utf8mb4_general_ci NOT NULL,
   `importe`    DECIMAL(10,2) NOT NULL,
   `estado` ENUM('PENDIENTE','PAGADA','ACTIVA','CANCELADA','COMPLETADA') NOT NULL DEFAULT 'PENDIENTE',
-  `num_orden` varchar(12) COLLATE utf8mb4_general_ci,,
+  `num_orden` varchar(12) COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`codigo`),
   CONSTRAINT `reservaUsuario` FOREIGN KEY (`dni`) REFERENCES `Usuario` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reservaParking` FOREIGN KEY (`id`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
