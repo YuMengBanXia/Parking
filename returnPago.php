@@ -30,13 +30,27 @@ if ($response === "0000") {
         case 'ticket':
             $centimos = intval($miObj->getParameter("Ds_Amount"));
             $euros = $centimos / 100.0;
+            // …
             $ticket = \es\ucm\fdi\aw\ePark\SATicket::buscarCodigo($codigo);
-            $id = $ticket->get_id();
-            $dni = \es\ucm\fdi\aw\ePark\SAParking::getDni($id);
-            // Éxito: eliminamos ticket y registramos el pago
+            // Este método debería devolverte el id de parking asociado al ticket
+            $idParking = $ticket->get_id(); 
+            // O si tu método se llama distinto, usa el getter correcto:
+            //    $idParking = $ticket->get_idParking();
+
+            $dniPropietario = \es\ucm\fdi\aw\ePark\SAParking::getDni($idParking);
+
+            // Elimina el ticket
             \es\ucm\fdi\aw\ePark\SATicket::eliminarTicket($codigo);
+
             $fecha = new \DateTime();
-            \es\ucm\fdi\aw\ePark\SAPago::registrarPago($dni,$euros,$fecha->format('Y-m-d H:i:s'));
+
+            // Ahora pasamos el nuevo parámetro $idParking antes de $importe
+            \es\ucm\fdi\aw\ePark\SAPago::registrarPago(
+                $dniPropietario,
+                $idParking,
+                $euros,
+                $fecha->format('Y-m-d H:i:s')
+            );
             $html = <<<EOF
                 <p>Pago exitoso para el ticket #{$codigo}</p>
             EOF;

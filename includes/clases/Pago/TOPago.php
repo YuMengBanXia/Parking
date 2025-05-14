@@ -7,15 +7,19 @@ class TOPago {
 
     private string $dni;
 
+    private int $idParking;
+
     private float $importe;
 
     private string $fechaPago;
-
-    public function __construct(int $id, string $dni, float $importe, string $fechaPago) {
+   
+    public function __construct(int $id, string $dni, int $idParking, float $importe, string $fechaPago) {
         $this->id = $id;
         $this->dni = $dni;
+        $this->idParking = $idParking;
         $this->importe = $importe;
         $this->fechaPago = $fechaPago;
+        
 
     }
 
@@ -34,6 +38,10 @@ class TOPago {
 
     public function getFechaPago(){
         return $this->fechaPago;
+    }
+
+    public function getIdParking(){
+        return $this->idParking;
     }
 }
 ?>

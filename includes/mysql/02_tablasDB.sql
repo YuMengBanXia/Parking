@@ -55,16 +55,24 @@ CREATE TABLE `Ticket` (
   CONSTRAINT `ticketParking` FOREIGN KEY (`idParking`) REFERENCES `Parking` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE `Pago` (
   `id`         INT           NOT NULL AUTO_INCREMENT,
   `dni`        VARCHAR(9)    NOT NULL,
+  `idParking`  INT           NOT NULL,
   `importe`    DECIMAL(10,2) NOT NULL,
   `fechaPago`  DATETIME      NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`dni`) REFERENCES `Usuario`(`dni`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `fk_pago_usuario`
+    FOREIGN KEY (`dni`) REFERENCES `Usuario`(`dni`)
+      ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pago_parking`
+    FOREIGN KEY (`idParking`) REFERENCES `Parking`(`id`)
+      ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE mysql.events (
   db CHAR(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',

@@ -6,10 +6,13 @@ function mostrarSaludo()
     if (isset($_SESSION['nombre']) && ($_SESSION["login"] === true)) {
         //Usuario registrado
         echo "Bienvenido {$_SESSION['nombre']} <a href='{$rutaApp}/logout.php'>Salir</a>";
-        //echo "Bienvenido " . $_SESSION['nombre'] . " .<a href='{$rutaApp}/logout.php'>Salir</a>";
-        if (isset($_SESSION["tipo"]) && $_SESSION["tipo"] === 'administrador') {
+        if (
+            isset($_SESSION['tipo'])
+            && in_array($_SESSION['tipo'], ['administrador', 'propietario'], true)
+        ) {
             echo " <a href='{$rutaApp}/informes_pagos.php' class='btn'>Resumen del pago</a>";
         }
+        //echo "Bienvenido " . $_SESSION['nombre'] . " .<a href='{$rutaApp}/logout.php'>Salir</a>";
     } else { //Usuario no registrado
         echo "Usuario desconocido <a href='{$rutaApp}/login.php'>Login</a> <a href='{$rutaApp}/register.php'>Registro</a>";
     }

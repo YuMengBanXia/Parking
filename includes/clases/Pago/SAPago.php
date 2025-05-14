@@ -12,24 +12,26 @@ class SAPago{
         return $daoPago->getById($id);
     }
 
-    public static function registrarPago($dni,$importe,$fechaPago) {
+    public static function registrarPago($dni,$idParking,$importe,$fechaPago) {
 
         $daoPago = PagoDao::getSingleton();
         $pago = new TOPago(
             0,        // id provisional, se ignora en el insert
             $dni,
+            $idParking,   
             $importe,
             $fechaPago
         );
         return $daoPago->insert($pago);
     }
 
-    public static function modificarPago($id,$dni,$importe,$fechaPago) {
+    public static function modificarPago($id,$dni,$idParking,$importe,$fechaPago) {
         
         $daoPago = PagoDao::getSingleton();
         $pago = new TOPago(
             $id,
             $dni,
+            $idParking,
             $importe,
             $fechaPago
         );
@@ -58,6 +60,28 @@ class SAPago{
             ];
         }
         return $resultados;
+    }
+
+    public static function listarPorRangoFechaYPropietario(
+        string $desde,
+        string $hasta,
+        string $dniPropietario
+    ): array {
+        $dao     = PagoDao::getSingleton();
+        $objetos = $dao->listarPorRangoFechaYPropietario(
+            $desde, $hasta, $dniPropietario
+        );
+        $res     = [];
+        foreach ($objetos as $p) {
+            $res[] = [
+                'id'         => $p->getId(),
+                'dni'        => $p->getDni(),
+                'idParking'  => $p->getIdParking(),
+                'importe'    => $p->getImporte(),
+                'fechaPago'  => $p->getFechaPago(),
+            ];
+        }
+        return $res;
     }
 }
 

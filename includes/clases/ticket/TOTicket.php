@@ -14,8 +14,13 @@ class TOTicket {
     }
 
     public function get_codigo() {return $this->codigo;}
+
     public function get_id() {return $this->id;}
+
     public function get_matricula() {return $this->matricula;}
+    
     public function get_fecha() {return $this->fecha;}
+
+    
 }
 ?>
