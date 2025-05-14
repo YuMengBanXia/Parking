@@ -2,7 +2,9 @@
 
 namespace es\ucm\fdi\aw\ePark;
 
-class FormContacto extends FormBase
+use FFI;
+
+class FormContacto extends formBase
 {
     public function __construct()
     {
