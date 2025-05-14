@@ -129,7 +129,7 @@ class administrarReservas extends formBase
         if(empty($reserva)){
             $result[] = "La reserva seleccionada ya no existe";
         }
-
+        
         if (count($result) === 0) {
             $importe = $reserva->get_importe();
             if(empty($importe)){
