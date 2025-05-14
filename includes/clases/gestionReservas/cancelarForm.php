@@ -72,14 +72,14 @@ class cancelarForm extends formBase{
                     break;
                 case 'activa':
                     $html .=<<<EOF
-                        <p>Está seguro de que quiere cancelar la reserva?<p>
+                        <p>Está seguro de que quiere cancelar la reserva?</p>
                         <p>No se devolvera el importe pagado como esta descrito en la <a href='politicaCancelacion.php' target="_blank">Política de Cancelación</a></p>
                         <button type="submit" name="codigo" value="{$codigo}">Confirmar cancelacion</button>
                     EOF;
                     break;
                 default:
                     $html .=<<<EOF
-                        <p>Está seguro de que quiere cancelar la reserva?<p>
+                        <p>Está seguro de que quiere cancelar la reserva?</p>
                         <button type="submit" name="codigo" value="{$codigo}">Confirmar cancelacion</button>
                     EOF;
                     break;
