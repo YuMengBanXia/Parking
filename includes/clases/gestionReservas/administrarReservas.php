@@ -26,16 +26,18 @@ class administrarReservas extends formBase
         else {
             $html = <<<EOF
             <div class="tabla-responsive">
-            <table>
-                <tr>
+            <table id="tablaReservas">
+                <thead><tr>
                     <th>ID Parking</th>
                     <th>Fecha incio</th>
                     <th>Fecha fin</th>
                     <th>Matricula</th>
                     <th>Importe</th>
                     <th>Estado</th>
-                    <th colspan=2>Acciones</th>
-                </tr>
+                    <th>Cancelar</th>
+                    <th>Pagar</th>
+                </tr></thead>
+                <tbody>
             EOF;
 
             foreach ($reservas as $reserva) {
@@ -73,25 +75,29 @@ class administrarReservas extends formBase
                         break;
                     case 'pagada':
                         $html .=<<<EOF
-                            <td colspan=2><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td>Ya pagada</td>
                         </tr>
                         EOF;
                         break;
                     case 'activa':
                         $html .=<<<EOF
                             <td colspan=2><button type="button" onclick="window.location.href='cancelarReserva.php?codigo={$codigo}'">Cancelar</button></td>
+                            <td>Ya pagada</td>
                         </tr>
                         EOF;
                         break;
                     default:
                         $html .=<<<EOF
-                            <td colspan=2><p>No posible</p></td>
+                            <td>No posible</td>
+                            <td>No posible</td>
                         </tr>
                         EOF;
                         break;
                 }
             }
-
+            
+            $html .= "</tbody>";
             $html .= "</table>";
             $html .= "</div>";
         }

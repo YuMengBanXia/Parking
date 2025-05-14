@@ -8,6 +8,7 @@
     <link rel="stylesheet" media="screen and (min-width: 700px)" type="text/css" href="<?= RUTA_CSS ?>/estiloPC.css" />
     <link rel="stylesheet" media="screen and (max-width: 699px)" type="text/css" href="<?= RUTA_CSS ?>/estiloMovil.css" />
     <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/estilo.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
 </head>
 
 <body>

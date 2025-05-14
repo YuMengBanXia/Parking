@@ -81,11 +81,11 @@ header
     align-items: center;
     padding: 10px ;
     background-color: #303030;
-  }
-  
-  .logo {
+}
+
+.logo {
     height: 100px; 
-  }
+}
 
 
 aside 
@@ -247,7 +247,7 @@ button
 
 table {
     width: 90%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 20px auto;/*Dejar espacio en la parte arriba de la tabla con otro elemento*/
     border-collapse: collapse;
     background: #fff;
@@ -275,7 +275,7 @@ td {
 img {
     display: block;         /* Hace que la imagen se comporte como bloque */
     margin: 20px auto 0;    /* Auto en los lados => centra horizontalmente */
-    max-width: 80%;
+    max-width: 150px;
     height: auto;
 }
 
@@ -388,4 +388,22 @@ input[type="text"] {
 .policy-container ul li {
     margin-bottom: 0.75rem;
 }
+
+/* CSS para los DataTables */
+.dataTables_wrapper {
+    text-align: center;
+    padding: 10px 20px; 
+    box-sizing: border-box;
+}
+  
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    display: inline-block !important;
+    float: none !important;
+    vertical-align: middle;
+    margin: 10px 50px;
+}
+  
   

@@ -36,15 +36,16 @@ class crearForm extends formBase
             min="{$minFin}">
         
         <div class="tabla-responsive">
-        <table>
-            <tr>
+        <table id="tablaParkings">
+            <thead><tr>
                 <th>Imagen</th>
                 <th>ID</th>
                 <th>Dirección</th>
                 <th>Ciudad</th>
                 <th>Precio</th>
                 <th>Escoger</th>
-            </tr>
+            </tr></thead>
+            <tbody>
         EOF;
 
         foreach ($parkings as $parking) {
@@ -73,6 +74,7 @@ class crearForm extends formBase
             EOF;
         }
 
+        $html .= "</tbody>";
         $html .= "</table>";
         $html .="</div>";
 
